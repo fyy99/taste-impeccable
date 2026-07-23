@@ -1,0 +1,4 @@
+interface:
+  display_name: "Taste → Impeccable"
+  short_description: "Taste-led design with isolated Impeccable validation"
+  default_prompt: "Use $taste-impeccable:design-frontend to design and implement this frontend with Taste, verify the running result, run isolated read-only Impeccable validation, and route accepted fixes back to Taste/main."

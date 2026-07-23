@@ -1,0 +1,20 @@
+{
+  "name": "taste-impeccable",
+  "interface": {
+    "displayName": "Taste → Impeccable"
+  },
+  "plugins": [
+    {
+      "name": "taste-impeccable",
+      "source": {
+        "source": "local",
+        "path": "./plugins/taste-impeccable"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Developer Tools"
+    }
+  ]
+}

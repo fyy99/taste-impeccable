@@ -1,0 +1,88 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "case_id",
+    "skill_invoked",
+    "scope",
+    "events",
+    "review_mode",
+    "reason"
+  ],
+  "properties": {
+    "case_id": {
+      "type": "string"
+    },
+    "skill_invoked": {
+      "type": "boolean"
+    },
+    "scope": {
+      "enum": [
+        "IN_SCOPE",
+        "CONDITIONAL",
+        "TASTE_OUT_OF_SCOPE",
+        "NOT_APPLICABLE"
+      ]
+    },
+    "events": {
+      "type": "array",
+      "items": {
+        "enum": [
+          "design_frontend_skill_invoked",
+          "project_truth_read",
+          "existing_design_audited",
+          "design_read_before_edit",
+          "project_design_system_primary",
+          "taste_scope_gated",
+          "taste_implementation",
+          "taste_expressive_defaults_applied",
+          "brand_assets_discarded",
+          "project_design_system_replaced",
+          "expressive_defaults_forced",
+          "runtime_evidence_frozen",
+          "desktop_mobile_evidence",
+          "review_workspace_fingerprint",
+          "reviewer_a_read_only",
+          "reviewer_b_read_only",
+          "independent_review_completed",
+          "technical_ux_audit_only",
+          "sequence_normalized",
+          "degraded_single_context_disclosed",
+          "sequential_read_only_review",
+          "gate_synthesized",
+          "accepted_findings_triaged",
+          "taste_main_remediation",
+          "runtime_evidence_refreshed",
+          "review_packet_refrozen",
+          "fresh_read_only_rereview",
+          "rereview_gate_synthesized",
+          "impeccable_before_runtime_evidence",
+          "reviewer_file_write",
+          "impeccable_mutation",
+          "p3_auto_remediation",
+          "third_review_cycle",
+          "unbounded_review_loop",
+          "taste_reasoning_in_review_packet",
+          "competing_designers",
+          "impeccable_as_designer",
+          "scope_gate_hidden",
+          "independent_review_claimed",
+          "impeccable_review"
+        ]
+      }
+    },
+    "review_mode": {
+      "enum": [
+        "sandboxed_independent",
+        "single_context_degraded",
+        "not_applicable"
+      ]
+    },
+    "reason": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 500
+    }
+  }
+}
