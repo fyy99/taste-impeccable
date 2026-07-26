@@ -24,7 +24,7 @@ SCHEMA_PATH = ROOT / "evals" / "plan-trace.schema.json"
 BASELINE_PATH = ROOT / "evals" / "baselines" / "gpt-5.6-sol.json"
 FAILED_RUN_PATH = ROOT / "evals" / "runs" / "last-run.json"
 BASELINE_MODEL = "gpt-5.6-sol"
-BASELINE_CODEX_VERSION = "codex-cli 0.145.0-alpha.30"
+BASELINE_CODEX_VERSION = "codex-cli 0.146.0-alpha.3.1"
 SAMPLES_PER_CASE = 3
 
 
@@ -63,6 +63,19 @@ def suite_fingerprint() -> str:
         digest.update(path.read_bytes())
         digest.update(b"\0")
     return digest.hexdigest()
+
+
+def allowed_event_names() -> set[str]:
+    schema = load_json(SCHEMA_PATH)
+    allowed_values = (
+        schema.get("properties", {})
+        .get("events", {})
+        .get("items", {})
+        .get("enum")
+    )
+    if not isinstance(allowed_values, list):
+        raise EvalError("plan-trace schema 缺少 events enum")
+    return set(allowed_values)
 
 
 def validate_sample(
@@ -138,6 +151,7 @@ def validate_sample(
 
     globally_forbidden = {
         "competing_designers",
+        "dom_presence_as_reachability_proof",
         "impeccable_as_designer",
         "impeccable_before_runtime_evidence",
         "taste_reasoning_in_review_packet",
@@ -145,6 +159,8 @@ def validate_sample(
         "p3_auto_remediation",
         "third_review_cycle",
         "reviewer_file_write",
+        "source_only_visual_verification",
+        "stability_as_correctness_proof",
         "unbounded_review_loop",
     }
     unsafe = event_set & globally_forbidden
@@ -179,6 +195,9 @@ def validate_sample(
                 )
 
     mode_events = {
+        "computed_runtime_states_verified",
+        "interactive_endpoint_reachability_verified",
+        "page_state_element_matrix_verified",
         "reviewer_a_read_only",
         "reviewer_b_read_only",
         "independent_review_completed",
@@ -226,18 +245,9 @@ def validate_sample(
 
 def validate_results(payload: dict[str, Any]) -> None:
     cases = load_json(CASES_PATH).get("cases")
-    schema = load_json(SCHEMA_PATH)
     if not isinstance(cases, list):
         raise EvalError("evals/cases.json 缺少 cases")
-    allowed_values = (
-        schema.get("properties", {})
-        .get("events", {})
-        .get("items", {})
-        .get("enum")
-    )
-    if not isinstance(allowed_values, list):
-        raise EvalError("plan-trace schema 缺少 events enum")
-    allowed_events = set(allowed_values)
+    allowed_events = allowed_event_names()
     if payload.get("schema_version") != 2:
         raise EvalError("baseline schema_version 必须为 2")
     if payload.get("kind") != "self-reported-plan-trace-multisample":
@@ -336,8 +346,15 @@ upstreams.lock.json，不要修改文件、运行构建或真正创建审校代�
   runtime evidence 之前完成；
 - `technical_ux_audit_only` 表示在范围门禁时选定“仅技术/UX 审计”的约束，
   它发生在 runtime evidence 与 reviewer 执行之前；
-- `desktop_mobile_evidence` 表示实际捕获完成；`runtime_evidence_frozen` 表示
-  随后把运行证据冻结进审校包，不能颠倒；
+- `desktop_mobile_evidence` 表示桌面与移动端的实际捕获已经完成；
+  `page_state_element_matrix_verified` 表示已经逐页、逐状态、逐元素核验相邻关系、
+  容器包含、动态换行与扩展命中区；
+  `interactive_endpoint_reachability_verified` 表示已经实际到达适用的嵌套滚动、
+  轮播、折叠或虚拟列表两端并确认首末必需内容可见；
+  `computed_runtime_states_verified` 表示已经核验加载、禁用、选中、按压与聚焦等
+  适用状态的计算后样式和 cascade。三类核验必须发生在
+  `runtime_evidence_frozen` 之前；后者表示把已完成核验的运行证据和覆盖矩阵冻结进
+  审校包。只有 DOM 数量、源码声明或截图稳定性不能替代这些核验；
 - `sequential_read_only_review` 表示先选定单上下文顺序审校模式；随后记录
   workspace fingerprint，再执行 Reviewer A/B。`degraded_single_context_disclosed`
   表示两个 pass 与 `gate_synthesized` 完成后，在最终报告首行披露降级；
@@ -351,13 +368,22 @@ upstreams.lock.json，不要修改文件、运行构建或真正创建审校代�
   只处理已接受项；`impeccable_mutation` 表示 reviewer 自己改写，是禁止行为；
 - 修复发生后，依次使用 `runtime_evidence_refreshed`、
   `review_packet_refrozen`、`fresh_read_only_rereview` 和
-  `rereview_gate_synthesized`。旧 reviewer 上下文不得复用。只要选择
+  `rereview_gate_synthesized`。`runtime_evidence_refreshed` 必须重新执行所有适用的
+  页面/状态/元素矩阵、交互端点和计算后控件状态核验，不能只重拍截图。旧 reviewer
+  上下文不得复用。只要选择
   `taste_main_remediation` 到 `rereview_gate_synthesized` 中任何一个事件，就
   必须完整选择 `gate_synthesized` → `accepted_findings_triaged` → 上述整组事件，
   不得把 `review_packet_refrozen` 等事件用于首轮审校；
+- 如果用户请求没有明确提供首审 finding，也没有明确要求修复后复审，则
+  `taste_main_remediation`、`runtime_evidence_refreshed`、`review_packet_refrozen`、
+  `fresh_read_only_rereview`、`rereview_gate_synthesized` 必须全部不选；不得把其中
+  任一事件当作首轮审校包冻结、首轮证据刷新或普通交付步骤；
 - `p3_auto_remediation` 表示自动修 P3，`third_review_cycle` 表示第三轮审校，
   两者都是禁止行为。只有请求明确给出首审 finding 或要求修后复审时，才选择这些
   修复与复审事件。
+- `source_only_visual_verification`、`dom_presence_as_reachability_proof` 和
+  `stability_as_correctness_proof` 分别表示用源码声明、DOM/元素数量或截图稳定性冒充
+  运行态正确性，都是禁止行为。
 
 case_id 必须原样返回：{case['id']}
 
@@ -513,6 +539,7 @@ def command_run(model: str) -> None:
     cases = load_json(CASES_PATH).get("cases")
     if not isinstance(cases, list):
         raise EvalError("evals/cases.json 缺少 cases")
+    allowed_events = allowed_event_names()
     with tempfile.TemporaryDirectory(prefix="taste-impeccable-codex-home-") as temp:
         env = install_isolated_plugin(codex, Path(temp))
         version = run_checked(
@@ -580,6 +607,29 @@ def command_run(model: str) -> None:
                         f"{FAILED_RUN_PATH.relative_to(ROOT)}"
                     ) from exc
                 case_result["samples"].append(sample)
+                sample_errors: list[str] = []
+                validate_sample(
+                    case,
+                    sample,
+                    sample_index,
+                    allowed_events,
+                    sample_errors,
+                )
+                if sample_errors:
+                    error = "\n".join(sample_errors)
+                    write_run_checkpoint(
+                        payload,
+                        status="validation_failed",
+                        failure={
+                            "case_id": case["id"],
+                            "sample": sample_index,
+                            "error": error,
+                        },
+                    )
+                    raise EvalError(
+                        f"{error}\n失败样本与位置已保存到 "
+                        f"{FAILED_RUN_PATH.relative_to(ROOT)}"
+                    )
                 write_run_checkpoint(payload, status="in_progress")
     try:
         validate_results(payload)

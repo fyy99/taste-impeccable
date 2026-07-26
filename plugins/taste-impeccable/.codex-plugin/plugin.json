@@ -1,7 +1,7 @@
 {
   "name": "taste-impeccable",
-  "version": "0.1.0+codex.20260723141034",
-  "description": "Taste-led frontend design, isolated read-only Impeccable validation, and Taste-owned remediation.",
+  "version": "0.2.0+codex.20260726104932",
+  "description": "Taste-led frontend design with runtime geometry and reachability checks, isolated read-only Impeccable validation, and Taste-owned remediation.",
   "author": {
     "name": "fyy99",
     "url": "https://github.com/fyy99"
@@ -21,7 +21,7 @@
   "interface": {
     "displayName": "Taste \u2192 Impeccable",
     "shortDescription": "Taste \u4e3b\u8bbe\u8ba1\uff0cImpeccable \u9694\u79bb\u53ea\u8bfb\u6821\u9a8c",
-    "longDescription": "Taste \u8d1f\u8d23\u8bbe\u8ba1\u65b9\u5411\u4e0e\u5b9e\u73b0\uff1b\u8fd0\u884c\u8bc1\u636e\u51bb\u7ed3\u540e\uff0c\u7531\u9694\u79bb\u3001\u53ea\u8bfb\u7684 Impeccable reviewers \u6821\u9a8c\u3002\u4e3b\u6d41\u7a0b\u5148\u88c1\u51b3 findings\uff0c\u518d\u7531 Taste/main \u5728\u72ec\u7acb\u4fee\u590d\u4e8b\u52a1\u4e2d\u5e94\u7528\u91c7\u7eb3\u9879\u5e76 fresh re-review\u3002",
+    "longDescription": "Taste \u8d1f\u8d23\u8bbe\u8ba1\u65b9\u5411\u4e0e\u5b9e\u73b0\uff1b\u5728\u5b9e\u9645\u89c6\u53e3\u68c0\u67e5\u76f8\u90bb\u51e0\u4f55\u3001\u5bb9\u5668\u5305\u542b\u3001\u5185\u5bb9\u53ef\u8fbe\u6027\u4e0e\u4ea4\u4e92\u72b6\u6001\u540e\u51bb\u7ed3\u8bc1\u636e\uff0c\u518d\u7531\u9694\u79bb\u3001\u53ea\u8bfb\u7684 Impeccable reviewers \u6821\u9a8c\u3002\u4e3b\u6d41\u7a0b\u5148\u88c1\u51b3 findings\uff0c\u518d\u7531 Taste/main \u5728\u72ec\u7acb\u4fee\u590d\u4e8b\u52a1\u4e2d\u5e94\u7528\u91c7\u7eb3\u9879\u5e76 fresh re-review\u3002",
     "developerName": "fyy99",
     "category": "Developer Tools",
     "capabilities": [

@@ -14,8 +14,8 @@
 
 1. **范围门禁**：确认页面、关键状态、既有设计系统和验收标准；项目现有约束优先。
 2. **Taste 主设计**：读取现场，设定设计强度、动效和密度，形成方向后实现。
-3. **运行证据**：执行构建与测试，用浏览器验证桌面端、移动端和关键状态。
-4. **冻结审校包**：只包含原始需求、约束、变更、页面地址、截图和测试结果；不传入 Taste 的解释或自我辩护。
+3. **运行证据**：执行构建与测试，用浏览器逐页、逐状态、逐元素验证桌面端和移动端；核对相邻间距、容器包含、动态换行、命中区、适用的交互端点和原生控件计算后状态。
+4. **冻结审校包**：只包含原始需求、约束、变更、页面地址、截图、测试结果、页面/状态/元素覆盖矩阵及修改后工作区指纹；不传入 Taste 的解释或自我辩护。
 5. **Impeccable 隔离双审校**：
    - 设计审校员以“新鲜视角”检查层级、认知负荷、交互与视觉完整性；
    - 证据审校员独立检查浏览器证据、响应式、运行错误、可访问性和规则检测结果。
@@ -30,8 +30,8 @@
 | 角色 | 负责 | 不负责 |
 | --- | --- | --- |
 | Taste/main maker | brief 推断、设计方向、构图、交互、实现，以及采纳 finding 后的修复 | 给自己的实现做最终通行裁决 |
-| Impeccable Reviewer A | 以 fresh-eyes 方式审查设计、UX、认知负荷与 brief fit，提出最小 remedy | 改文件、运行 detector、另选视觉方向 |
-| Impeccable Reviewer B | 核验构建、测试、浏览器、响应式、可访问性与 detector 证据 | 审美重设计、读取 Reviewer A 结论、改文件 |
+| Impeccable Reviewer A | 以 fresh-eyes 方式审查设计、UX、认知负荷、构图关系与 brief fit，提出最小 remedy | 改文件、运行 detector、另选视觉方向 |
+| Impeccable Reviewer B | 核验构建、测试、浏览器、响应式、覆盖矩阵、运行态几何、端点可达性、计算后状态、可访问性与 detector 证据 | 审美重设计、读取 Reviewer A 结论、改文件 |
 | 主编排流程 | 冻结证据、合并去重、裁决严重度、控制一次修复与一次复审 | 用多数票替代证据，或让 reviewer 自批自改 |
 
 ## 能力编排
@@ -148,8 +148,8 @@ Design, validation, and remediation run as separate transactions. Impeccable ret
 
 1. **Scope gate:** identify the surface, states, existing design system, and acceptance criteria; project truth wins.
 2. **Taste design and build:** infer the brief, set the design dials, commit to one direction, and implement it.
-3. **Runtime evidence:** run the relevant build and tests; inspect desktop, mobile, and key states in a browser.
-4. **Freeze the review packet:** include only the request, constraints, diff, URLs, screenshots, and test evidence—never Taste's rationale or self-defense.
+3. **Runtime evidence:** run the relevant build and tests; inspect every required page, state, and element at desktop and mobile sizes. Verify sibling spacing, containment, dynamic wrapping, hit geometry, applicable interaction endpoints, and computed native-control states.
+4. **Freeze the review packet:** include only the request, constraints, diff, URLs, screenshots, test evidence, the page/state/element coverage matrix, and the post-write workspace fingerprint—never Taste's rationale or self-defense.
 5. **Isolated Impeccable review:**
    - Reviewer A evaluates hierarchy, cognitive load, interaction, visual integrity, and brief fit with fresh eyes.
    - Reviewer B independently verifies browser, responsive, runtime, accessibility, test, and detector evidence.
@@ -164,8 +164,8 @@ The final gate is `PASS`, `PASS_WITH_ADVISORIES`, or `FAIL`. Any supported P0/P1
 | Role | Owns | Must not own |
 | --- | --- | --- |
 | Taste/main maker | brief inference, direction, composition, interaction, implementation, and accepted remediation | final approval of its own work |
-| Impeccable Reviewer A | fresh-eyes design/UX/cognitive-load review and the smallest safe remedy | file writes, detector output, or a replacement visual direction |
-| Impeccable Reviewer B | build, test, browser, responsive, accessibility, and detector evidence | aesthetic redesign, Reviewer A's output, or file writes |
+| Impeccable Reviewer A | fresh-eyes design/UX/cognitive-load, composition-relationship, and brief-fit review plus the smallest safe remedy | file writes, detector output, or a replacement visual direction |
+| Impeccable Reviewer B | build, test, browser, responsive, coverage-matrix, runtime-geometry, endpoint-reachability, computed-state, accessibility, and detector evidence | aesthetic redesign, Reviewer A's output, or file writes |
 | Parent orchestrator | frozen evidence, deduplication, severity adjudication, one remediation pass, and one re-review | majority voting without evidence or reviewer self-remediation |
 
 ### Capability composition

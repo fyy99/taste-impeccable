@@ -8,6 +8,8 @@ trace、截图、门禁结果、token 与耗时，再比较：
 - 是否正确做范围门禁；
 - Taste 是否在首次 UI 修改前完成 Design Read；
 - Impeccable 是否只在实现与运行证据完成后启动；
+- 运行证据是否逐页、逐状态、逐元素核对布局关系，并验证适用的交互端点与计算后控件状态；
+- 是否禁止用源码声明、DOM 数量或截图稳定性冒充运行态正确性；
 - reviewer 是否隔离且没有写文件；
 - P0/P1 是否阻断，P2/P3 是否保持 advisory；
 - 首审 finding 是否先裁决，再由 Taste/main 在独立修复事务中处理；
@@ -31,7 +33,7 @@ python3 scripts/run_plan_evals.py --check
 每个用例都在新的 `codex exec --ephemeral --sandbox read-only` 会话中运行。
 每个用例固定运行 3 个独立样本，全部样本都必须满足必需事件、禁止事件和因果边；
 失败运行的完整样本保存在忽略提交的 `evals/runs/last-run.json`，避免只留下某次
-偶然通过的结果。baseline 记录全部 24 个样本、模型、Codex 版本和完整插件指纹；
+偶然通过的结果。baseline 记录全部 27 个样本、模型、Codex 版本和完整插件指纹；
 suite 指纹同时覆盖 cases、输出 schema 和 runner 自身，所以 prompt、采样、隔离
 安装或校验逻辑变化也会使旧 baseline 失效。runner 还固定受支持的 Codex CLI
 精确版本；升级 CLI 时必须先修改该常量并重跑。Skill、reviewer、引用、detector、

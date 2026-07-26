@@ -42,6 +42,9 @@
           "expressive_defaults_forced",
           "runtime_evidence_frozen",
           "desktop_mobile_evidence",
+          "page_state_element_matrix_verified",
+          "interactive_endpoint_reachability_verified",
+          "computed_runtime_states_verified",
           "review_workspace_fingerprint",
           "reviewer_a_read_only",
           "reviewer_b_read_only",
@@ -68,7 +71,10 @@
           "impeccable_as_designer",
           "scope_gate_hidden",
           "independent_review_claimed",
-          "impeccable_review"
+          "impeccable_review",
+          "source_only_visual_verification",
+          "dom_presence_as_reachability_proof",
+          "stability_as_correctness_proof"
         ]
       }
     },

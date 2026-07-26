@@ -133,9 +133,33 @@ For a viewable frontend:
 1. Start the real app and navigate through the changed flow.
 2. Capture the target page at a representative desktop and mobile viewport.
 3. Exercise the key interactive and failure states.
-4. Check overflow, clipping, content wrapping, focus visibility, keyboard use,
-   contrast, loading stability, console errors, and failed requests.
-5. Record the exact commands, URLs, viewport sizes, and artifact paths.
+4. Inventory every visible element in each required page and state. Check both
+   each element and its layout relationships; a collection of correct isolated
+   boxes is not proof of a correct composition.
+5. At every required viewport, inspect adjacent siblings and nested content
+   using rendered bounding boxes. Verify source order, intended gaps,
+   alignment, and non-intersection. Verify that each wrapper's rendered height
+   contains its in-flow children unless overflow is explicitly designed.
+   Re-run these checks with wrapped or variable-length content when the layout
+   can reflow.
+   Include pseudo-elements, transparent overlays, negative insets, and expanded
+   tap targets when checking whether independent controls overlap.
+6. For nested scroll, carousel, disclosure, or virtualized regions, exercise
+   the control to both ends and prove the first and last required item are
+   reachable and visible. A rendered item count alone is insufficient.
+7. Inspect computed runtime appearance for native controls in pressed,
+   loading, disabled, selected, and focus states. Source tokens do not prove
+   that browser or platform defaults have not overridden color, opacity,
+   background, alignment, or size.
+   Likewise, a desired declaration in source is not layout evidence: inspect
+   the cascade when resets, utility classes, shorthands, inline styles, or
+   `!important` can override component spacing and geometry.
+8. Check overflow, clipping, content wrapping, focus visibility, keyboard use,
+   contrast, loading stability, console errors, and failed requests. Use local
+   crops or element-level inspection in addition to full-page overviews when
+   spacing or state styling is too small to judge reliably at board scale.
+9. Record the exact commands, URLs, viewport sizes, artifact paths, and source
+   fingerprint used for every capture.
 
 Missing required runtime or screenshot evidence is not a pass. State the exact
 environmental limitation instead of claiming visual verification.
@@ -150,6 +174,8 @@ Create an immutable review packet containing only:
 - running URL when available;
 - desktop and mobile screenshots plus relevant state captures;
 - build, test, browser, and console evidence;
+- a page/state/element coverage matrix, including sibling-gap, containment,
+  overlap, endpoint-reachability, and native-state checks where applicable;
 - known environmental limitations.
 
 Exclude Taste's reasoning, self-assessment, rejected alternatives, and desired
@@ -255,6 +281,12 @@ After assigning the gate, create an explicit adjudication record for every
 finding: `ACCEPT`, `ADVISORY`, or `REJECT`, with a short evidence-based reason.
 Only `ACCEPT` findings can enter remediation. Reviewer output is never an
 automatic mutation command.
+
+Do not return `PASS` when only individual element presence or dimensions were
+checked. Required layout relationships must also pass, and all runtime evidence
+must share the post-write workspace fingerprint. Any product write invalidates
+all earlier screenshots and review packets, even when the edited selector seems
+unrelated. Screenshot stability proves repeatability, not correctness.
 
 ## Phase 7: separate remediation, then verify
 
