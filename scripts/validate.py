@@ -7,6 +7,7 @@ import datetime as dt
 import hashlib
 import importlib.util
 import json
+import os
 import re
 import subprocess
 import sys
@@ -474,8 +475,8 @@ def validate_lock_and_artifacts(
 ) -> None:
     validation.require(lock.get("schema_version") == 1, "锁文件 schema_version 必须为 1")
     validation.require(
-        lock.get("transform_version") == 3,
-        "锁文件 transform_version 必须为 3；转换器变更需显式升级",
+        lock.get("transform_version") == 4,
+        "锁文件 transform_version 必须为 4；转换器变更需显式升级",
     )
     validation.require(
         lock.get("role_contract_version") == 1,
@@ -566,12 +567,10 @@ def validate_lock_and_artifacts(
         <= filtered_references,
         "Impeccable reviewer mutator 排除清单不完整",
     )
-    if impeccable.get("ref") == "refs/tags/skill-v4.0.1":
-        validation.require(
-            impeccable.get("commit")
-            == "eda81f09378d32c93fec6d3cd8f1ecbf13595e15",
-            "skill-v4.0.1 必须锁定 dereferenced commit，不能使用 annotated tag object",
-        )
+    validation.require(
+        re.fullmatch(r"refs/tags/skill-v[0-9]+(?:\.[0-9]+)+", impeccable.get("ref", "")) is not None,
+        "Impeccable 必须锁定稳定 Skill tag；commit 由同步校验核对解引用结果",
+    )
 
     artifacts = lock.get("artifacts", {})
     validation.require(bool(artifacts), "锁文件 artifacts 为空；请运行 sync --update")
@@ -652,7 +651,7 @@ def validate_generated_allowlist(validation: Validation, lock: dict[str, Any]) -
         "createWriteStream",
     }
     detector_root = SKILL_ROOT / "scripts" / "detector"
-    for path in detector_root.rglob("*"):
+    for path in [*detector_root.rglob("*"), SKILL_ROOT / "scripts" / "detect.mjs", SKILL_ROOT / "scripts" / "engine.mjs"]:
         if not path.is_file():
             continue
         text = path.read_text(encoding="utf-8", errors="ignore")
@@ -697,7 +696,8 @@ def validate_detector(validation: Validation) -> None:
         "marketing-buzzword",
         "overused-font",
         "side-tab",
-        "single-font",
+        "ai-color-palette",
+        "gradient-text",
     }
     validation.require(
         expected <= ids,
@@ -912,6 +912,64 @@ def validate_detector(validation: Validation) -> None:
     validation.notes.append("detector 输入门禁：stdin/hook/类型/多目标/未知参数均无假绿")
     validation.notes.append("detector 现代 JS/TS 模块扩展：文件与目录均可扫描")
 
+    # 原生引擎升级必须保留失败显式化、配置隔离和审校无写入。
+    with tempfile.TemporaryDirectory(prefix="taste-detector-contract-") as temp:
+        workspace = Path(temp)
+        source = workspace / "index.html"
+        source.write_bytes(fixture.read_bytes())
+        config_dir = workspace / ".impeccable"
+        config_dir.mkdir()
+        (config_dir / "config.json").write_text(
+            json.dumps({"detector": {"ignoreRules": sorted(ids)}}), encoding="utf-8"
+        )
+        def snapshot() -> dict[str, str]:
+            return {
+                str(path.relative_to(workspace)): digest(path)
+                for path in workspace.rglob("*") if path.is_file()
+            }
+        before = snapshot()
+        scan = subprocess.run(
+            [node, str(entry), "--json", str(source)], cwd=workspace,
+            capture_output=True, text=True, check=False,
+        )
+        validation.require(scan.returncode == 2, "未传 --no-config 时也必须禁用项目忽略配置")
+        try:
+            raw_ids = {item.get("antipattern") for item in json.loads(scan.stdout)}
+        except (json.JSONDecodeError, TypeError, AttributeError):
+            raw_ids = set()
+        validation.require(expected <= raw_ids, "项目配置不得屏蔽原生检测规则")
+        validation.require(snapshot() == before, "detector 扫描改写了目标工作区")
+        cache = workspace / "missing-cache"
+        env = {**os.environ, "TASTE_IMPECCABLE_CACHE": str(cache)}
+        missing = subprocess.run(
+            [node, str(entry), "--json", str(source)], cwd=workspace,
+            env=env, capture_output=True, text=True, check=False,
+        )
+        validation.require(
+            missing.returncode == 1 and "engine is missing" in missing.stderr
+            and not cache.exists() and not missing.stdout.strip(),
+            "缺失引擎必须明确失败且不得在只读扫描中下载或创建缓存",
+        )
+        locate = subprocess.run(
+            [node, "--input-type=module", "-e",
+             "import {engineAsset} from " + json.dumps((SKILL_ROOT / "scripts" / "engine.mjs").as_uri())
+             + "; process.stdout.write(engineAsset().file)"],
+            env=env, capture_output=True, text=True, check=True,
+        )
+        corrupt = Path(locate.stdout)
+        corrupt.parent.mkdir(parents=True)
+        corrupt.write_text("invalid engine", encoding="utf-8")
+        failed = subprocess.run(
+            [node, str(entry), "--json", str(source)], cwd=workspace,
+            env=env, capture_output=True, text=True, check=False,
+        )
+        validation.require(
+            failed.returncode == 1 and "checksum mismatch" in failed.stderr
+            and not failed.stdout.strip() and corrupt.read_text() == "invalid engine",
+            "损坏引擎必须在执行前拒绝，且不得在扫描中自动修复",
+        )
+    validation.notes.append("原生引擎：配置隔离、工作区无写入、缺失与损坏失败门禁均通过")
+
 
 def validate_evals(validation: Validation) -> None:
     cases_path = ROOT / "evals" / "cases.json"
@@ -1075,7 +1133,7 @@ def validate_evals(validation: Validation) -> None:
     baseline_check = ROOT / "scripts" / "run_plan_evals.py"
     if baseline_check.is_file():
         validation.run(
-            "GPT-5.6 Sol plan-trace baseline",
+            "plan-trace baseline",
             [sys.executable, str(baseline_check), "--check"],
         )
     else:

@@ -164,6 +164,13 @@ For a viewable frontend:
 Missing required runtime or screenshot evidence is not a pass. State the exact
 environmental limitation instead of claiming visual verification.
 
+Before freezing the packet, the builder runs
+`node <skill-dir>/scripts/setup-detector.mjs` to prepare the pinned native detector
+in the user cache and verify its SHA-256. This is an implementation-stage setup
+step, never a reviewer action. If setup fails, record the concrete failure as a
+detector evidence gap; do not claim a clean scan. Reviewers only use `detect.mjs`,
+which never downloads or installs anything and always disables project config.
+
 ## Phase 4: freeze the review packet
 
 Create an immutable review packet containing only:

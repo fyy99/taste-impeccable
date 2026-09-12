@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""运行或校验 GPT-5.6 Sol 的只读编排 plan-trace 回归。"""
+"""运行或校验 只读编排 plan-trace 回归。"""
 
 from __future__ import annotations
 
@@ -21,10 +21,9 @@ RUNNER_PATH = Path(__file__).resolve()
 PLUGIN_ROOT = ROOT / "plugins" / "taste-impeccable"
 CASES_PATH = ROOT / "evals" / "cases.json"
 SCHEMA_PATH = ROOT / "evals" / "plan-trace.schema.json"
-BASELINE_PATH = ROOT / "evals" / "baselines" / "gpt-5.6-sol.json"
+BASELINE_PATH = ROOT / "evals" / "baselines" / "plan-trace.json"
 FAILED_RUN_PATH = ROOT / "evals" / "runs" / "last-run.json"
-BASELINE_MODEL = "gpt-5.6-sol"
-BASELINE_CODEX_VERSION = "codex-cli 0.146.0-alpha.3.1"
+BASELINE_CODEX_VERSION = "codex-cli 0.154.0-alpha.6.2"
 SAMPLES_PER_CASE = 3
 
 
@@ -256,10 +255,8 @@ def validate_results(payload: dict[str, Any]) -> None:
         raise EvalError(
             f"baseline 每用例必须包含 {SAMPLES_PER_CASE} 个独立样本"
         )
-    if payload.get("model") != BASELINE_MODEL:
-        raise EvalError(
-            f"固定 baseline 必须由 {BASELINE_MODEL} 生成，实际 {payload.get('model')}"
-        )
+    if not isinstance(payload.get("model"), str) or not payload["model"].strip():
+        raise EvalError("baseline 必须记录评测模型")
     if payload.get("codex_version") != BASELINE_CODEX_VERSION:
         raise EvalError(
             f"baseline Codex 版本必须是 {BASELINE_CODEX_VERSION}，"
@@ -528,11 +525,15 @@ def write_run_checkpoint(
     )
 
 
-def command_run(model: str) -> None:
-    if model != BASELINE_MODEL:
-        raise EvalError(
-            f"固定 baseline 只接受 {BASELINE_MODEL}；其他模型需新增独立 baseline"
-        )
+def command_run(model: str | None) -> None:
+    if not model:
+        source_home = Path(os.environ.get("CODEX_HOME", str(Path.home() / ".codex")))
+        config_path = source_home / "config.toml"
+        if config_path.is_file():
+            import tomllib
+            model = tomllib.loads(config_path.read_text(encoding="utf-8")).get("model")
+        if not isinstance(model, str) or not model.strip():
+            raise EvalError("请用 --model 指定评测模型，或在 Codex config.toml 配置 model")
     codex = shutil.which("codex")
     if not codex:
         raise EvalError("未找到 codex CLI，无法运行 plan-trace")
@@ -658,7 +659,7 @@ def parse_args() -> argparse.Namespace:
     mode = parser.add_mutually_exclusive_group(required=True)
     mode.add_argument("--run", action="store_true", help="在新只读 Codex 会话中重跑全部用例")
     mode.add_argument("--check", action="store_true", help="离线校验已提交 baseline")
-    parser.add_argument("--model", default="gpt-5.6-sol", help="评测模型")
+    parser.add_argument("--model", help="评测模型；默认读取 Codex config.toml 的 model")
     return parser.parse_args()
 
 

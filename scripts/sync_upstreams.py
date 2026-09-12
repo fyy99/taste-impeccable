@@ -329,6 +329,8 @@ def generate_impeccable_references(
         for line in invariants.splitlines()
         if "local server started only for critique" not in line
         and "user-visible overlay" not in line
+        and "question" not in line.lower()
+        and "incomplete run" not in line
     ).rstrip()
     orchestration = between(
         critique, "### Assessment Orchestration", "Codex sub-agent gate"
@@ -391,8 +393,8 @@ def generate_impeccable_references(
         f"{report}"
     )
     review_method = review_method.replace(
-        ".agents/skills/impeccable/scripts/detect.mjs",
-        "<skill-root>/scripts/detect.mjs",
+        ".agents/skills/impeccable/scripts/impeccable detect",
+        "node <skill-root>/scripts/detect.mjs",
     )
     review_method = review_method.replace(
         "node <skill-root>/scripts/detect.mjs --json [target]",
@@ -404,6 +406,8 @@ def generate_impeccable_references(
         "Impeccable configuration.\n"
         "- Pass markup files/directories as `[target]`; do not pass CSS-only files.",
     )
+    review_method = review_method.replace("`impeccable detect`", "`detect.mjs`")
+    review_method = review_method.replace(" The persisted snapshot is an archive of that run.", "")
     review_method = filter_impeccable_lines(review_method)
 
     cognitive = between(
@@ -523,235 +527,33 @@ def generate_impeccable_detector(
     snapshot: GitSnapshot,
     source_hashes: dict[str, str],
 ) -> dict[Path, bytes]:
-    generated: dict[Path, bytes] = {}
-    sources: list[tuple[str, Path, str]] = [
-        (
-            config["detector_entrypoint"],
-            SCRIPTS_ROOT / "detect.mjs",
-            "copy",
-        )
-    ]
-    prefix = config["detector_source_prefix"]
-    sources.extend(
-        (prefix + relative, SCRIPTS_ROOT / "detector" / relative, "copy")
-        for relative in config["detector_files"]
+    source_path = config["engine_version_source"]
+    raw = snapshot.read(source_path)
+    digest = sha256(raw)
+    source_hashes[f"impeccable:{source_path}"] = digest
+    engine = config["engine"]
+    if raw.decode().strip() != engine["version"]:
+        raise SyncError("上游引擎版本变化；先审阅 release 并更新各平台 SHA-256")
+    for asset in engine["assets"].values():
+        if not re.fullmatch(r"[0-9a-f]{64}", asset["sha256"]):
+            raise SyncError("引擎资产缺少合法 SHA-256")
+        prefix = f"https://github.com/pbakaus/impeccable/releases/download/engine-v{engine['version']}/"
+        if not asset["url"].startswith(prefix):
+            raise SyncError("引擎资产必须来自固定版本的官方 release")
+    header = script_header(
+        upstream="Impeccable", web_repository=config["web_repository"],
+        commit=config["commit"], source_path=source_path,
+        source_digest=digest, transform="native-engine;read-only-local-detect-adapter",
+        license_id=config["license"],
     )
-
-    for source_path, target_path, transform in sources:
-        raw = snapshot.read(source_path)
-        digest = sha256(raw)
-        source_hashes[f"impeccable:{source_path}"] = digest
-        content = raw
-        if source_path.endswith("/detector/node/file-system.mjs"):
-            extensions = b"""  '.jsx', '.tsx', '.js', '.ts',
-  '.vue', '.svelte', '.astro',"""
-            modern_extensions = b"""  '.jsx', '.tsx', '.js', '.ts',
-  '.mjs', '.mts', '.cjs', '.cts',
-  '.vue', '.svelte', '.astro',"""
-            if content.count(extensions) != 1:
-                raise SyncError("detector 可扫描扩展名结构变化")
-            content = content.replace(extensions, modern_extensions)
-            transform = "copy;add-modern-js-ts-module-extensions"
-        elif source_path.endswith("/detector/cli/main.mjs"):
-            old = b"""import {
-  filterDetectionFindings,
-  readDetectionConfig,
-  shouldIgnoreDetectionFile,
-} from '../../lib/impeccable-config.mjs';"""
-            new = b"""// Combined-plugin policy: deterministic, read-only, and independent of
-// .impeccable configuration. The orchestrator invokes the CLI with --no-config;
-// these stubs also keep direct invocation from importing upstream mutators.
-function readDetectionConfig() {
-  return {
-    ignoreRules: [],
-    ignoreFiles: [],
-    ignoreValues: [],
-    designSystem: { enabled: false },
-  };
-}
-function shouldIgnoreDetectionFile() {
-  return false;
-}
-function filterDetectionFindings(findings) {
-  return findings;
-}"""
-            if content.count(old) != 1:
-                raise SyncError("detector CLI 配置依赖结构变化")
-            content = content.replace(old, new)
-            replacements = [
-                (
-                    b"Usage: impeccable detect [options] [file-or-dir-or-url...]",
-                    b"Usage: impeccable detect [options] <file-or-dir...>",
-                ),
-                (
-                    b"Scan files or URLs for UI anti-patterns and design quality issues.",
-                    b"Scan local files for UI anti-patterns and design quality issues.",
-                ),
-                (
-                    b"""  --viewport <WxH>    Browser viewport for URL scans (default 1280x800),
-                      e.g. --viewport 390x844 for a mobile-width pass
-""",
-                    b"",
-                ),
-                (
-                    b"""Project config:
-  Respects .impeccable/config.json and .impeccable/config.local.json detector
-  settings: detector.ignoreRules, detector.ignoreFiles, detector.ignoreValues,
-  and detector.designSystem.enabled.
-""",
-                    b"""Combined-plugin policy:
-  Project .impeccable configuration is not loaded. The orchestrator uses
-  --no-config so every detector result is reviewed from raw evidence.
-  An explicit local file or directory is required; stdin/hook and URL modes
-  are not bundled.
-""",
-                ),
-                (
-                    b"""  URLs           Puppeteer full browser rendering (auto-detected;
-                 http(s):// and file:// URLs)
-""",
-                    b"",
-                ),
-                (b"  impeccable detect https://example.com\n", b""),
-            ]
-            for before, after in replacements:
-                if content.count(before) != 1:
-                    raise SyncError(
-                        "detector CLI 帮助结构变化，无法维持静态只读能力边界"
-                    )
-                content = content.replace(before, after)
-            imports = b"""import {
-  HTML_EXTENSIONS,
-  buildImportGraph,"""
-            imports_with_extensions = b"""import {
-  HTML_EXTENSIONS,
-  SCANNABLE_EXTENSIONS,
-  buildImportGraph,"""
-            if content.count(imports) != 1:
-                raise SyncError("detector CLI 文件类型 import 结构变化")
-            content = content.replace(imports, imports_with_extensions)
-            target_setup = b"""  const targets = args.filter(a => !a.startsWith('--'));
-
-  if (helpMode) { printUsage(); process.exit(0); }
-
-  let allFindings = [];"""
-            guarded_target_setup = b"""  const allowedFlags = new Set([
-    '--json',
-    '--quiet',
-    '--no-config',
-    '--no-inline-ignores',
-    '--no-design-system',
-    '--no-advisory',
-    '--help',
-    '--fast',
-    '--gpt',
-    '--gemini',
-  ]);
-  const unknownFlags = args.filter(
-    arg => arg.startsWith('-') && !allowedFlags.has(arg)
-  );
-  if (unknownFlags.length > 0) {
-    process.stderr.write(`Error: unknown option(s): ${unknownFlags.join(', ')}\\n`);
-    process.exit(1);
-  }
-  const targets = args.filter(a => !a.startsWith('-'));
-
-  if (helpMode) { printUsage(); process.exit(0); }
-  if (targets.length === 0) {
-    process.stderr.write(
-      'Error: an explicit local file or directory target is required; ' +
-      'stdin/hook input is not bundled.\\n'
-    );
-    process.exit(1);
-  }
-
-  let allFindings = [];"""
-            if content.count(target_setup) != 1:
-                raise SyncError("detector CLI 参数门禁结构变化")
-            content = content.replace(target_setup, guarded_target_setup)
-            browser_setup = b"""    const urlTargetCount = paths.filter(target => urlRe.test(target)).length;
-    const browserDetector = urlTargetCount > 1 ? await createBrowserDetector() : null;"""
-            browser_guard = b"""    const urlTargetCount = paths.filter(target => urlRe.test(target)).length;
-    if (urlTargetCount > 0) {
-      process.stderr.write(
-        'Error: URL scanning is not bundled in Taste Impeccable. ' +
-        'Use the runtime browser tools and screenshots for URL evidence.\\n'
-      );
-      process.exit(1);
+    adapter = (ROOT / "scripts" / "templates" / "detect.mjs").read_bytes()
+    manifest = {"_generated": GENERATED_MARKER, "source": config["commit"], **engine}
+    return {
+        SCRIPTS_ROOT / "detect.mjs": with_script_header(adapter, header),
+        SCRIPTS_ROOT / "detector" / "engine.json": (
+            json.dumps(manifest, ensure_ascii=False, indent=2) + "\n"
+        ).encode(),
     }
-    const browserDetector = null;"""
-            if content.count(browser_setup) != 1:
-                raise SyncError("detector CLI URL 路由结构变化")
-            content = content.replace(browser_setup, browser_guard)
-            inaccessible_target = (
-                b"catch { process.stderr.write(`Warning: cannot access ${target}\\n`); continue; }"
-            )
-            inaccessible_error = (
-                b"catch { process.stderr.write(`Error: cannot access ${target}\\n`); "
-                b"process.exit(1); }"
-            )
-            if content.count(inaccessible_target) != 1:
-                raise SyncError("detector CLI 本地目标错误处理结构变化")
-            content = content.replace(inaccessible_target, inaccessible_error)
-            directory_scan = b"""          const files = walkDir(resolved)
-            .filter(file => !shouldIgnoreDetectionFile(file, process.cwd(), detectionConfig));
-          const htmlCount = files.filter(f => HTML_EXTENSIONS.has(path.extname(f).toLowerCase())).length;"""
-            directory_guard = b"""          const files = walkDir(resolved)
-            .filter(file => !shouldIgnoreDetectionFile(file, process.cwd(), detectionConfig));
-          if (files.length === 0) {
-            process.stderr.write(`Error: no scannable frontend files in ${target}\\n`);
-            process.exit(1);
-          }
-          const htmlCount = files.filter(f => HTML_EXTENSIONS.has(path.extname(f).toLowerCase())).length;"""
-            if content.count(directory_scan) != 1:
-                raise SyncError("detector CLI 目录扫描结构变化")
-            content = content.replace(directory_scan, directory_guard)
-            file_scan = b"""        } else if (stat.isFile()) {
-          if (shouldIgnoreDetectionFile(resolved, process.cwd(), detectionConfig)) continue;
-          const ext = path.extname(resolved).toLowerCase();
-          const fileOptions = scanOptionsFor(resolved);
-          if (HTML_EXTENSIONS.has(ext)) {
-            allFindings.push(...await detectHtml(resolved, fileOptions));
-          } else {
-            allFindings.push(...detectText(fs.readFileSync(resolved, 'utf-8'), resolved, fileOptions));
-          }
-        }"""
-            guarded_file_scan = b"""        } else if (stat.isFile()) {
-          if (shouldIgnoreDetectionFile(resolved, process.cwd(), detectionConfig)) continue;
-          const ext = path.extname(resolved).toLowerCase();
-          if (!SCANNABLE_EXTENSIONS.has(ext)) {
-            process.stderr.write(`Error: unsupported frontend file type: ${target}\\n`);
-            process.exit(1);
-          }
-          const fileOptions = scanOptionsFor(resolved);
-          if (HTML_EXTENSIONS.has(ext)) {
-            allFindings.push(...await detectHtml(resolved, fileOptions));
-          } else {
-            allFindings.push(...detectText(fs.readFileSync(resolved, 'utf-8'), resolved, fileOptions));
-          }
-        } else {
-          process.stderr.write(`Error: unsupported target type: ${target}\\n`);
-          process.exit(1);
-        }"""
-            if content.count(file_scan) != 1:
-                raise SyncError("detector CLI 文件扫描结构变化")
-            content = content.replace(file_scan, guarded_file_scan)
-            transform = (
-                "copy;replace-config-import-with-read-only-no-config-stubs;"
-                "require-explicit-scannable-local-targets;reject-unknown-options;"
-                "reject-url-inaccessible-empty-and-unsupported-targets"
-            )
-        header = script_header(
-            upstream="Impeccable",
-            web_repository=config["web_repository"],
-            commit=config["commit"],
-            source_path=source_path,
-            source_digest=digest,
-            transform=transform,
-            license_id=config["license"],
-        )
-        generated[target_path] = with_script_header(content, header)
-    return generated
 
 
 def generate(

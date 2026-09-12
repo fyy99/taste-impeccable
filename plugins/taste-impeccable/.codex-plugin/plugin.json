@@ -1,6 +1,6 @@
 {
   "name": "taste-impeccable",
-  "version": "0.2.0+codex.20260726104932",
+  "version": "0.3.0",
   "description": "Taste-led frontend design with runtime geometry and reachability checks, isolated read-only Impeccable validation, and Taste-owned remediation.",
   "author": {
     "name": "fyy99",
@@ -19,9 +19,9 @@
   ],
   "skills": "./skills/",
   "interface": {
-    "displayName": "Taste \u2192 Impeccable",
-    "shortDescription": "Taste \u4e3b\u8bbe\u8ba1\uff0cImpeccable \u9694\u79bb\u53ea\u8bfb\u6821\u9a8c",
-    "longDescription": "Taste \u8d1f\u8d23\u8bbe\u8ba1\u65b9\u5411\u4e0e\u5b9e\u73b0\uff1b\u5728\u5b9e\u9645\u89c6\u53e3\u68c0\u67e5\u76f8\u90bb\u51e0\u4f55\u3001\u5bb9\u5668\u5305\u542b\u3001\u5185\u5bb9\u53ef\u8fbe\u6027\u4e0e\u4ea4\u4e92\u72b6\u6001\u540e\u51bb\u7ed3\u8bc1\u636e\uff0c\u518d\u7531\u9694\u79bb\u3001\u53ea\u8bfb\u7684 Impeccable reviewers \u6821\u9a8c\u3002\u4e3b\u6d41\u7a0b\u5148\u88c1\u51b3 findings\uff0c\u518d\u7531 Taste/main \u5728\u72ec\u7acb\u4fee\u590d\u4e8b\u52a1\u4e2d\u5e94\u7528\u91c7\u7eb3\u9879\u5e76 fresh re-review\u3002",
+    "displayName": "Taste → Impeccable",
+    "shortDescription": "Taste 主设计，Impeccable 隔离只读校验",
+    "longDescription": "Taste 负责设计方向与实现；在实际视口检查相邻几何、容器包含、内容可达性与交互状态后冻结证据，再由隔离、只读的 Impeccable reviewers 校验。主流程先裁决 findings，再由 Taste/main 在独立修复事务中应用采纳项并 fresh re-review。",
     "developerName": "fyy99",
     "category": "Developer Tools",
     "capabilities": [
@@ -30,9 +30,9 @@
     ],
     "websiteURL": "https://github.com/fyy99/taste-impeccable",
     "defaultPrompt": [
-      "\u7528 Taste \u2192 Impeccable \u5b8c\u6210\u8fd9\u4e2a\u524d\u7aef\u9875\u9762",
-      "\u91cd\u8bbe\u8ba1\u6b64\u9875\u9762\uff0c\u5e76\u5728\u5b8c\u6210\u540e\u72ec\u7acb\u5ba1\u6821",
-      "\u68c0\u67e5\u5e76\u63d0\u5347\u8fd9\u4e2a\u524d\u7aef\u7684\u89c6\u89c9\u4e0e UX"
+      "用 Taste → Impeccable 完成这个前端页面",
+      "重设计此页面，并在完成后独立审校",
+      "检查并提升这个前端的视觉与 UX"
     ],
     "brandColor": "#111111"
   }

@@ -26,9 +26,12 @@ trace、截图、门禁结果、token 与耗时，再比较：
 本仓库提供可直接重跑的只读 plan-trace：
 
 ```bash
-python3 scripts/run_plan_evals.py --run --model gpt-5.6-sol
+python3 scripts/run_plan_evals.py --run
 python3 scripts/run_plan_evals.py --check
 ```
+
+`--model` 可显式指定评测模型；省略时读取本机 Codex 配置的 `model`。
+插件不绑定特定模型；通用 `baselines/plan-trace.json` 记录实际评测模型以便复现。
 
 每个用例都在新的 `codex exec --ephemeral --sandbox read-only` 会话中运行。
 每个用例固定运行 3 个独立样本，全部样本都必须满足必需事件、禁止事件和因果边；
@@ -39,8 +42,8 @@ suite 指纹同时覆盖 cases、输出 schema 和 runner 自身，所以 prompt
 精确版本；升级 CLI 时必须先修改该常量并重跑。Skill、reviewer、引用、detector、
 manifest、CLI 或评测器任一相关内容变化都要求重新跑模型回归。
 
-这仍是模型“计划事件”的自报告，不等于真实 UI 执行 trace。CI 只验证已提交
-baseline 未过期且满足门禁，不持有模型凭证，也不会假装在线重跑。发布前仍需在
+这仍是模型“计划事件”的自报告，不等于真实 UI 执行 trace。本地校验只验证已提交
+baseline 未过期且满足门禁，不会假装在线重跑。仓库不运行 GitHub Actions。发布前仍需在
 代表性前端仓库执行真实构建、浏览器交互、截图盲评和 reviewer 文件指纹检查。
 
 新增或删除用例属于插件行为变更；修改既有用例的验收条件时，应在 PR 中解释原因。

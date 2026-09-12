@@ -1,6 +1,6 @@
 # Taste × Impeccable 最佳实践调研
 
-调研快照：2026-07-23。结论用于本插件的编排和过滤规则，不等同于上游项目的官方推荐。
+初始调研快照：2026-07-23；上游兼容性复核：2026-09-12。当前固定版本以 `upstreams.lock.json` 为准，以下旧版本链接保留为历史论证。结论用于本插件的编排和过滤规则，不等同于上游项目的官方推荐。
 
 ## 结论
 
@@ -61,7 +61,6 @@ Impeccable reviewer 可以给出“最小安全 remedy”，但不得执行。�
 
 ### OpenAI / Codex
 
-- [GPT-5.6 model guidance](https://developers.openai.com/api/docs/guides/model-guidance?model=gpt-5.6) 建议减少重复、互相冲突的指令，只暴露相关工具，明确自主边界，并用代表性任务验证提示词；同时说明 GPT-5.6 在前端美学、布局、层级和设计判断上有提升。这支持单一公开入口和阶段化上下文，而不是全量叠加 Skills。
 - [Frontend prompt guide](https://developers.openai.com/api/docs/guides/frontend-prompt) 强调沿用现有设计系统、按产品类型控制表现力、覆盖真实状态，并用 Playwright/截图验证桌面端与移动端。这直接形成“项目约束优先”和“运行证据先于审校”两条门禁。
 - [Build skills](https://learn.chatgpt.com/docs/build-skills) 说明 Skill 使用渐进披露，隐式匹配由描述触发，重复 Skills 不会合并；`policy.allow_implicit_invocation: false` 仅关闭隐式调用，仍可显式调用。由此选择一个公开编排 Skill，内部参考按需加载。
 - [Build plugins](https://learn.chatgpt.com/docs/build-plugins) 定义 `.codex-plugin/plugin.json`、Skills 目录和 marketplace 结构，但插件清单没有插件依赖声明。本项目因此锁定并携带经筛选的上游材料，而不是假设运行时能声明 Taste → Impeccable 依赖。
@@ -145,6 +144,16 @@ detector 的退出码或 `slop` 标签不能单独判失败，必须由独立证
 
 Codex 不会把两个同名或相近 Skill 的规则自动合并。若用户同时安装原始 Taste、原始 Impeccable 和本插件，隐式匹配可能选择多个入口，破坏“唯一主设计师”的前提。推荐只保留本插件的公开入口；若必须共存，应显式调用 `$taste-impeccable:design-frontend`，且提示词不要再点名其他主设计 Skill。
 
+## 当前上游兼容性复核
+
+2026-09-12 固定 Taste `ccbc15639c97057cbfcf32ecebc38ef716e4bb37` 与
+Impeccable `skill-v4.3.1`（`cd12f8660e2dde57b9615c8a6b8ea674101f9cfc`）。
+Taste 核心 Skill 内容未变；Impeccable audit 将 `will-change` 由通用优化要求改为
+检查滥用。新版移除 JS detector，Skill 的 `scripts/VERSION` 固定原生引擎 `0.1.5`。
+本项目使用明确安装步骤和只读适配器；不加载上游完整 launcher 的安装、hooks、
+持久化与修复入口。各平台官方 release 资产按 SHA-256 锁定，扫描时再次校验。
+原生扫描不再提供 `single-font` 规则；fixture 改为断言新版实际保留和新增的规则。
+
 ## 升级与可复现性
 
 `upstreams.lock.json` 记录：
@@ -155,7 +164,7 @@ Codex 不会把两个同名或相近 Skill 的规则自动合并。若用户同�
 - 上游许可证和本地归属文件；
 - 独立于内容转换版本的 `role_contract_version`，以及默认关闭的 remediation executor 扩展点。
 
-`scripts/sync_upstreams.py --check-updates` 只报告上游差异；发现新的 Impeccable stable tag 时，维护者先人工修改 lock 中的 `ref`。`--update` 更新允许的衍生内容、许可证原文、NOTICE pin 区块和锁文件，并设置 `pending_review=true`；脚本不会自动选择新 tag，也不会自动修改阶段顺序、严重度门禁或 reviewer 写权限。人工检查 diff、更新 SemVer/changelog 后，必须显式运行 `--accept-review` 记录日期，再执行 `--check`、GPT-5.6 Sol plan-trace 和 `scripts/validate.py`。
+`scripts/sync_upstreams.py --check-updates` 只报告上游差异；发现新的 Impeccable stable tag 时，维护者先人工修改 lock 中的 `ref`。`--update` 更新允许的衍生内容、许可证原文、NOTICE pin 区块和锁文件，并设置 `pending_review=true`；脚本不会自动选择新 tag，也不会自动修改阶段顺序、严重度门禁或 reviewer 写权限。人工检查 diff、更新 SemVer/changelog 后，必须显式运行 `--accept-review` 记录日期，再执行 `--check`、plan-trace 和 `scripts/validate.py`。
 
 这种“锁定 + 可再生成 + 人工语义审查”的接口允许后续跟进 Taste v2、
 Impeccable release 和 Codex plugin schema，同时避免上游更新静默改变行为。
@@ -164,9 +173,9 @@ Impeccable release 和 Codex plugin schema，同时避免上游更新静默改�
 
 ## 未解决的证据缺口
 
-截至调研日期，未找到针对 GPT-5.6 Sol、在相同任务集和相同预算下比较以下方案的受控 A/B：
+截至调研日期，未找到针对基础模型、在相同任务集和相同预算下比较以下方案的受控 A/B：
 
-1. 裸用 GPT-5.6 Sol；
+1. 裸用基础模型；
 2. 仅 Taste；
 3. 仅 Impeccable；
 4. Taste → 隔离 Impeccable；
@@ -174,7 +183,7 @@ Impeccable release 和 Codex plugin schema，同时避免上游更新静默改�
 
 因此不能声称该组合在所有项目上“已被证明最好”。当前方案是官方机制、上游契约和社区经验交叉支持的工程假设。后续应保留固定任务集、盲评截图、首轮通过率、P0/P1 数量、返工轮数与 token/时延的评测记录，用代表性任务验证每次插件升级。
 
-Taste 和两个 Impeccable reviewer 当前都可能使用 GPT-5.6 Sol。因此“独立”只表示
+Taste 和两个 Impeccable reviewer 当前都可能使用同一基础模型。因此“独立”只表示
 上下文、权限、工具和审校事务隔离，并不表示模型统计独立或消除了同模型系统偏差。
 [同模型 evaluator 实践](https://hamel.dev/blog/posts/evals-faq/#q-can-i-use-the-same-model-for-both-the-main-task-and-evaluation)
 认为同模型可以承担窄范围 judge，但需要明确标准、人工标签校准和 held-out 指标；

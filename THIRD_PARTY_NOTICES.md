@@ -3,8 +3,8 @@
 本项目包含经筛选、重组或改写的第三方材料。Taste 和 Impeccable 的名称仅用于说明来源；本项目不是两者的官方发行版，也不代表原作者背书。
 
 <!-- BEGIN GENERATED UPSTREAM PINS -->
-- Taste：`refs/heads/main` → `98565e65bc3274ddf6eb0838734341714057178b`
-- Impeccable：`refs/tags/skill-v4.0.1` → `eda81f09378d32c93fec6d3cd8f1ecbf13595e15`
+- Taste：`refs/heads/main` → `ccbc15639c97057cbfcf32ecebc38ef716e4bb37`
+- Impeccable：`refs/tags/skill-v4.3.1` → `cd12f8660e2dde57b9615c8a6b8ea674101f9cfc`
 <!-- END GENERATED UPSTREAM PINS -->
 
 ## Taste
@@ -31,3 +31,5 @@ Impeccable 的原 NOTICE 进一步声明其 `skill/reference/ios.md` 和 `skill/
 ## 本项目许可
 
 除上述第三方内容及各文件另行标注外，本项目自有代码与文档采用根目录 `LICENSE` 中的 MIT License。第三方内容继续受各自许可证约束；根许可证不会替代这些条款。
+
+原生检测引擎由 `setup-detector.mjs` 从 Impeccable 官方固定 release 下载到用户缓存，按锁文件中的平台 SHA-256 校验；本仓库不重新分发原生二进制。`detect.mjs` 与 `engine.mjs` 是本项目的本地只读适配代码，只开放检测入口。

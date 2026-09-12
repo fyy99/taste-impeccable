@@ -6,7 +6,7 @@
 
 ## 中文
 
-面向 Codex / GPT-5.6 Sol 的前端设计编排插件：**Taste 负责设计方向、实现与采纳项修复，Impeccable 负责实现完成后的隔离只读校验**。两者通过阶段化角色契约协作，每个阶段只加载完成该职责所需的能力。
+面向 Codex 的前端设计编排插件：**Taste 负责设计方向、实现与采纳项修复，Impeccable 负责实现完成后的隔离只读校验**。两者通过阶段化角色契约协作，每个阶段只加载完成该职责所需的能力。
 
 设计、校验与修复分别运行在独立事务中。Impeccable 根据冻结的运行证据返回结构化 findings 和最小安全修复建议；主流程完成裁决后，由 Taste/main 处理采纳项。任何产品写入都会使既有审校包失效，并要求重新取证与复审。
 
@@ -70,6 +70,13 @@ plugin manifest 自动注册为 Codex custom agent。首选机制是两个
 只能是 `PASS_WITH_ADVISORIES`。所有路径都会在审校前后比较工作区状态、diff 与
 文件哈希；发生任何审校期写入都必须判失败。
 
+当前版本固定 Taste `ccbc156` 与 Impeccable `skill-v4.3.1`。新版使用上游固定的
+原生检测引擎；首次使用时由实现阶段运行 `setup-detector.mjs`，下载到用户缓存并
+核验 SHA-256。审校阶段的 `detect.mjs` 只扫描，不安装、不自动下载，始终禁用
+项目配置。支持 macOS/Linux 的 arm64、x64 和 Windows x64；需要 Node.js 22+。
+
+本仓库不运行 GitHub Actions；上游检查与发布校验在本地按需执行。
+
 ## 安装
 
 ```bash
@@ -97,13 +104,14 @@ git diff
 # 审阅生成内容、过滤边界、LICENSE/NOTICE 与 THIRD_PARTY_NOTICES 后：
 python3 scripts/sync_upstreams.py --accept-review
 python3 scripts/sync_upstreams.py --check
-python3 scripts/run_plan_evals.py --run --model gpt-5.6-sol
+python3 scripts/run_plan_evals.py --run
 python3 -m pip install --disable-pip-version-check -r requirements-dev.txt
+node plugins/taste-impeccable/skills/design-frontend/scripts/setup-detector.mjs
 python3 scripts/validate.py
 ```
 
 `--update` 会同步白名单产物、许可证原文和 NOTICE pin 区块，并把锁文件标记为
-`pending_review=true`；只有显式 `--accept-review` 才记录审阅日期并解除 CI 门禁。
+`pending_review=true`；只有显式 `--accept-review` 才记录审阅日期并解除本地校验门禁。
 维护者必须先人工审阅 diff，特别检查职责边界、审校只读性和过滤清单，再按 SemVer
 提升 manifest 版本、更新 changelog，最后重跑绑定完整插件指纹的 plan-trace：
 
@@ -122,13 +130,13 @@ fresh re-review。启用扩展槽必须显式提升角色契约版本、更新 S
 上游同步不得自动开启。
 
 `evals/cases.json` 定义正向触发、负向触发、范围门禁、执行顺序、只读审校、修复
-所有权、fresh 复审和降级披露等编排回归契约。GPT-5.6 Sol plan-trace 绑定完整插件
+所有权、fresh 复审和降级披露等编排回归契约。plan-trace 绑定完整插件
 指纹，用于验证计划顺序和角色边界；真实 UI 质量由代表性项目中的构建、浏览器
 交互、截图和盲评验证。详见 [evals/README.md](evals/README.md)。
 
 ## 证据边界
 
-官方文档和社区实践都支持“明确职责、先实现后审校、修复另开事务、截图闭环、限制迭代”的方向，但目前没有受控 A/B 基准证明本组合在所有任务上都优于单独使用 Taste、Impeccable 或 GPT-5.6 Sol。两个 reviewer 若都使用 GPT-5.6 Sol，只能称为上下文、权限和事务隔离，不能声称模型统计独立。完整调研、精确上游版本和证据缺口见 [docs/research.md](docs/research.md)。
+官方文档和社区实践都支持“明确职责、先实现后审校、修复另开事务、截图闭环、限制迭代”的方向，但目前没有受控 A/B 基准证明本组合在所有任务上都优于单独使用 Taste、Impeccable 或基础模型。两个 reviewer 若使用同一模型，只能称为上下文、权限和事务隔离，不能声称模型统计独立。完整调研、精确上游版本和证据缺口见 [docs/research.md](docs/research.md)。
 
 ## 许可
 
@@ -140,7 +148,7 @@ fresh re-review。启用扩展槽必须显式提升角色契约版本、更新 S
 
 ## English
 
-Taste Impeccable is a frontend-design orchestration plugin for Codex / GPT-5.6 Sol: **Taste owns design direction, implementation, and accepted remediation; Impeccable owns isolated read-only validation after implementation.** A phased role contract loads only the capabilities required by each stage.
+Taste Impeccable is a frontend-design orchestration plugin for Codex: **Taste owns design direction, implementation, and accepted remediation; Impeccable owns isolated read-only validation after implementation.** A phased role contract loads only the capabilities required by each stage.
 
 Design, validation, and remediation run as separate transactions. Impeccable returns structured findings and the smallest safe remedies against a frozen runtime-evidence packet. After adjudication, Taste/main remediates accepted findings. Any product write invalidates the existing packet and requires fresh evidence and re-review.
 
@@ -196,6 +204,16 @@ If isolated reviewers are unavailable, the workflow performs the two read-only p
 
 The TOML files under `skills/design-frontend/agents/` are portable reviewer prompt sources; the plugin manifest does not register them as custom agents. The preferred implementation is two `codex exec --ephemeral --sandbox read-only` child sessions. Runtime-registered custom agents are allowed only when their effective inherited permission mode is confirmed read-only. When read-only access cannot be mechanically guaranteed, the workflow does not create a generally writable reviewer; it degrades to sequential single-context review, with `PASS_WITH_ADVISORIES` as the strongest possible gate. Every route fingerprints the workspace before and after review; any review-time product-workspace drift fails the review.
 
+The current version pins Taste `ccbc156` and Impeccable `skill-v4.3.1`.
+The builder runs `setup-detector.mjs` before review to install the pinned native
+engine in the user cache and verify SHA-256. During review, `detect.mjs` only
+scans local targets; it never installs or downloads and always disables project
+configuration. Node.js 22+ is required. Supported platforms are macOS/Linux
+arm64 and x64, and Windows x64.
+
+GitHub Actions are disabled for this repository. Upstream checks and release
+validation run locally on demand.
+
 ### Install
 
 ```bash
@@ -223,12 +241,13 @@ git diff
 # After reviewing generated content, role boundaries, LICENSE/NOTICE, and filters:
 python3 scripts/sync_upstreams.py --accept-review
 python3 scripts/sync_upstreams.py --check
-python3 scripts/run_plan_evals.py --run --model gpt-5.6-sol
+python3 scripts/run_plan_evals.py --run
 python3 -m pip install --disable-pip-version-check -r requirements-dev.txt
+node plugins/taste-impeccable/skills/design-frontend/scripts/setup-detector.mjs
 python3 scripts/validate.py
 ```
 
-`--update` synchronizes allowlisted artifacts, license texts, and the NOTICE pin block, then sets `pending_review=true`; only `--accept-review` records the review date and clears the CI gate. Maintainers must review the diff—especially role boundaries, reviewer read-only behavior, and filters—then apply the appropriate SemVer change, update the changelog, and rerun the plan trace bound to the complete plugin fingerprint.
+`--update` synchronizes allowlisted artifacts, license texts, and the NOTICE pin block, then sets `pending_review=true`; only `--accept-review` records the review date and clears the local validation gate. Maintainers must review the diff—especially role boundaries, reviewer read-only behavior, and filters—then apply the appropriate SemVer change, update the changelog, and rerun the plan trace bound to the complete plugin fingerprint.
 
 Use SemVer for the public contract:
 
@@ -240,11 +259,11 @@ The synchronizer only moves and validates allowed upstream content. It cannot ch
 
 `role_contract_version` is independent of the upstream `transform_version`. The lock file reserves a disabled-by-default, bounded remediation-executor extension point. This post-review role may receive only accepted finding IDs, evidence, scope, and Taste-locked invariants. It must never reuse a reviewer context, take design authority, or skip a fresh re-review. Enabling it requires an explicit role-contract version bump, SemVer change, and updated regression suite.
 
-`evals/cases.json` defines the orchestration regression contract for positive and negative invocation, scope gates, ordering, read-only review, remediation ownership, re-review behavior, and degraded disclosure. The GPT-5.6 Sol plan trace is bound to the complete plugin fingerprint and verifies planned ordering and role boundaries; real UI quality is verified in representative projects through builds, browser interaction, screenshots, and blind review. See [evals/README.md](evals/README.md).
+`evals/cases.json` defines the orchestration regression contract for positive and negative invocation, scope gates, ordering, read-only review, remediation ownership, re-review behavior, and degraded disclosure. The model plan trace is bound to the complete plugin fingerprint and verifies planned ordering and role boundaries; real UI quality is verified in representative projects through builds, browser interaction, screenshots, and blind review. See [evals/README.md](evals/README.md).
 
 ### Evidence limits
 
-Official documentation and community practice support explicit roles, implementation-before-review, separate remediation, screenshot evidence, and bounded loops. There is still no controlled A/B benchmark proving that this composition always beats Taste alone, Impeccable alone, or bare GPT-5.6 Sol. When both reviewers use GPT-5.6 Sol, “independent” means isolated context, permissions, and transactions—not statistical model independence. See [docs/research.md](docs/research.md) for sources, exact upstream pins, and open evidence gaps.
+Official documentation and community practice support explicit roles, implementation-before-review, separate remediation, screenshot evidence, and bounded loops. There is still no controlled A/B benchmark proving that this composition always beats Taste alone, Impeccable alone, or the base model alone. When both reviewers use the same model, “independent” means isolated context, permissions, and transactions—not statistical model independence. See [docs/research.md](docs/research.md) for sources, exact upstream pins, and open evidence gaps.
 
 ### License
 

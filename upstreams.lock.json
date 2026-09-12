@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
-  "transform_version": 3,
+  "transform_version": 4,
   "role_contract_version": 1,
-  "reviewed_at": "2026-07-23",
+  "reviewed_at": "2026-09-12",
   "generated_by": "scripts/sync_upstreams.py",
   "policy": {
     "orchestration_is_manual": true,
@@ -30,7 +30,7 @@
       "repository": "https://github.com/Leonxlnx/taste-skill.git",
       "web_repository": "https://github.com/Leonxlnx/taste-skill",
       "ref": "refs/heads/main",
-      "commit": "98565e65bc3274ddf6eb0838734341714057178b",
+      "commit": "ccbc15639c97057cbfcf32ecebc38ef716e4bb37",
       "license": "MIT",
       "license_path": "LICENSE",
       "skill_source": "skills/taste-skill/SKILL.md",
@@ -89,9 +89,9 @@
     "impeccable": {
       "repository": "https://github.com/pbakaus/impeccable.git",
       "web_repository": "https://github.com/pbakaus/impeccable",
-      "ref": "refs/tags/skill-v4.0.1",
+      "ref": "refs/tags/skill-v4.3.1",
       "release_tag_pattern": "skill-v*",
-      "commit": "eda81f09378d32c93fec6d3cd8f1ecbf13595e15",
+      "commit": "cd12f8660e2dde57b9615c8a6b8ea674101f9cfc",
       "license": "Apache-2.0",
       "license_path": "LICENSE",
       "notice_path": "NOTICE.md",
@@ -102,30 +102,6 @@
         "impeccable/personas.md": ".agents/skills/impeccable/reference/critique.md",
         "impeccable/technical-audit.md": ".agents/skills/impeccable/reference/audit.md"
       },
-      "detector_entrypoint": ".agents/skills/impeccable/scripts/detect.mjs",
-      "detector_source_prefix": ".agents/skills/impeccable/scripts/detector/",
-      "detector_files": [
-        "browser/injected/index.mjs",
-        "cli/main.mjs",
-        "design-system.mjs",
-        "detect-antipatterns-browser.js",
-        "detect-antipatterns.mjs",
-        "engines/browser/detect-url.mjs",
-        "engines/regex/detect-text.mjs",
-        "engines/static-html/css-cascade.mjs",
-        "engines/static-html/detect-html.mjs",
-        "engines/visual/screenshot-contrast.mjs",
-        "findings.mjs",
-        "node/file-system.mjs",
-        "profile/profiler.mjs",
-        "registry/antipatterns.mjs",
-        "rules/checks.mjs",
-        "shared/color.mjs",
-        "shared/constants.mjs",
-        "shared/fonts.mjs",
-        "shared/inline-ignores.mjs",
-        "shared/page.mjs"
-      ],
       "filtered_out": {
         "top_level_skill": ".agents/skills/impeccable/SKILL.md",
         "references": [
@@ -170,34 +146,40 @@
           "mutation commands",
           "snapshot persistence"
         ],
-        "scripts_policy": "仅保留 detect.mjs 与 detector 子树；配置 import 被替换为只读 no-config stub，所有其他脚本排除。"
+        "scripts_policy": "只携带本项目 detect 适配器和固定引擎清单；实现阶段显式安装并核验 SHA-256，审校只允许本地 detect --no-config，排除上游 launcher、hooks、持久化和修复入口。"
+      },
+      "engine_version_source": ".agents/skills/impeccable/scripts/VERSION",
+      "engine": {
+        "version": "0.1.5",
+        "assets": {
+          "darwin-arm64": {
+            "url": "https://github.com/pbakaus/impeccable/releases/download/engine-v0.1.5/impeccable-darwin-arm64",
+            "sha256": "0d48b6e16aa97664fdbe607d5da9ae320e389a1843e0ff1328f8c2530530320d"
+          },
+          "darwin-x64": {
+            "url": "https://github.com/pbakaus/impeccable/releases/download/engine-v0.1.5/impeccable-darwin-x64",
+            "sha256": "153971b0c00719dff9ebac13370cb7dbbbe12838b696fbaf3f7ab0b1b3726b52"
+          },
+          "linux-arm64": {
+            "url": "https://github.com/pbakaus/impeccable/releases/download/engine-v0.1.5/impeccable-linux-arm64",
+            "sha256": "bc4fa28bc8ccbb018795a99a4ece95ada898a6f1885f14281389d0e6ef2a2f98"
+          },
+          "linux-x64": {
+            "url": "https://github.com/pbakaus/impeccable/releases/download/engine-v0.1.5/impeccable-linux-x64",
+            "sha256": "cf5231a4b1ae66996c85b033800b1dad0797e590eae2f21ef2579430af187f19"
+          },
+          "windows-x64": {
+            "url": "https://github.com/pbakaus/impeccable/releases/download/engine-v0.1.5/impeccable-windows-x64.exe",
+            "sha256": "477e544fc8880a5e82e427490cb9a5f5adab480c0e02966d33fd50772b531c71"
+          }
+        }
       }
     }
   },
   "source_hashes": {
-    "impeccable:.agents/skills/impeccable/reference/audit.md": "b6b5731306a59c62856d203fba0e2314462ce3889fc0e8724595173ef54831a4",
-    "impeccable:.agents/skills/impeccable/reference/critique.md": "845f37336ef401643fb8912f53f3aadf62e25b62f5a927fbdd6f284385ec4e44",
-    "impeccable:.agents/skills/impeccable/scripts/detect.mjs": "f5dfd05ca1e314acd8ed79c6301a20a1b844f2eb6691bd63e04116a8e7efb187",
-    "impeccable:.agents/skills/impeccable/scripts/detector/browser/injected/index.mjs": "2d00cbdbdcd15abfdbbfc0fe80fdf61292c460424040084c3cd731b1ee9ce7b3",
-    "impeccable:.agents/skills/impeccable/scripts/detector/cli/main.mjs": "7d922711abb67ea3c626f1a2fcbe4464e72230bfdd61644217c4ac351065edd5",
-    "impeccable:.agents/skills/impeccable/scripts/detector/design-system.mjs": "a3f995a4223e8eb8295bca41ba08ea6d4be3409597fdb163a0775ee61c5ffd35",
-    "impeccable:.agents/skills/impeccable/scripts/detector/detect-antipatterns-browser.js": "9f11412f45f1768f6a725dbeb114ab174192fb785be4547b53f7b1c495735373",
-    "impeccable:.agents/skills/impeccable/scripts/detector/detect-antipatterns.mjs": "f5240e4162b270efafd099b81d315309a6f25a83a887aedf02bf9bcf3ed5c724",
-    "impeccable:.agents/skills/impeccable/scripts/detector/engines/browser/detect-url.mjs": "5a2240c5a56ea6d302bd008a03b1319facc3289056d44beb45d38c3ace8252f6",
-    "impeccable:.agents/skills/impeccable/scripts/detector/engines/regex/detect-text.mjs": "813f4662f477fee2cbc9320cb22a8251fc0ab2405ae89b0bbac984d4886dbe4d",
-    "impeccable:.agents/skills/impeccable/scripts/detector/engines/static-html/css-cascade.mjs": "2200cd98dd6c5d2123dda81db1f13d0ea20adedfc9f3c116edb08300174805db",
-    "impeccable:.agents/skills/impeccable/scripts/detector/engines/static-html/detect-html.mjs": "007d29e69dd90b0dc65597ad43003693d0f9a310d40a74708ff76a8c3fc1d245",
-    "impeccable:.agents/skills/impeccable/scripts/detector/engines/visual/screenshot-contrast.mjs": "b4520b3f001079bd175bf20d46c5197b1b8ec5fb98fdf72c50a24c0b6598ee99",
-    "impeccable:.agents/skills/impeccable/scripts/detector/findings.mjs": "8b8af7212c8515d6791a8af1375d0619a9f9a707a881e6fbd850e4216b3f8eca",
-    "impeccable:.agents/skills/impeccable/scripts/detector/node/file-system.mjs": "4004ac034bd6c09419558608b1185271e4ceb741e8edb3b06082af122ac14697",
-    "impeccable:.agents/skills/impeccable/scripts/detector/profile/profiler.mjs": "5e201f3557360bd368a3977fecf925f376fd95f8a4dd6c4cc63fbd62848cda43",
-    "impeccable:.agents/skills/impeccable/scripts/detector/registry/antipatterns.mjs": "5f2729e744c893ba06b3475a881a76fc0f295d2d8288d24c2dff78fb52c7022a",
-    "impeccable:.agents/skills/impeccable/scripts/detector/rules/checks.mjs": "78a01b8f1e672c5d75f1fedabb22f3803dd87b006081b1ca3e3d66725439f770",
-    "impeccable:.agents/skills/impeccable/scripts/detector/shared/color.mjs": "01a68231413473f2c1183e12663ccf8aca26a87d067de75fbf3c21e73b751a83",
-    "impeccable:.agents/skills/impeccable/scripts/detector/shared/constants.mjs": "606f50159d56b5e972724c13933e63220696636215292e5316846426f3e12896",
-    "impeccable:.agents/skills/impeccable/scripts/detector/shared/fonts.mjs": "869c297295a10082d87988f31c136c5df9ddad84da0c2bbba2e85e1261e320a6",
-    "impeccable:.agents/skills/impeccable/scripts/detector/shared/inline-ignores.mjs": "74c80303e25f017b4671ae299b9fca424a5f7714203d19207a8d8896dfd2eecc",
-    "impeccable:.agents/skills/impeccable/scripts/detector/shared/page.mjs": "b4cef5548d84fa90d15e6b42b20be9ef74ed05e4e6e46076ec5acc61b343315c",
+    "impeccable:.agents/skills/impeccable/reference/audit.md": "910461b1c1f8216155165955c860a884a1e2f557cb38f21ef512ea90ef6503c2",
+    "impeccable:.agents/skills/impeccable/reference/critique.md": "cb8caddbb3919e5bf7f252143b519fb16db28a244642d937b186cb89962d9201",
+    "impeccable:.agents/skills/impeccable/scripts/VERSION": "800cf1c0392b24de7c0a1c6ea6778ecb433dec71c49a150bce96a98477527b2f",
     "impeccable:LICENSE": "02bb8c3b4e70190e3986c0404ad2fd8d639b4f534252d82379cc1b502b6d1812",
     "impeccable:NOTICE.md": "c60a093c2845fd9fb82f9c6f742ece31f379f8190b535309d32d66c45ccffdcb",
     "taste:LICENSE": "4575a543ab88dad12ccea7d97e563d0bce5b448b06072e65d3264497dad326df",
@@ -205,103 +187,46 @@
   },
   "artifacts": {
     "plugins/taste-impeccable/skills/design-frontend/references/impeccable/cognitive-load.md": {
-      "sha256": "58aa084b4c119f247a1ac2750edf949f5ec6c844867c0c9d3cb7275dd693de0f"
+      "sha256": "f22a84d996fbd6db6bc8206081d2839f4e854399ad26229f5fb0d575954ed5b3"
     },
     "plugins/taste-impeccable/skills/design-frontend/references/impeccable/heuristics.md": {
-      "sha256": "e5b34630995f4c5964af89bc6b1761e8fdf9355c269607e61d7b54975e154574"
+      "sha256": "0257e742660991918e058a353ee6fdd4305b3b1b89055f2a768f92d009b9a46b"
     },
     "plugins/taste-impeccable/skills/design-frontend/references/impeccable/personas.md": {
-      "sha256": "db590559026acc37e304687f8013ba434dc33c337507dfd101c127e50a228790"
+      "sha256": "0ff36da4a19f2bcb29c0711a6a04c9d89608c26899890594f83422ca44f78c8b"
     },
     "plugins/taste-impeccable/skills/design-frontend/references/impeccable/review-method.md": {
-      "sha256": "4e88258fbf7073a1a5e6019817b2b63860cc4d2898ba416159fa9ef4a61843b6"
+      "sha256": "71e0669cf2a292b048e3a7d84bce4bd91064573a0e946decec344fe9040c94ae"
     },
     "plugins/taste-impeccable/skills/design-frontend/references/impeccable/technical-audit.md": {
-      "sha256": "f0b5bf9cc47846329deff93697bf72ace572f1c923139222ced9c989b1ba48c8"
+      "sha256": "1409cdc0eb813cf9f86d4d3ead7b0bfcddf7da3b6d915d0e97c42df0d2ebe8d5"
     },
     "plugins/taste-impeccable/skills/design-frontend/references/taste/design-systems.md": {
-      "sha256": "002e8569e12ea5a200c06801e83a528cca5edc9c6eba363c7eb07a8ec47b97b5"
+      "sha256": "c72095a2dd05682625cc8f9c0c46d63e220a070cebd291519cfb1b9e7d3f6bcc"
     },
     "plugins/taste-impeccable/skills/design-frontend/references/taste/direction.md": {
-      "sha256": "83371c5f2eb4158ff8be9247db5cee866368fa59e46580cf70609e859c25d1de"
+      "sha256": "facee6e82e9cc24e1508b115c87235b3037c8207e1a250347dfbb5b52f5245dd"
     },
     "plugins/taste-impeccable/skills/design-frontend/references/taste/foundation.md": {
-      "sha256": "91ba53b0b945347a54442d812bd1dff7ef7d1a159dc750b2e2f12dd71d0ca28f"
+      "sha256": "019fe9ed7702a98d8d0229c86f822266a8a9626f118f4094bcd53281464e6c39"
     },
     "plugins/taste-impeccable/skills/design-frontend/references/taste/motion.md": {
-      "sha256": "a8cc27be89fb869f91538ef952b280136ba15d65203eff3f7d6146457f9e720f"
+      "sha256": "ac92d7d7e09476c448217f9782ec42a0326aa469c7d9aa77859a1410dea1ffe1"
     },
     "plugins/taste-impeccable/skills/design-frontend/references/taste/preflight.md": {
-      "sha256": "b2fabbb1559f42f0cfe41ae9312415cd1f1fe8f346bdeccfb8bef22c936e1eea"
+      "sha256": "5ac3e94472e4a9b909b7d56201adfccc76925f39c0c82638bde74423dde7a4d1"
     },
     "plugins/taste-impeccable/skills/design-frontend/references/taste/quality.md": {
-      "sha256": "3e0ab85d25830e9f6b3dbe2feeced72d7eda2f9732592b4d41aae97d486afad0"
+      "sha256": "31783782203bd312535fbb5f531e70aff852e37a88b397fc038f5c7a39ceba76"
     },
     "plugins/taste-impeccable/skills/design-frontend/references/taste/redesign.md": {
-      "sha256": "71eb06b7bac906cde9ea3f47c4a7abe9f27bbd0b8ffad67375bc7f51ff09c949"
+      "sha256": "c030652aba7557544337d1e7e3654c03c016856a21c67e59cdac92f79f8e20c4"
     },
     "plugins/taste-impeccable/skills/design-frontend/scripts/detect.mjs": {
-      "sha256": "3bba4a9e568f7a0b704a1a84f8acf244ed01a2af3936b567da8d3c3777baf0ad"
+      "sha256": "bbc0074ebc7fece4fc52470e5fb6bf86dff44a6faf4f37de9807fae6c15f2226"
     },
-    "plugins/taste-impeccable/skills/design-frontend/scripts/detector/browser/injected/index.mjs": {
-      "sha256": "f8579a53633418171bd028d0c3ee13de130e0a8b4841303e88a31c4f94b8e290"
-    },
-    "plugins/taste-impeccable/skills/design-frontend/scripts/detector/cli/main.mjs": {
-      "sha256": "f0a1513e6d0a868f4cc13dffb7b22cfd1284a15d4779fa009ec495c3735789d9"
-    },
-    "plugins/taste-impeccable/skills/design-frontend/scripts/detector/design-system.mjs": {
-      "sha256": "68404a8983509fe28abc5a91935aba26d7d4d38f5ffd742e6cdad77c77a5a059"
-    },
-    "plugins/taste-impeccable/skills/design-frontend/scripts/detector/detect-antipatterns-browser.js": {
-      "sha256": "be14544c3f2e27433a81f967ae3a6ba1a1f0dac8ef85ef05ff2aeb5b4a68b8f3"
-    },
-    "plugins/taste-impeccable/skills/design-frontend/scripts/detector/detect-antipatterns.mjs": {
-      "sha256": "c6faebebc39b6c2d9245b06b9678eaf5c77fdb51ee3ed0eaf1617846542dcaf0"
-    },
-    "plugins/taste-impeccable/skills/design-frontend/scripts/detector/engines/browser/detect-url.mjs": {
-      "sha256": "a4de4c9a247110d4574480654980a7c9111ae2fd7eba66bdbb38909745a47d39"
-    },
-    "plugins/taste-impeccable/skills/design-frontend/scripts/detector/engines/regex/detect-text.mjs": {
-      "sha256": "56eeb1241e6595918302f5042b5867e8b2e65b175a560c16f0912d23486e3b45"
-    },
-    "plugins/taste-impeccable/skills/design-frontend/scripts/detector/engines/static-html/css-cascade.mjs": {
-      "sha256": "dece110cc7fcd3e0ca7700de8a79509face62e7bd5c442b9658380455cdb1be6"
-    },
-    "plugins/taste-impeccable/skills/design-frontend/scripts/detector/engines/static-html/detect-html.mjs": {
-      "sha256": "f4aab6d2cfbb2d27795c11fa76dff835d92d67f672a68f400ae53b22d22ddd83"
-    },
-    "plugins/taste-impeccable/skills/design-frontend/scripts/detector/engines/visual/screenshot-contrast.mjs": {
-      "sha256": "de51a4f7a9c0ffabe70d6545d432173c9222f0f5d1a6a1b4ecdc04b8dba950ce"
-    },
-    "plugins/taste-impeccable/skills/design-frontend/scripts/detector/findings.mjs": {
-      "sha256": "ace1792bd19f158ba43e153456f3dc0a7c9478dbcf0a5cf4f60f7cebf028dece"
-    },
-    "plugins/taste-impeccable/skills/design-frontend/scripts/detector/node/file-system.mjs": {
-      "sha256": "a3655345b142ec9a707822d98b63acc765072bdb53d658a3c5e034282901eae0"
-    },
-    "plugins/taste-impeccable/skills/design-frontend/scripts/detector/profile/profiler.mjs": {
-      "sha256": "ce395861f127931bd7d37542ad52f8b1ebe3049625b1b60ff08913397397ffb0"
-    },
-    "plugins/taste-impeccable/skills/design-frontend/scripts/detector/registry/antipatterns.mjs": {
-      "sha256": "22317a0629bbba263e589e998c0379c68f44bbe31b5e142bdf7be431ed10bf7b"
-    },
-    "plugins/taste-impeccable/skills/design-frontend/scripts/detector/rules/checks.mjs": {
-      "sha256": "682db9b2453600a71d81535fe3c5daed133cdeb5048b54eff83e727eb564c8de"
-    },
-    "plugins/taste-impeccable/skills/design-frontend/scripts/detector/shared/color.mjs": {
-      "sha256": "cb97c2ca0864ab960f9b4e0294f3164aaefc8b747ad1825c566ae499fb5fe2cc"
-    },
-    "plugins/taste-impeccable/skills/design-frontend/scripts/detector/shared/constants.mjs": {
-      "sha256": "3cac10db5ed58875703d9aae53c94b63381840686f35239f92823645c60fb8f2"
-    },
-    "plugins/taste-impeccable/skills/design-frontend/scripts/detector/shared/fonts.mjs": {
-      "sha256": "0621a71ba5a1496d6fa233c6f05f9edc262e3e11472d434788a162c3ef90d600"
-    },
-    "plugins/taste-impeccable/skills/design-frontend/scripts/detector/shared/inline-ignores.mjs": {
-      "sha256": "58a4929773d465e5d2a1d9b330d844ec3aecc5048deee8f99cd4afcdcb085e1b"
-    },
-    "plugins/taste-impeccable/skills/design-frontend/scripts/detector/shared/page.mjs": {
-      "sha256": "3020c74a86c6fe6ff98ac003642e50af15848c82c6d7f8c59254723324f233c6"
+    "plugins/taste-impeccable/skills/design-frontend/scripts/detector/engine.json": {
+      "sha256": "5909993c31832bb63d485b737ba2409169856bd4fe9e41d24895a29937f4e5a4"
     }
   }
 }
