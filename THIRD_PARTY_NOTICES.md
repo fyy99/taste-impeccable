@@ -3,7 +3,7 @@
 本项目包含经筛选、重组或改写的第三方材料。Taste 和 Impeccable 的名称仅用于说明来源；本项目不是两者的官方发行版，也不代表原作者背书。
 
 <!-- BEGIN GENERATED UPSTREAM PINS -->
-- Taste：`refs/heads/main` → `ccbc15639c97057cbfcf32ecebc38ef716e4bb37`
+- Taste：`refs/heads/main` → `5217fb45be2c0b302f29c9cd31cbd3237501c684`
 - Impeccable：`refs/tags/skill-v4.3.1` → `cd12f8660e2dde57b9615c8a6b8ea674101f9cfc`
 <!-- END GENERATED UPSTREAM PINS -->
 

@@ -2,7 +2,7 @@
   "schema_version": 1,
   "transform_version": 4,
   "role_contract_version": 1,
-  "reviewed_at": "2026-09-12",
+  "reviewed_at": "2026-09-21",
   "generated_by": "scripts/sync_upstreams.py",
   "policy": {
     "orchestration_is_manual": true,
@@ -30,7 +30,7 @@
       "repository": "https://github.com/Leonxlnx/taste-skill.git",
       "web_repository": "https://github.com/Leonxlnx/taste-skill",
       "ref": "refs/heads/main",
-      "commit": "ccbc15639c97057cbfcf32ecebc38ef716e4bb37",
+      "commit": "5217fb45be2c0b302f29c9cd31cbd3237501c684",
       "license": "MIT",
       "license_path": "LICENSE",
       "skill_source": "skills/taste-skill/SKILL.md",
@@ -202,25 +202,25 @@
       "sha256": "1409cdc0eb813cf9f86d4d3ead7b0bfcddf7da3b6d915d0e97c42df0d2ebe8d5"
     },
     "plugins/taste-impeccable/skills/design-frontend/references/taste/design-systems.md": {
-      "sha256": "c72095a2dd05682625cc8f9c0c46d63e220a070cebd291519cfb1b9e7d3f6bcc"
+      "sha256": "c6660b925b22f02851931b9ebca29ed584edddd10e5fcb907e179a57ba89e47d"
     },
     "plugins/taste-impeccable/skills/design-frontend/references/taste/direction.md": {
-      "sha256": "facee6e82e9cc24e1508b115c87235b3037c8207e1a250347dfbb5b52f5245dd"
+      "sha256": "6ac905f6fc5818182bb001cdaeed21435413ff5adb032ee1433a53e1f1d3e088"
     },
     "plugins/taste-impeccable/skills/design-frontend/references/taste/foundation.md": {
-      "sha256": "019fe9ed7702a98d8d0229c86f822266a8a9626f118f4094bcd53281464e6c39"
+      "sha256": "a546903bc736720772b2ec3e703ef70d297333c6036070b4103dbd6bfeb48e1c"
     },
     "plugins/taste-impeccable/skills/design-frontend/references/taste/motion.md": {
-      "sha256": "ac92d7d7e09476c448217f9782ec42a0326aa469c7d9aa77859a1410dea1ffe1"
+      "sha256": "5e8ab605a207c1d57ae25422fe96ee92ee6fb08831f862d5d3f69c18825a78e0"
     },
     "plugins/taste-impeccable/skills/design-frontend/references/taste/preflight.md": {
-      "sha256": "5ac3e94472e4a9b909b7d56201adfccc76925f39c0c82638bde74423dde7a4d1"
+      "sha256": "e4edd91379d165fcc081b3d93a89d90286dbe807c8c7bc5499f91f88f0d3c2f3"
     },
     "plugins/taste-impeccable/skills/design-frontend/references/taste/quality.md": {
-      "sha256": "31783782203bd312535fbb5f531e70aff852e37a88b397fc038f5c7a39ceba76"
+      "sha256": "fe26a11241c070f8278e18c146cd0d346794a8f4bc27d5775e34723cf43c9a54"
     },
     "plugins/taste-impeccable/skills/design-frontend/references/taste/redesign.md": {
-      "sha256": "c030652aba7557544337d1e7e3654c03c016856a21c67e59cdac92f79f8e20c4"
+      "sha256": "e45c0e045426072b8ccb3f1ab525831e3d242f95111cd7f60341ead598dbda99"
     },
     "plugins/taste-impeccable/skills/design-frontend/scripts/detect.mjs": {
       "sha256": "bbc0074ebc7fece4fc52470e5fb6bf86dff44a6faf4f37de9807fae6c15f2226"

@@ -23,7 +23,7 @@ CASES_PATH = ROOT / "evals" / "cases.json"
 SCHEMA_PATH = ROOT / "evals" / "plan-trace.schema.json"
 BASELINE_PATH = ROOT / "evals" / "baselines" / "plan-trace.json"
 FAILED_RUN_PATH = ROOT / "evals" / "runs" / "last-run.json"
-BASELINE_CODEX_VERSION = "codex-cli 0.154.0-alpha.6.2"
+BASELINE_CODEX_VERSION = "codex-cli 0.155.0-alpha.9.2"
 SAMPLES_PER_CASE = 3
 
 

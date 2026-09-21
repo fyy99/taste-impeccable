@@ -1,6 +1,6 @@
 {
   "name": "taste-impeccable",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Taste-led frontend design with runtime geometry and reachability checks, isolated read-only Impeccable validation, and Taste-owned remediation.",
   "author": {
     "name": "fyy99",
