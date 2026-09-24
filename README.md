@@ -70,7 +70,7 @@ plugin manifest 自动注册为 Codex custom agent。首选机制是两个
 只能是 `PASS_WITH_ADVISORIES`。所有路径都会在审校前后比较工作区状态、diff 与
 文件哈希；发生任何审校期写入都必须判失败。
 
-当前版本固定 Taste `5217fb4` 与 Impeccable `skill-v4.3.1`。新版使用上游固定的
+当前版本固定 Taste `c184364` 与 Impeccable `skill-v4.3.1`。新版使用上游固定的
 原生检测引擎；首次使用时由实现阶段运行 `setup-detector.mjs`，下载到用户缓存并
 核验 SHA-256。审校阶段的 `detect.mjs` 只扫描，不安装、不自动下载，始终禁用
 项目配置。支持 macOS/Linux 的 arm64、x64 和 Windows x64；需要 Node.js 22+。
@@ -204,7 +204,7 @@ If isolated reviewers are unavailable, the workflow performs the two read-only p
 
 The TOML files under `skills/design-frontend/agents/` are portable reviewer prompt sources; the plugin manifest does not register them as custom agents. The preferred implementation is two `codex exec --ephemeral --sandbox read-only` child sessions. Runtime-registered custom agents are allowed only when their effective inherited permission mode is confirmed read-only. When read-only access cannot be mechanically guaranteed, the workflow does not create a generally writable reviewer; it degrades to sequential single-context review, with `PASS_WITH_ADVISORIES` as the strongest possible gate. Every route fingerprints the workspace before and after review; any review-time product-workspace drift fails the review.
 
-The current version pins Taste `5217fb4` and Impeccable `skill-v4.3.1`.
+The current version pins Taste `c184364` and Impeccable `skill-v4.3.1`.
 The builder runs `setup-detector.mjs` before review to install the pinned native
 engine in the user cache and verify SHA-256. During review, `detect.mjs` only
 scans local targets; it never installs or downloads and always disables project
