@@ -6,6 +6,66 @@ import path from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 
+// 只读取当前任务的元数据字段，不从全局配置或其它任务猜测模型。
+function* records(file) {
+  const fd = fs.openSync(file, 'r');
+  const chunk = Buffer.alloc(65536);
+  let pending = Buffer.alloc(0);
+  try {
+    for (;;) {
+      const size = fs.readSync(fd, chunk, 0, chunk.length, null);
+      if (!size) break;
+      pending = Buffer.concat([pending, chunk.subarray(0, size)]);
+      let end;
+      while ((end = pending.indexOf(10)) >= 0) {
+        const line = pending.subarray(0, end).toString('utf8');
+        pending = pending.subarray(end + 1);
+        try { yield JSON.parse(line); } catch { /* 忽略损坏或未完整落盘的记录。 */ }
+      }
+    }
+    if (pending.length) {
+      try { yield JSON.parse(pending.toString('utf8')); } catch { /* 最后一行可能仍在写入。 */ }
+    }
+  } finally { fs.closeSync(fd); }
+}
+
+export function resolveReviewModel(explicit, env = process.env) {
+  if (explicit?.trim()) return explicit.trim();
+  const thread = env.CODEX_THREAD_ID || env.CODEX_SESSION_ID;
+  if (!thread || !/^[0-9a-f-]{36}$/i.test(thread)) {
+    throw new Error('Current task identity unavailable. Pass --model from verified current-task runtime metadata; global model fallback is disabled.');
+  }
+  const root = path.join(env.CODEX_HOME || path.join(os.homedir(), '.codex'), 'sessions');
+  let files;
+  try {
+    const suffix = new RegExp(`-${thread}(?:_[0-9a-f-]{36})?\\.jsonl$`, 'i');
+    files = fs.readdirSync(root, { recursive: true })
+      .filter(file => suffix.test(path.basename(file)))
+      .map(file => path.join(root, file))
+      .sort((a, b) => fs.statSync(b).mtimeMs - fs.statSync(a).mtimeMs);
+  } catch {
+    throw new Error('Current task runtime records are not readable. Pass --model from verified current-task metadata; global model fallback is disabled.');
+  }
+  for (const file of files) {
+    let first = true;
+    let owned = false;
+    let model;
+    for (const record of records(file)) {
+      if (first) {
+        first = false;
+        // fork/resume 文件可能包含父历史，只认可拥有该文件的首条 session_meta。
+        owned = record.type === 'session_meta' && record.payload?.id === thread;
+        if (!owned) break;
+      }
+      if (record.type === 'turn_context') model = record.payload?.model;
+    }
+    if (first || !owned) continue;
+    if (typeof model === 'string' && model.trim()) return model.trim();
+    throw new Error('Latest current-task turn has no model. Pass --model from verified runtime metadata; refusing to reuse an older turn or global configuration.');
+  }
+  throw new Error('No runtime record found for the current task. Pass --model from verified current-task metadata; global model fallback is disabled.');
+}
+
 export function discoverCli(env = process.env) {
   const candidates = [];
   if (env.TASTE_CODEX_BIN) candidates.push(env.TASTE_CODEX_BIN);
@@ -44,6 +104,7 @@ export function availableCli(paths, execute = spawnSync) {
 }
 
 export function runReview({ project, prompt, output, model, candidates }, execute = spawnSync) {
+  model = resolveReviewModel(model);
   if (!candidates.length) throw new Error('No usable Codex CLI found. Install a compatible CLI or set TASTE_CODEX_BIN to its executable.');
   for (const [index, cli] of candidates.slice(0, 4).entries()) {
     // 每次尝试隔离结果文件，拒绝旧报告冒充此次成功输出。
@@ -51,9 +112,9 @@ export function runReview({ project, prompt, output, model, candidates }, execut
     const report = path.join(temp, 'report.txt');
     try {
       const args = ['-a', 'never', 'exec', '--ephemeral', '--sandbox', 'read-only', '-C', project, '--output-last-message', report];
-      if (model) args.push('--model', model);
+      args.push('--model', model);
       args.push('-');
-      process.stderr.write(`Reviewer runtime: ${cli.file} (${cli.version}); model: ${model || 'Codex configuration/default'}\n`);
+      process.stderr.write(`Reviewer runtime: ${cli.file} (${cli.version}); model: ${model}\n`);
       const result = execute(cli.file, args, { input: prompt, encoding: 'utf8', timeout: 600000, maxBuffer: 16 * 1024 * 1024 });
       const logs = `${result.stdout || ''}\n${result.stderr || ''}`;
       if (!result.error && result.status === 0) {

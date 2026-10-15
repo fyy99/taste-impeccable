@@ -142,7 +142,8 @@ fresh re-review。启用扩展槽必须显式提升角色契约版本、更新 S
 ## 独立审校的 CLI 兼容
 
 独立审校使用插件内 `scripts/review.mjs`，自动比较应用自带与 PATH 中已安装
-CLI 的实际版本，优先运行较新版。它保留用户模型配置，固定只读与禁审批策略；
+CLI 的实际版本，优先运行较新版。默认读取当前任务最新运行记录的实际模型，并显式传递给审校子会话，
+不会回退到全局模型配置；`--model` 可显式覆盖。固定只读与禁审批策略；
 版本或模型不兼容时尝试另一个已安装运行时。自定义安装可通过 `--codex` 指定
 可执行文件。每个 reviewer 使用独立 packet 与外置临时报表；日志记录实际路径与版本。
 若所有运行时均不可用，保留具体错误并按原降级规则报告。此流程不会自动安装 CLI。
@@ -277,7 +278,8 @@ The synchronizer only moves and validates allowed upstream content. It cannot ch
 ### Independent-review CLI compatibility
 
 The bundled `scripts/review.mjs` launcher compares actual installed app/PATH CLI
-versions and prefers the newest. It preserves the user's model configuration,
+versions and prefers the newest. It inherits the current task's latest runtime model and passes it explicitly to the child,
+with no fallback to global model settings. `--model` can override this explicitly. It
 enforces read-only execution with approvals disabled, and tries another installed
 runtime only for definite compatibility errors. Use `--codex` for a custom executable.
 Each reviewer receives its own packet and external temporary report. Runtime paths,

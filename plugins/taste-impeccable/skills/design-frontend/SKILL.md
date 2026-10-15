@@ -245,10 +245,17 @@ available isolation in this order:
    macOS bundle layouts; on Windows/Linux use an executable on PATH or the
    explicit option. It never installs or upgrades anything.
 
-   Preserve the user's selected review model with `--model <model>` when one is
-   explicitly specified; otherwise retain Codex's configured/default model.
-   Never guess a model name from the parent session or silently substitute a
-   different model/provider. On a definite compatibility error, the launcher
+   Default to the current task's actual model. The launcher resolves
+   `CODEX_THREAD_ID` (or `CODEX_SESSION_ID`) to an owning session record under
+   `CODEX_HOME/sessions`, verifies the first `session_meta` identity and reads
+   the latest `turn_context.model`. It always passes that model explicitly to
+   the child CLI, so switching models within the task is respected and the
+   machine's global model setting cannot take over. An explicit user-selected
+   review model can override this with `--model <model>`. If the runtime has no
+   readable session record (for example an ephemeral parent), pass `--model`
+   from verified current-task runtime metadata. If that metadata is unavailable,
+   report the concrete gap; never guess or fall back to global configuration.
+   Never silently substitute a different model/provider. On a definite compatibility error, the launcher
    tries another installed runtime with the same model and read-only policy.
    Authentication, network, quota and sandbox errors are reported, not treated
    as model incompatibility. Record the actual CLI path/version and failure.

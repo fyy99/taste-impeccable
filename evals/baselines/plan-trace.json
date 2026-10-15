@@ -3,9 +3,9 @@
   "kind": "self-reported-plan-trace-multisample",
   "model": "gpt-6.1-sol",
   "codex_version": "codex-cli 0.162.0-alpha.17.2",
-  "generated_at": "2026-10-15T03:22:30+00:00",
+  "generated_at": "2026-10-15T06:48:43+00:00",
   "samples_per_case": 3,
-  "plugin_fingerprint": "7f69ccecc7b4a2f1a4a1122595f7b9f2296024747099664934073c58cf87977d",
+  "plugin_fingerprint": "b4ab17270e8cddab459217373e4860b95db8ab582adead4a1ba23e0b5db091a0",
   "suite_fingerprint": "3de24fa7eb1d5fae3dc53b062c318e836e71a0d09e6596e03cc011d6901cb54c",
   "cases": [
     {
@@ -35,7 +35,7 @@
             "accepted_findings_triaged"
           ],
           "review_mode": "sandboxed_independent",
-          "reason": "将使用该 Skill：读取项目事实后确认落地页范围，由 Taste 设计实现，完成桌面、移动端及适用交互状态的运行验证，再由两个隔离只读 child session 审校并合成、裁定 findings。请求未提供首审 finding 或要求修后复审，因此不计划修复与复审事务。本次仅返回计划，不执行实现或创建代理。"
+          "reason": "先读取项目事实，再确认落地页属于 IN_SCOPE。Taste 完成设计实现及桌面、移动端运行验证，并核验适用的布局关系、交互端点与计算后状态；冻结证据后，由两个隔离只读 child session 审校并合成门禁、裁定 findings。请求未提供首审 finding 或要求修后复审，因此不预排修复与复审。"
         },
         {
           "case_id": "landing-page-greenfield",
@@ -61,7 +61,7 @@
             "accepted_findings_triaged"
           ],
           "review_mode": "sandboxed_independent",
-          "reason": "落地页属于表达型前端，读取项目实际情况后进入完整流程；端点与控件状态按实际适用项核验。已确认可使用隔离只读 child sessions。请求未提供首审 finding 或要求修后复审，因此不计划修复与复审事件。"
+          "reason": "落地页属于表达型前端，采用完整 Taste → runtime → Impeccable 流程。先读取项目事实再判定范围，实施后完成桌面、移动端及所有适用运行状态核验，冻结证据并进行两名隔离只读审校。未提供首审 finding 或要求修后复审，因此不计划修复与复审事件。"
         },
         {
           "case_id": "landing-page-greenfield",
@@ -76,7 +76,6 @@
             "taste_expressive_defaults_applied",
             "desktop_mobile_evidence",
             "page_state_element_matrix_verified",
-            "interactive_endpoint_reachability_verified",
             "computed_runtime_states_verified",
             "runtime_evidence_frozen",
             "review_workspace_fingerprint",
@@ -87,7 +86,7 @@
             "accepted_findings_triaged"
           ],
           "review_mode": "sandboxed_independent",
-          "reason": "新建产品落地页属于表达性前端范围。计划先读取项目事实并完成范围门禁，再由 Taste 设计与实现，完成桌面、移动端及适用交互和控件状态核验后冻结证据，交给两个隔离只读 reviewer 审校并合成、分诊。未提供首审 finding 或要求修后复审，因此不计划修复与复审事件；本次仅返回计划。"
+          "reason": "新建产品落地页属于表达型前端范围。先读取项目事实并判定范围，再由 Taste 完成设计与实现，验证桌面、移动及适用控件状态，冻结证据后执行两个隔离只读审校并合成、裁定 findings。请求未指定需验证端点的交互，也未提供首审 finding 或要求修后复审，因此不预设这些事件。"
         }
       ]
     },
@@ -102,8 +101,8 @@
             "design_frontend_skill_invoked",
             "project_truth_read",
             "existing_design_audited",
-            "project_design_system_primary",
             "taste_scope_gated",
+            "project_design_system_primary",
             "design_read_before_edit",
             "taste_implementation",
             "desktop_mobile_evidence",
@@ -119,7 +118,7 @@
             "accepted_findings_triaged"
           ],
           "review_mode": "sandboxed_independent",
-          "reason": "会使用该 Skill：现有营销首页改版属于完整工作流范围。先读取项目并专门审计现有页面，锁定品牌资产、设计系统和功能，再由 Taste 设计实现；完成运行态核验后交给两个隔离只读 reviewer。请求未提供首审 finding 或要求修后复审，因此不预选修复与复审事件。本次仅返回计划，不执行实现或审校。"
+          "reason": "现有营销首页改版属于 IN_SCOPE。先读取项目并专项审计现有页面，锁定品牌资产、组件、tokens 与功能，再由 Taste 完成设计和实现；完成适用运行态核验并冻结证据后，使用两个隔离只读 child session 审校。请求未提供首审 finding，也未要求修后复审，因此不选择修复与复审事件。"
         },
         {
           "case_id": "existing-marketing-redesign",
@@ -146,7 +145,7 @@
             "accepted_findings_triaged"
           ],
           "review_mode": "sandboxed_independent",
-          "reason": "现有营销首页改版属于完整工作流范围。计划先读取项目并专门审计现有页面，锁定品牌资产、设计系统和功能，再由 Taste 设计实施；完成适用的运行态核验后冻结证据，执行两路隔离只读审校并合成、裁定 findings。请求未提供首审 finding 或要求修后复审，因此不安排修复与复审事件。本次仅输出计划。"
+          "reason": "现有营销首页改版属于 IN_SCOPE。先读取项目并专门审计现有页面，锁定品牌资产、组件、tokens 与功能，再完成 Taste 设计实现及适用的运行态核验，最后进行两个隔离只读审校并合成门禁。请求未提供首审 finding 或要求修后复审，因此不预选修复与复审事件。"
         },
         {
           "case_id": "existing-marketing-redesign",
@@ -173,7 +172,7 @@
             "accepted_findings_triaged"
           ],
           "review_mode": "sandboxed_independent",
-          "reason": "采用 Taste Impeccable：先读取项目并专门审计现有首页，锁定品牌资产、设计系统与现有功能，再完成设计、实现和运行态核验，最后执行隔离只读双审校及 finding 裁定。未提供首审 finding 或明确要求修后复审，因此不预选修复与复审事件。本次仅返回计划，不实际执行。"
+          "reason": "现有营销首页改版属于 IN_SCOPE。先读取项目并专门审计现有页面、功能和视觉语言，锁定品牌资产与既有设计系统，再由 Taste 设计实现。完成适用运行态核验并冻结证据后，使用已确认可用的隔离只读 child sessions 审校并合成、裁定 findings。请求未提供首审 finding 或要求修后复审，因此不计划修复与复审事件。"
         }
       ]
     },
@@ -205,7 +204,34 @@
             "accepted_findings_triaged"
           ],
           "review_mode": "sandboxed_independent",
-          "reason": "设置页属于沿用既有设计系统的普通产品表面，归为 CONDITIONAL。先读取项目并专门审计现有页面，再锁定组件库与 tokens；Taste 仅优化构图、信息层级和交互状态。完成适用的运行态核验后，由两个隔离只读 child session 审校并合成门禁。请求未提供首审 finding，也未要求修复后复审，因此不安排修复与复审事件。"
+          "reason": "计划先读取项目并审计现有设置页，再按既有产品页面归为 CONDITIONAL；锁定组件库与 tokens，仅优化信息层级和交互状态。完成适用运行态核验后冻结证据，进行隔离只读双审与 finding 裁定。未明确要求修后复审，因此不安排修复及复审事件。"
+        },
+        {
+          "case_id": "established-product-surface",
+          "skill_invoked": true,
+          "scope": "CONDITIONAL",
+          "events": [
+            "design_frontend_skill_invoked",
+            "project_truth_read",
+            "existing_design_audited",
+            "project_design_system_primary",
+            "taste_scope_gated",
+            "design_read_before_edit",
+            "taste_implementation",
+            "desktop_mobile_evidence",
+            "page_state_element_matrix_verified",
+            "interactive_endpoint_reachability_verified",
+            "computed_runtime_states_verified",
+            "runtime_evidence_frozen",
+            "review_workspace_fingerprint",
+            "reviewer_a_read_only",
+            "reviewer_b_read_only",
+            "independent_review_completed",
+            "gate_synthesized",
+            "accepted_findings_triaged"
+          ],
+          "review_mode": "sandboxed_independent",
+          "reason": "设置页属于沿用既有设计系统的普通产品页面。先读取实际项目并审计现有页面，锁定组件库与 tokens，再判定范围；Taste 仅优化组织、层级和交互状态。完成适用的运行态核验后，采用两个隔离只读 child session 审校并合成、裁定 findings。请求未提供首审 finding 或要求修后复审，因此不计划修复与复审事务。"
         },
         {
           "case_id": "established-product-surface",
@@ -232,34 +258,7 @@
             "accepted_findings_triaged"
           ],
           "review_mode": "sandboxed_independent",
-          "reason": "设置页属于沿用既有设计系统的普通产品表面。先读取项目并审计现有页面，再确认范围、锁定组件库与 tokens；Taste 仅优化信息层级和交互状态，完成运行态核验后由隔离的只读 Reviewer A/B 审校。未提供首审 finding 或要求修后复审，因此不计划修复与复审事件。"
-        },
-        {
-          "case_id": "established-product-surface",
-          "skill_invoked": true,
-          "scope": "CONDITIONAL",
-          "events": [
-            "design_frontend_skill_invoked",
-            "project_truth_read",
-            "existing_design_audited",
-            "taste_scope_gated",
-            "project_design_system_primary",
-            "design_read_before_edit",
-            "taste_implementation",
-            "desktop_mobile_evidence",
-            "page_state_element_matrix_verified",
-            "interactive_endpoint_reachability_verified",
-            "computed_runtime_states_verified",
-            "runtime_evidence_frozen",
-            "review_workspace_fingerprint",
-            "reviewer_a_read_only",
-            "reviewer_b_read_only",
-            "independent_review_completed",
-            "gate_synthesized",
-            "accepted_findings_triaged"
-          ],
-          "review_mode": "sandboxed_independent",
-          "reason": "设置页属于沿用既有设计系统的普通产品页面。计划先读取项目并审计现有页面，再判定范围、锁定组件库与 tokens；Taste 仅优化信息层级和交互状态。完成适用运行态核验后，使用两个隔离只读 child session 审校并合成、裁定 findings。未明确要求修后复审，因此不加入修复或复审事件。本次仅返回计划，不执行实现或创建审校代理。"
+          "reason": "会使用该 Skill：先读取项目并专门审计现有设置页，再确认 CONDITIONAL 范围，锁定现有组件库与 tokens，仅优化信息层级和交互状态。完成适用的运行态核验后，使用两个隔离只读 child session 审校并合成门禁；端点核验仅针对实际存在的适用控件。请求未提供首审 finding 或要求修后复审，因此不安排修复与复审。此次仅返回计划，不执行实现或审校。"
         }
       ]
     },
@@ -291,7 +290,7 @@
             "accepted_findings_triaged"
           ],
           "review_mode": "sandboxed_independent",
-          "reason": "现有普通产品页属于 CONDITIONAL：先读取项目并专门审计现有页面，再判定范围、锁定组件库与 tokens，由 Taste 优化组合与层级。桌面和移动端须核验动态换行、布局包含与伪元素命中区、嵌套滚动首末端可达性，以及原生控件适用状态的计算样式，完成后冻结证据，再由两个隔离只读 reviewer 审校并合成门禁、裁定 findings。请求未提供首审 finding 或要求修后复审，因此不计划修复与复审事件。"
+          "reason": "采用 Taste → 运行态验证 → 隔离只读 Impeccable 审校。读取项目并审计现有页面后，按既有设计系统的普通产品页归为 CONDITIONAL，锁定组件库与 tokens，仅优化构图与层级。冻结证据前完成桌面和移动端捕获、动态换行与扩展命中区关系核验、嵌套滚动首末端可达性验证，以及原生控件适用状态的计算样式检查。使用已确认可用的独立 child sessions；未明确要求修复后复审，不安排修复及复审事件。"
         },
         {
           "case_id": "runtime-evidence-completeness",
@@ -318,7 +317,7 @@
             "accepted_findings_triaged"
           ],
           "review_mode": "sandboxed_independent",
-          "reason": "现有响应式产品页属于条件适用范围：读取项目并专项审计后，锁定现有组件库与 tokens，仅优化构图和层级。审校前完成桌面与移动端捕获，核验动态换行、伪元素命中区、嵌套滚动两端及原生控件计算后状态，再冻结证据并启动两个隔离只读 reviewer。请求未提供首审 finding 或要求修后复审，因此不计划修复与复审事件。"
+          "reason": "读取实际项目并专门审计现有页面后，将普通产品页按 CONDITIONAL 处理，锁定组件库与 tokens。实现后完成桌面及移动端捕获，核验动态换行、容器关系、伪元素命中区、嵌套滚动两端和原生控件计算后状态，再冻结证据并开展两路隔离只读审校。请求未提供首审 finding 或要求修后复审，因此不安排修复与复审事件。"
         },
         {
           "case_id": "runtime-evidence-completeness",
@@ -345,7 +344,7 @@
             "accepted_findings_triaged"
           ],
           "review_mode": "sandboxed_independent",
-          "reason": "将使用该 Skill：现有产品页属于条件适用范围，先读取项目并专门审计现有页面，锁定组件库与 tokens，再由 Taste 优化构图和层级。桌面与移动端须实际验证动态换行、扩展命中区、嵌套滚动两端及原生控件计算后状态，冻结证据后运行两个隔离只读审校并合成、分诊。未明确提供首审 finding 或要求修后复审，因此不计划修复与复审事件。本次仅返回计划，不执行实现或创建审校会话。"
+          "reason": "现有响应式产品页属于 CONDITIONAL：先读取项目并专门审计现有页面，锁定组件库与 tokens，再由 Taste 优化构图和层级。运行验证覆盖桌面与移动端、动态换行、伪元素命中区、嵌套滚动两端及原生控件计算后状态，完成后冻结证据并进行隔离只读双审。请求未提供首审 finding 或要求修后复审，因此不规划修复与复审。"
         }
       ]
     },
@@ -376,7 +375,7 @@
             "accepted_findings_triaged"
           ],
           "review_mode": "sandboxed_independent",
-          "reason": "显式调用插件；计划先读取项目并专门审计现有页面，再将密集交易后台、多步表单判为 Taste 范围外。保留现有组件库和 tokens，采用正常产品 UI 工作流，仅执行独立技术/UX 审校，不应用表达性默认设计。未提供首审 finding 或要求修复后复审，因此不安排修复及复审事件。本次只返回计划，不执行实现或创建审校代理。"
+          "reason": "显式调用插件；现有交易监控后台包含密集数据表、实时行情、批量操作与多步表单。计划读取并专门审计现有界面后执行范围门禁，保留产品设计系统，跳过 Taste 表现性设计与实现阶段，仅进行技术/UX 审校。使用已确认可用的隔离只读 child sessions；未提供首审 finding 或要求修后复审，因此不安排修复与复审。"
         },
         {
           "case_id": "dense-dashboard-scope-gate",
@@ -402,7 +401,7 @@
             "accepted_findings_triaged"
           ],
           "review_mode": "sandboxed_independent",
-          "reason": "显式调用插件；读取项目并专项审计现有页面后，复杂交易后台、密集数据表及多步表单应判为 Taste 范围外。保留现有产品设计系统，跳过 Taste Design Read 与表达性实现，仅进行技术/UX 审校。使用已确认可用的隔离只读 child sessions；未提供首审 finding 或要求修后复审，因此不计划修复与复审事件。"
+          "reason": "会使用该 Skill 来约束设计与审校顺序。读取项目并审计现有页面后，将此密集交易后台判为 Taste 范围外：保留既有组件与 tokens，采用正常产品 UI 工作流，仅进行独立技术/UX 审计，不应用表达性设计默认值。运行态核验完成后冻结证据，由两个隔离只读 reviewer 审校并合成、裁定 findings；请求未提供首审 finding 或要求修后复审，因此不计划修复与复审事件。本次仅返回计划，不实际执行。"
         },
         {
           "case_id": "dense-dashboard-scope-gate",
@@ -428,7 +427,7 @@
             "accepted_findings_triaged"
           ],
           "review_mode": "sandboxed_independent",
-          "reason": "显式调用插件，先读取项目并专门审计现有页面，再确认密集交易后台、多表格及多步表单属于 Taste 范围外。保留现有组件库和 tokens，跳过表达性设计与 Taste 实现，仅进行技术/UX 审计。完成运行态核验并冻结证据后，使用已确认可用的独立只读 child sessions 审校、合成门禁并裁定 findings。未明确要求修后复审，不安排修复与复审事件；本次仅返回计划。"
+          "reason": "显式调用插件，先读取实际项目并专门审计现有后台，再对密集数据表、实时行情、批量操作和多步表单执行范围门禁。保留既有组件库与 tokens，走常规产品 UI 流程，仅进行独立技术/UX 审计；完成运行态核验后冻结证据，由两个隔离只读 reviewer 审校并合成、裁定 findings。未明确要求修后复审，不安排修复与复审事件。本次仅返回计划，不实际实施或创建审校代理。"
         }
       ]
     },
@@ -441,23 +440,23 @@
           "scope": "NOT_APPLICABLE",
           "events": [],
           "review_mode": "not_applicable",
+          "reason": "请求仅涉及订单服务的幂等写入和 PostgreSQL 事务测试，没有用户界面，不适用 Taste Impeccable。"
+        },
+        {
+          "case_id": "backend-non-trigger",
+          "skill_invoked": false,
+          "scope": "NOT_APPLICABLE",
+          "events": [],
+          "review_mode": "not_applicable",
+          "reason": "任务仅涉及订单服务幂等写入与 PostgreSQL 事务测试，没有用户界面；不触发 Taste Impeccable，也不进入前端审校流程。"
+        },
+        {
+          "case_id": "backend-non-trigger",
+          "skill_invoked": false,
+          "scope": "NOT_APPLICABLE",
+          "events": [],
+          "review_mode": "not_applicable",
           "reason": "请求仅涉及订单服务幂等写入和 PostgreSQL 事务测试，没有用户界面，不适用 Taste Impeccable。"
-        },
-        {
-          "case_id": "backend-non-trigger",
-          "skill_invoked": false,
-          "scope": "NOT_APPLICABLE",
-          "events": [],
-          "review_mode": "not_applicable",
-          "reason": "请求仅涉及订单服务的幂等写入和 PostgreSQL 事务测试，没有用户界面；按 Skill 规定不使用 Taste Impeccable，也不进入审校流程。"
-        },
-        {
-          "case_id": "backend-non-trigger",
-          "skill_invoked": false,
-          "scope": "NOT_APPLICABLE",
-          "events": [],
-          "review_mode": "not_applicable",
-          "reason": "任务仅涉及订单服务幂等写入与 PostgreSQL 事务测试，没有用户界面，不适用 Taste Impeccable。"
         }
       ]
     },
@@ -475,14 +474,12 @@
             "taste_scope_gated",
             "design_read_before_edit",
             "taste_implementation",
-            "taste_expressive_defaults_applied",
             "desktop_mobile_evidence",
             "page_state_element_matrix_verified",
             "interactive_endpoint_reachability_verified",
             "computed_runtime_states_verified",
             "runtime_evidence_frozen",
             "review_workspace_fingerprint",
-            "impeccable_review",
             "reviewer_a_read_only",
             "reviewer_b_read_only",
             "independent_review_completed",
@@ -490,7 +487,7 @@
             "accepted_findings_triaged"
           ],
           "review_mode": "sandboxed_independent",
-          "reason": "作品集首页属于表达型前端范围；先读取项目事实并确认范围，再由 Taste 独立设计实现，完成适用的运行态核验后交给两个隔离只读 reviewer。将同时争论请求归一化为有序流程；未提供首审 finding 或要求修后复审，因此不规划修复及复审。"
+          "reason": "作品集首页适用完整流程；先读取实际项目再确认范围。将同时争论归一化为 Taste 独立设计实现、完成适用运行态核验并冻结证据、两个隔离只读 Reviewer 审校，最后合成门禁并裁定 findings。未提供首审 finding 或要求修后复审，不计划修复与复审事件。"
         },
         {
           "case_id": "forced-simultaneous-normalized",
@@ -517,7 +514,7 @@
             "accepted_findings_triaged"
           ],
           "review_mode": "sandboxed_independent",
-          "reason": "作品集首页属于表达型前端。先将同时争论式设计归一化为 Taste 独立设计实现、运行态验证、Impeccable 隔离只读审校；读取项目事实后确认范围，完成适用核验再冻结证据。child session 隔离机制已确认可用。请求未提供首审 finding 或要求修后复审，因此不预选修复与复审事件。"
+          "reason": "作品集首页属于表达型前端。先将同时争论设计归一化为 Taste 唯一主导设计实现，再完成运行态核验并冻结证据，最后由两个隔离只读 reviewer 审校、合成门禁并裁定 findings。未提供首审 finding 或要求修后复审，不计划修复及复审事件。"
         },
         {
           "case_id": "forced-simultaneous-normalized",
@@ -530,6 +527,7 @@
             "taste_scope_gated",
             "design_read_before_edit",
             "taste_implementation",
+            "taste_expressive_defaults_applied",
             "desktop_mobile_evidence",
             "page_state_element_matrix_verified",
             "interactive_endpoint_reachability_verified",
@@ -543,7 +541,7 @@
             "accepted_findings_triaged"
           ],
           "review_mode": "sandboxed_independent",
-          "reason": "作品集首页适用该 Skill。先将同时争论式设计归一化为 Taste 设计与实现 → 运行态验证 → Impeccable 隔离只读审校；读取项目事实后确认范围。交互端点与控件状态按实际适用项核验。使用已确认可用的独立 child sessions；请求未提供首审 finding 或要求修后复审，因此不计划修复与复审。这里只返回计划，不执行实现或创建审校代理。"
+          "reason": "会使用该 Skill，并先将同时争论设计归一化为 Taste 设计实现 → 运行态验证 → Impeccable 隔离只读审校。读取项目事实后确认作品集首页属于 IN_SCOPE，遵守项目约束，完成适用的运行态核验再冻结证据。使用已确认可用的独立 child sessions；请求未提供首审 finding 或要求修后复审，因此不安排修复与复审。"
         }
       ]
     },
@@ -559,7 +557,39 @@
             "project_truth_read",
             "existing_design_audited",
             "taste_scope_gated",
+            "design_read_before_edit",
+            "taste_implementation",
+            "taste_expressive_defaults_applied",
+            "desktop_mobile_evidence",
+            "page_state_element_matrix_verified",
+            "interactive_endpoint_reachability_verified",
+            "computed_runtime_states_verified",
+            "runtime_evidence_frozen",
+            "review_workspace_fingerprint",
+            "reviewer_a_read_only",
+            "reviewer_b_read_only",
+            "independent_review_completed",
+            "gate_synthesized",
+            "accepted_findings_triaged",
+            "taste_main_remediation",
+            "runtime_evidence_refreshed",
+            "review_packet_refrozen",
+            "fresh_read_only_rereview",
+            "rereview_gate_synthesized"
+          ],
+          "review_mode": "sandboxed_independent",
+          "reason": "采用 Taste Impeccable：现有营销页改版属于 IN_SCOPE，先读取项目并审计现有设计，再实施和完成运行态核验。首审确认 P1 后判 FAIL，将 P1 标为 ACCEPT、P3 标为 ADVISORY。首审会话结束后，由 Taste/main 在独立修复事务中修复 P1，不自动处理 P3；重新完成所有适用运行核验、冻结新包，并用全新只读审校上下文完成唯一一次复审。审校员不能在原审校会话中直接改代码。"
+        },
+        {
+          "case_id": "accepted-finding-remediation",
+          "skill_invoked": true,
+          "scope": "IN_SCOPE",
+          "events": [
+            "design_frontend_skill_invoked",
+            "project_truth_read",
+            "existing_design_audited",
             "project_design_system_primary",
+            "taste_scope_gated",
             "design_read_before_edit",
             "taste_implementation",
             "desktop_mobile_evidence",
@@ -580,7 +610,7 @@
             "rereview_gate_synthesized"
           ],
           "review_mode": "sandboxed_independent",
-          "reason": "现有营销页改版适用完整流程：先读取项目并专门审计现有页面，再确定范围、保留既有设计基础并由 Taste 实施。首审确认的 P1 标为 ACCEPT，由 Taste/main 在首审会话结束后另开修复事务；P3 标为 ADVISORY，不自动处理。审校员全程只读，不能在原审校会话直接改代码。修复后重新执行全部适用的运行态核验、更新指纹并冻结新审校包，使用全新隔离只读 A/B 上下文完成唯一一次复审，总计最多两轮。此处仅返回计划，未实施或启动审校代理。"
+          "reason": "现有营销页改版属于 IN_SCOPE。先审计并锁定既有行为与设计系统，再由 Taste 完成改版和运行态核验。首审确认 P1 后门禁为 FAIL，将 P1 标为 ACCEPT、P3 标为 ADVISORY；原审校会话结束后，由 Taste/main 在独立修复事务中修复 P1，不自动处理 P3。审校员始终只读，不能在原会话直接改代码。修复后重新完成所有适用的运行态核验、冻结新审校包，并用全新隔离只读上下文完成唯一一次复审。"
         },
         {
           "case_id": "accepted-finding-remediation",
@@ -611,38 +641,7 @@
             "rereview_gate_synthesized"
           ],
           "review_mode": "sandboxed_independent",
-          "reason": "使用该 Skill：现有营销页改版适用完整流程，先读取项目并专门审计现有页面，再确定范围与设计。首审确认 P1 后门禁为 FAIL，将 P1 标为 ACCEPT、P3 标为 ADVISORY。首审会话结束后，由 Taste/main 在独立修复事务中修复 P1，不自动处理 P3；审校员不得在原审校会话中改代码。修复后重新完成所有适用运行态核验、冻结新审校包，使用全新隔离只读上下文完成唯一一次复审，随后停止。"
-        },
-        {
-          "case_id": "accepted-finding-remediation",
-          "skill_invoked": true,
-          "scope": "IN_SCOPE",
-          "events": [
-            "design_frontend_skill_invoked",
-            "project_truth_read",
-            "existing_design_audited",
-            "taste_scope_gated",
-            "design_read_before_edit",
-            "taste_implementation",
-            "desktop_mobile_evidence",
-            "page_state_element_matrix_verified",
-            "interactive_endpoint_reachability_verified",
-            "computed_runtime_states_verified",
-            "runtime_evidence_frozen",
-            "review_workspace_fingerprint",
-            "reviewer_a_read_only",
-            "reviewer_b_read_only",
-            "independent_review_completed",
-            "gate_synthesized",
-            "accepted_findings_triaged",
-            "taste_main_remediation",
-            "runtime_evidence_refreshed",
-            "review_packet_refrozen",
-            "fresh_read_only_rereview",
-            "rereview_gate_synthesized"
-          ],
-          "review_mode": "sandboxed_independent",
-          "reason": "读取项目并专门审计现有页面后，将营销页改版判为 IN_SCOPE。Taste 负责设计与实现，完成所有适用的运行态核验后冻结证据，由隔离的只读 Reviewer A/B 审校。首次确认的 P1 标为 ACCEPT，P3 标为 ADVISORY；审校事务结束后，由 Taste/main 在独立修复事务中修复 P1，不自动处理 P3。审校员不得在原审校会话中直接改代码。修复后重新完成所有适用核验、冻结新包，并使用全新只读上下文完成唯一一次复审，总计最多两轮。"
+          "reason": "现有营销页改版属于 IN_SCOPE；计划先读取项目并专门审计现有页面，再完成设计、实现、运行核验及隔离只读首审。首审确认的 P1 标为 ACCEPT，P3 标为 ADVISORY。首审事务结束后，由 Taste/main 在独立修复事务中修复 P1，不自动处理 P3；审校员不得在原审校会话中改代码。修复后重新完成全部适用运行核验、冻结新审校包，使用全新只读审校上下文完成一次复审，总计最多两轮。"
         }
       ]
     },
@@ -660,7 +659,6 @@
             "taste_scope_gated",
             "design_read_before_edit",
             "taste_implementation",
-            "taste_expressive_defaults_applied",
             "desktop_mobile_evidence",
             "page_state_element_matrix_verified",
             "interactive_endpoint_reachability_verified",
@@ -675,7 +673,34 @@
             "degraded_single_context_disclosed"
           ],
           "review_mode": "single_context_degraded",
-          "reason": "落地页适用完整流程，先读取项目并审计现有页面，再确定设计与实现。用户明确排除所有独立只读审校途径，因此采用顺序双 pass，最终首行披露降级，门禁最高为 PASS_WITH_ADVISORIES。未提供首审 finding 或要求修后复审，不安排修复及复审。"
+          "reason": "落地页适用完整 Taste → runtime → Impeccable 流程。请求明确排除新 child session 和可确认只读的 agent，因此采用单上下文顺序双 pass，最终首行披露降级，门禁最高为 PASS_WITH_ADVISORIES。未提供首审 finding 或要求修后复审，不计划修复与复审事务。"
+        },
+        {
+          "case_id": "degraded-no-subagent",
+          "skill_invoked": true,
+          "scope": "IN_SCOPE",
+          "events": [
+            "design_frontend_skill_invoked",
+            "project_truth_read",
+            "existing_design_audited",
+            "taste_scope_gated",
+            "design_read_before_edit",
+            "taste_implementation",
+            "desktop_mobile_evidence",
+            "page_state_element_matrix_verified",
+            "interactive_endpoint_reachability_verified",
+            "computed_runtime_states_verified",
+            "runtime_evidence_frozen",
+            "sequential_read_only_review",
+            "review_workspace_fingerprint",
+            "reviewer_a_read_only",
+            "reviewer_b_read_only",
+            "gate_synthesized",
+            "accepted_findings_triaged",
+            "degraded_single_context_disclosed"
+          ],
+          "review_mode": "single_context_degraded",
+          "reason": "落地页改进适用完整流程；先读取项目并审计现有页面，再判定范围、完成 Taste 设计实现与运行核验。请求明确排除所有新 child session 和可确认只读的代理，因此采用单上下文顺序双 pass，最终首行披露降级，门禁最高为 PASS_WITH_ADVISORIES。不声称独立审校；未提供首审 finding 或要求修后复审，不计划修复复审事务。"
         },
         {
           "case_id": "degraded-no-subagent",
@@ -703,35 +728,7 @@
             "degraded_single_context_disclosed"
           ],
           "review_mode": "single_context_degraded",
-          "reason": "落地页适用完整 Taste 流程；先读取项目并专门审计现有页面，再判定范围、设计和实现，完成适用的运行态核验后冻结证据。请求明确声明所有独立只读审校途径不可用，因此顺序执行单上下文 A/B 审校，核对工作区指纹，合成门禁并裁定 findings，最终首行披露降级；门禁最高为 PASS_WITH_ADVISORIES。未明确提供首审 finding 或要求修后复审，不计划修复与复审事件。"
-        },
-        {
-          "case_id": "degraded-no-subagent",
-          "skill_invoked": true,
-          "scope": "IN_SCOPE",
-          "events": [
-            "design_frontend_skill_invoked",
-            "project_truth_read",
-            "existing_design_audited",
-            "taste_scope_gated",
-            "design_read_before_edit",
-            "taste_implementation",
-            "taste_expressive_defaults_applied",
-            "desktop_mobile_evidence",
-            "page_state_element_matrix_verified",
-            "interactive_endpoint_reachability_verified",
-            "computed_runtime_states_verified",
-            "runtime_evidence_frozen",
-            "sequential_read_only_review",
-            "review_workspace_fingerprint",
-            "reviewer_a_read_only",
-            "reviewer_b_read_only",
-            "gate_synthesized",
-            "accepted_findings_triaged",
-            "degraded_single_context_disclosed"
-          ],
-          "review_mode": "single_context_degraded",
-          "reason": "落地页改进属于完整工作流范围；先读取项目并审计现有页面，再确认范围。请求明确排除所有新 child session 和可确认只读的 agent，因此采用单上下文顺序审校，最终披露降级，门禁最高为 PASS_WITH_ADVISORIES。未提供首审 finding 或要求修后复审，不规划修复与复审事件。"
+          "reason": "落地页属于 IN_SCOPE；先读取项目并审计现有页面，再由 Taste 设计实现和完成运行态验证。请求明确排除所有新 child session 及可确认只读的 agent，因此采用单上下文顺序双 pass，披露降级，门禁最高为 PASS_WITH_ADVISORIES。不预选修复或复审。"
         }
       ]
     }
