@@ -475,8 +475,8 @@ def validate_lock_and_artifacts(
 ) -> None:
     validation.require(lock.get("schema_version") == 1, "锁文件 schema_version 必须为 1")
     validation.require(
-        lock.get("transform_version") == 4,
-        "锁文件 transform_version 必须为 4；转换器变更需显式升级",
+        lock.get("transform_version") == 5,
+        "锁文件 transform_version 必须为 5；转换器变更需显式升级",
     )
     validation.require(
         lock.get("role_contract_version") == 1,
@@ -585,10 +585,22 @@ def validate_lock_and_artifacts(
             f"产物哈希漂移：{relative}，期望 {record.get('sha256')}，实际 {actual}",
         )
         prefix = path.read_bytes()[:4096].decode("utf-8", errors="ignore")
-        validation.require(
-            GENERATED_MARKER in prefix,
-            f"锁定产物缺少 generated/source header：{relative}",
-        )
+        raw_taste_prefix = "plugins/taste-impeccable/skills/design-frontend/references/taste/"
+        if relative.startswith(raw_taste_prefix) and path.suffix == ".json":
+            local = relative.removeprefix(raw_taste_prefix)
+            config = lock["upstreams"]["taste"]
+            source = config["included_files"].get(local)
+            expected = lock.get("source_hashes", {}).get(f"taste:{config['source_prefix']}{source}")
+            validation.require(source is not None and actual == expected, f"Taste 原始 JSON 来源或哈希失配：{relative}")
+            try:
+                json.loads(path.read_text(encoding="utf-8"))
+            except (ValueError, OSError) as exc:
+                validation.errors.append(f"Taste 方向库 JSON 无效：{exc}")
+        else:
+            validation.require(
+                GENERATED_MARKER in prefix,
+                f"锁定产物缺少 generated/source header：{relative}",
+            )
 
     source_hashes = lock.get("source_hashes", {})
     license_targets = {
@@ -1133,6 +1145,9 @@ def validate_evals(validation: Validation) -> None:
     node = shutil_which("node")
     if node:
         validation.run("独立审校 CLI 兼容与失败路径", [node, "--test", str(ROOT / "tests" / "review-launcher.test.mjs")])
+
+    if node:
+        validation.run("Taste 方向库与源码检查", [node, "--test", str(ROOT / "tests" / "taste-toolkit.test.mjs")])
 
     baseline_check = ROOT / "scripts" / "run_plan_evals.py"
     if baseline_check.is_file():

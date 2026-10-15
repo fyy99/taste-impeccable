@@ -40,7 +40,7 @@
 
 保留：
 
-- Taste v2 的 brief 推断、设计旋钮、设计系统映射、实现约束、质量检查和预检；
+- Taste 新版 v2 的主题盘点、论据与完整文案、方向库、图片与动效指导、实现和取证工具；
 - Impeccable 的 `critique`、`audit`、确定性检测器及“只读 finish reviewer”方法。
 
 排除：
@@ -70,7 +70,7 @@ plugin manifest 自动注册为 Codex custom agent。首选机制是两个
 只能是 `PASS_WITH_ADVISORIES`。所有路径都会在审校前后比较工作区状态、diff 与
 文件哈希；发生任何审校期写入都必须判失败。
 
-当前版本固定 Taste `d237dd3` 与 Impeccable `skill-v4.5.2`。新版使用上游固定的
+当前版本固定 Taste `f624f37` 与 Impeccable `skill-v4.5.2`。新版使用上游固定的
 原生检测引擎；首次使用时由实现阶段运行 `setup-detector.mjs`，下载到用户缓存并
 核验 SHA-256。审校阶段的 `detect.mjs` 只扫描，不安装、不自动下载，始终禁用
 项目配置。支持 macOS/Linux 的 arm64、x64 和 Windows x64；需要 Node.js 22+。
@@ -134,6 +134,11 @@ fresh re-review。启用扩展槽必须显式提升角色契约版本、更新 S
 指纹，用于验证计划顺序和角色边界；真实 UI 质量由代表性项目中的构建、浏览器
 交互、截图和盲评验证。详见 [evals/README.md](evals/README.md)。
 
+当前 Taste 默认已升级为基于方向库的新版 v2，携带 builder 专用的方向选择、
+素材搜索、源码检查和浏览器取证工具。工具位于 `references/taste/`，仅在实现
+阶段使用；不将其写入能力带入只读审校。旧实验版旋钮流程不再加载。上游风格
+与数量阈值仍服从项目约束、可访问性和本项目统一严重度契约。
+
 ## 独立审校的 CLI 兼容
 
 独立审校使用插件内 `scripts/review.mjs`，自动比较应用自带与 PATH 中已安装
@@ -163,7 +168,7 @@ Design, validation, and remediation run as separate transactions. Impeccable ret
 ### Workflow
 
 1. **Scope gate:** identify the surface, states, existing design system, and acceptance criteria; project truth wins.
-2. **Taste design and build:** infer the brief, set the design dials, commit to one direction, and implement it.
+2. **Taste design and build:** inventory the subject, write the page argument, choose a researched direction, and implement it.
 3. **Runtime evidence:** run the relevant build and tests; inspect every required page, state, and element at desktop and mobile sizes. Verify sibling spacing, containment, dynamic wrapping, hit geometry, applicable interaction endpoints, and computed native-control states.
 4. **Freeze the review packet:** include only the request, constraints, diff, URLs, screenshots, test evidence, the page/state/element coverage matrix, and the post-write workspace fingerprint—never Taste's rationale or self-defense.
 5. **Isolated Impeccable review:**
@@ -190,7 +195,7 @@ The plugin exposes exactly one public skill and loads each role's capabilities b
 
 Included:
 
-- Taste v2 brief inference, design dials, design-system mapping, implementation constraints, quality guidance, and preflight;
+- Taste v2 subject inventory, copy and evidence, researched direction library, imagery/motion references, builder tools, and runtime inspection;
 - Impeccable `critique`, `audit`, the deterministic detector, and the read-only finish-reviewer method.
 
 Excluded:
@@ -212,7 +217,7 @@ If isolated reviewers are unavailable, the workflow performs the two read-only p
 
 The TOML files under `skills/design-frontend/agents/` are portable reviewer prompt sources; the plugin manifest does not register them as custom agents. The preferred implementation is two `codex exec --ephemeral --sandbox read-only` child sessions. Runtime-registered custom agents are allowed only when their effective inherited permission mode is confirmed read-only. When read-only access cannot be mechanically guaranteed, the workflow does not create a generally writable reviewer; it degrades to sequential single-context review, with `PASS_WITH_ADVISORIES` as the strongest possible gate. Every route fingerprints the workspace before and after review; any review-time product-workspace drift fails the review.
 
-The current version pins Taste `d237dd3` and Impeccable `skill-v4.5.2`.
+The current version pins Taste `f624f37` and Impeccable `skill-v4.5.2`.
 The builder runs `setup-detector.mjs` before review to install the pinned native
 engine in the user cache and verify SHA-256. During review, `detect.mjs` only
 scans local targets; it never installs or downloads and always disables project

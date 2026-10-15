@@ -230,69 +230,42 @@ def remove_between(text: str, start: str, end: str) -> str:
 
 
 def generate_taste(
-    config: dict[str, Any],
-    snapshot: GitSnapshot,
-    source_hashes: dict[str, str],
+    config: dict[str, Any], snapshot: GitSnapshot, source_hashes: dict[str, str],
 ) -> dict[Path, bytes]:
-    source_path = config["skill_source"]
-    raw = snapshot.read(source_path)
-    digest = sha256(raw)
-    source_hashes[f"taste:{source_path}"] = digest
-    text = raw.decode("utf-8")
-    # 去掉上游 Skill frontmatter，避免生成的引用被识别成额外 Skill。
-    if not text.startswith("---\n"):
-        raise SyncError("Taste SKILL.md frontmatter 结构变化")
-    _, _, body = text.partition("---\n")
-    _, separator, body = body.partition("---\n")
-    if not separator:
-        raise SyncError("Taste SKILL.md frontmatter 未闭合")
-    body = body.lstrip()
-
-    pieces = {
-        "taste/direction.md": between(body, "# tasteskill:", "## 3. DEFAULT ARCHITECTURE"),
-        "taste/foundation.md": between(
-            body, "## 3. DEFAULT ARCHITECTURE", "## 5. CONTEXT-AWARE PROACTIVITY"
-        ),
-        "taste/motion.md": between(
-            body, "## 5. CONTEXT-AWARE PROACTIVITY", "## 6. PERFORMANCE & ACCESSIBILITY"
-        ),
-        "taste/quality.md": (
-            "# Taste Quality Guardrails\n\n"
-            + between(body, "## 6. PERFORMANCE & ACCESSIBILITY", "## 7. DIAL DEFINITIONS")
-            + "\n"
-            + between(body, "## 8. DARK MODE PROTOCOL", "## 11. REDESIGN PROTOCOL")
-        ),
-        "taste/redesign.md": between(
-            body, "## 11. REDESIGN PROTOCOL", "## 12. THE BLOCK LIBRARY"
-        ),
-        "taste/preflight.md": (
-            "# Taste Scope and Pre-flight\n\n"
-            + between(body, "## 13. OUT OF SCOPE", "# APPENDICES")
-        ),
-        "taste/design-systems.md": between(body, "# APPENDICES"),
-    }
-
-    declared = set(config["included_sections"])
-    if set(pieces) != declared:
-        raise SyncError(
-            f"Taste 输出白名单不一致：lock={sorted(declared)} generator={sorted(pieces)}"
-        )
-
     generated: dict[Path, bytes] = {}
-    for relative, content in pieces.items():
-        sections = ",".join(config["included_sections"][relative])
-        header = markdown_header(
-            upstream="Taste",
-            web_repository=config["web_repository"],
-            commit=config["commit"],
-            source_path=source_path,
-            source_digest=digest,
-            transform=f"extract-sections:{sections}",
-            license_id=config["license"],
-        )
-        generated[REFERENCES_ROOT / relative] = (
-            header + normalize_markdown(content)
-        ).encode()
+    for relative, source in config["included_files"].items():
+        source_path = config["source_prefix"] + source
+        raw = snapshot.read(source_path)
+        digest = sha256(raw)
+        source_hashes[f"taste:{source_path}"] = digest
+        target = REFERENCES_ROOT / "taste" / relative
+        transform = "copy-builder-reference"
+        if relative == "guide.md":
+            text = raw.decode()
+            if not text.startswith("---\n"):
+                raise SyncError("Taste frontmatter 结构变化")
+            body = text.split("---\n", 2)[2].lstrip()
+            # 只保留 maker 指导；上游审校轮次和报告不能覆盖父编排。
+            body = (between(body, "# tasteskill v2", "### 7. Gate")
+                    + "\n" + between(body, "### 9. Move", "### 10. Report")
+                    + "\n" + between(body, "## House rules"))
+            raw = normalize_markdown(body).encode()
+            transform = "extract-builder-guidance;drop-upstream-review-loop-and-report"
+        if target.suffix == ".json":
+            # 方向库是数组，必须保持原始 JSON 字节；来源由 lock 与逐文件 source hash 绑定。
+            json.loads(raw)
+            generated[target] = raw
+            continue
+        header_args = dict(upstream="Taste", web_repository=config["web_repository"],
+                           commit=config["commit"], source_path=source_path,
+                           source_digest=digest, transform=transform, license_id=config["license"])
+        if target.suffix in {".mjs", ".js"}:
+            generated[target] = with_script_header(raw, script_header(**header_args))
+        elif target.suffix == ".css":
+            header = markdown_header(**header_args).replace("<!--", "/*").replace("-->", "*/")
+            generated[target] = header.encode() + raw
+        else:
+            generated[target] = markdown_header(**header_args).encode() + raw
     return generated
 
 
@@ -627,7 +600,11 @@ def write_generated(generated: dict[Path, bytes]) -> None:
                 prefix = path.read_bytes()[:4096].decode("utf-8", errors="ignore")
             except OSError:
                 continue
-            if GENERATED_MARKER in prefix:
+            relative = path.relative_to(ROOT).as_posix()
+            previous = load_lock().get("artifacts", {}).get(relative, {})
+            if GENERATED_MARKER in prefix or (
+                path.suffix == ".json" and previous.get("sha256") == sha256(path.read_bytes())
+            ):
                 path.unlink()
     # detect.mjs 不在 detector 目录，也由本脚本明确管理。
     detect_path = SCRIPTS_ROOT / "detect.mjs"

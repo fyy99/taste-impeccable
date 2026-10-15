@@ -69,38 +69,35 @@ with no user-facing interface, stop using this skill entirely.
 
 ## Phase 1: Taste design read
 
-Read these references before the first UI edit:
+Read `references/taste/guide.md` before the first UI edit. In its commands,
+`<skill>` means `<skill-dir>/references/taste`, the vendored builder toolkit.
+Its source and scripts are builder-only; never pass them or the direction sheet's
+rationale to the Impeccable reviewers. The parent phase order, role boundaries,
+project constraints and two-cycle review limit override upstream defaults.
 
-- `references/taste/direction.md`
-- `references/taste/foundation.md`
-- `references/taste/quality.md`
-- `references/taste/preflight.md`
+Infer the brief and inventory real subject-specific content, brand constraints,
+assets and proof. Write the page's argument as claims with evidence, then deal
+three researched directions using the toolkit's `scripts/draw.mjs`. Choose the
+one grounded in the subject and record its seed and any justified redraw. Keep
+existing palette and typography where the project fixes them. Do not use the
+legacy three numeric dials: the new default uses a direction sheet.
 
-Infer the brief from page kind, audience, brand assets, references, content,
-and accessibility or regulatory constraints. Then state exactly one concise
-line:
+State exactly one concise line before implementation:
 
 `Design Read: <surface> for <audience>, <visual language>, using <project foundation>.`
 
-Set the three canonical dials without inventing aliases:
+Record the subject-specific idea, honest imagery plan, full copy and applicable
+working interaction. Read `references/taste/references/copy.md` and load type,
+colour, layout, imagery and motion references from that directory as needed.
+For an existing surface, audit and lock its real behavior and design system
+before selecting refinements. Do not replace established project conventions
+with the upstream house style. Add interactions or media only where they serve
+the task; never invent proof, quotes, customers or results.
 
-- `DESIGN_VARIANCE: 1..10`
-- `MOTION_INTENSITY: 1..10`
-- `VISUAL_DENSITY: 1..10`
-
-Ask one clarifying question only when two materially different directions remain
-equally plausible. Otherwise infer and proceed.
-
-Load conditional references only when they apply:
-
-- `references/taste/motion.md` when motion is requested or
-  `MOTION_INTENSITY > 3`.
-- `references/taste/redesign.md` for an existing surface.
-- `references/taste/design-systems.md` only when selecting or verifying an
-  official design system.
-
-The references are contextual constraints, not a command to overwrite the
-project stack. Verify packages and current APIs before adding dependencies.
+The toolkit writes `.taste-skill/` evidence in the builder's project. These are
+implementation artifacts, never reviewer actions. Verify packages and current
+APIs before adding dependencies. Ask only for a material missing fact that blocks
+implementation; otherwise infer and proceed.
 
 ## Phase 2: Taste implementation
 
@@ -124,9 +121,27 @@ Taste remains the only creative authority during implementation:
 Do not ask Impeccable for mid-build direction. When uncertain, resolve against
 the brief, project truth, and Taste references.
 
+For in-scope expressive surfaces, implement the selected direction with real
+content and reduced-motion fallbacks using the toolkit references. Asset search
+and download (`scripts/assets.mjs`) require real source/license review; a found
+image never masquerades as the client's own product. The optional base assets
+are starting points, not a replacement for project tokens.
+
 ## Phase 3: inspect the running artifact
 
 Review source code alone only when no renderable surface exists.
+
+For in-scope expressive surfaces, the builder may run
+`node <skill-dir>/references/taste/scripts/lint.mjs <source>` and
+`node <skill-dir>/references/taste/scripts/inspect.mjs <url-or-html> --out <evidence-dir>`
+to collect additional evidence. The inspector needs an installed supported browser;
+prefer the harness browser for interactive verification. It writes screenshots,
+starts a temporary local server when needed, and is never run by a reviewer.
+Treat numerical style/media/motion findings as context-dependent evidence, not an
+automatic severity assignment or a reason to fabricate images, add unnecessary
+motion, override accessibility or redesign an established product system.
+Upstream self-critique is builder preparation only: it cannot replace Phase 5
+or add extra independent review cycles.
 
 For a viewable frontend:
 
@@ -359,7 +374,7 @@ SemVer change, and updated evals; upstream synchronization never enables it.
 
 Lead with the delivered result and final gate. Include:
 
-- scope and final Design Read/dials;
+- scope, final Design Read, direction seed and any justified redraws;
 - changed surfaces and states;
 - build/test/runtime evidence;
 - adjudicated finding IDs and P0/P1 findings fixed;

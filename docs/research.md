@@ -159,6 +159,21 @@ Codex 不会把两个同名或相近 Skill 的规则自动合并。若用户同�
 说明应用版本、PATH CLI 与实际执行运行时需要分别核验。这些报告只作为
 排查线索，修复依据是本次真实失败/成功对照，不推断其它机器的具体安装状态。
 
+## 2026-10-15 Taste 默认重写适配
+
+Taste main `f624f37a8c650b9cc550253104925efe4c8de246` 将旧默认移到
+`skills/taste-skill-v2-experimental`，新的默认 Skill 使用方向库与配套脚本。
+本插件只携带 builder 指导、references、library、scripts、base assets；
+不打包额外 SKILL 入口、安装器或上游 evals。上游 Gate/Look/Report 步骤由父编排
+替代，builder 可以运行 lint/inspect 取证，Impeccable 只读角色不获得这些工具。
+保留项目设计系统、范围门禁、证据裁决与最多一次 fresh 复审。媒体与动效数量
+阈值作为风格证据，不自动触发 P0/P1，也不得突破任务范围或可访问性要求。
+
+方向库 JSON 保持原字节，锁文件为每个目标绑定 upstream source hash，校验器
+验证双重哈希与 JSON 结构；其它文件带生成来源头。实际执行方向生成、源码检查
+及浏览器 1440/768/390 三视口取证，测试 fixture 按预期报告失败 findings；Commons 实际搜索返回可加载图片与完整许可归属字段。
+这些是工具兼容验收，不是对真实产品页面的视觉质量背书。
+
 ## 当前上游兼容性复核
 
 2026-10-03：Taste 固定 `ce26fc25c0e5e8cab638f883de62d9a86ee5e45b`；
