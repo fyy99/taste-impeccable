@@ -144,6 +144,21 @@ detector 的退出码或 `slop` 标签不能单独判失败，必须由独立证
 
 Codex 不会把两个同名或相近 Skill 的规则自动合并。若用户同时安装原始 Taste、原始 Impeccable 和本插件，隐式匹配可能选择多个入口，破坏“唯一主设计师”的前提。推荐只保留本插件的公开入口；若必须共存，应显式调用 `$taste-impeccable:design-frontend`，且提示词不要再点名其他主设计 Skill。
 
+## 独立审校运行时兼容修复
+
+2026-10-15：真实复现 PATH 中旧 CLI 拒绝本机配置模型，而同机应用自带 CLI
+可运行同一请求。本插件以前只有裸 `codex exec` 指令，没有运行时选择机制。
+现在通过 `scripts/review.mjs` 比较已安装运行时版本，显式固定只读与禁审批，
+保留模型配置；仅对明确版本/模型兼容错误尝试其它已安装运行时。
+实际子会话写入测试被系统拒绝，文件原文保持不变。
+
+官方 [CLI reference](https://learn.chatgpt.com/docs/developer-commands?surface=cli)
+提供非交互执行、模型覆盖、只读沙箱与输出文件选项；社区
+[同机 App/CLI 模型兼容差异](https://github.com/openai/codex/issues/32146) 和
+[旧运行时残留报告](https://github.com/openai/codex/issues/32983)
+说明应用版本、PATH CLI 与实际执行运行时需要分别核验。这些报告只作为
+排查线索，修复依据是本次真实失败/成功对照，不推断其它机器的具体安装状态。
+
 ## 当前上游兼容性复核
 
 2026-10-03：Taste 固定 `ce26fc25c0e5e8cab638f883de62d9a86ee5e45b`；

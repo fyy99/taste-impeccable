@@ -134,6 +134,14 @@ fresh re-review。启用扩展槽必须显式提升角色契约版本、更新 S
 指纹，用于验证计划顺序和角色边界；真实 UI 质量由代表性项目中的构建、浏览器
 交互、截图和盲评验证。详见 [evals/README.md](evals/README.md)。
 
+## 独立审校的 CLI 兼容
+
+独立审校使用插件内 `scripts/review.mjs`，自动比较应用自带与 PATH 中已安装
+CLI 的实际版本，优先运行较新版。它保留用户模型配置，固定只读与禁审批策略；
+版本或模型不兼容时尝试另一个已安装运行时。自定义安装可通过 `--codex` 指定
+可执行文件。每个 reviewer 使用独立 packet 与外置临时报表；日志记录实际路径与版本。
+若所有运行时均不可用，保留具体错误并按原降级规则报告。此流程不会自动安装 CLI。
+
 ## 证据边界
 
 官方文档和社区实践都支持“明确职责、先实现后审校、修复另开事务、截图闭环、限制迭代”的方向，但目前没有受控 A/B 基准证明本组合在所有任务上都优于单独使用 Taste、Impeccable 或基础模型。两个 reviewer 若使用同一模型，只能称为上下文、权限和事务隔离，不能声称模型统计独立。完整调研、精确上游版本和证据缺口见 [docs/research.md](docs/research.md)。
@@ -260,6 +268,15 @@ The synchronizer only moves and validates allowed upstream content. It cannot ch
 `role_contract_version` is independent of the upstream `transform_version`. The lock file reserves a disabled-by-default, bounded remediation-executor extension point. This post-review role may receive only accepted finding IDs, evidence, scope, and Taste-locked invariants. It must never reuse a reviewer context, take design authority, or skip a fresh re-review. Enabling it requires an explicit role-contract version bump, SemVer change, and updated regression suite.
 
 `evals/cases.json` defines the orchestration regression contract for positive and negative invocation, scope gates, ordering, read-only review, remediation ownership, re-review behavior, and degraded disclosure. The model plan trace is bound to the complete plugin fingerprint and verifies planned ordering and role boundaries; real UI quality is verified in representative projects through builds, browser interaction, screenshots, and blind review. See [evals/README.md](evals/README.md).
+
+### Independent-review CLI compatibility
+
+The bundled `scripts/review.mjs` launcher compares actual installed app/PATH CLI
+versions and prefers the newest. It preserves the user's model configuration,
+enforces read-only execution with approvals disabled, and tries another installed
+runtime only for definite compatibility errors. Use `--codex` for a custom executable.
+Each reviewer receives its own packet and external temporary report. Runtime paths,
+versions and failures are reported; no CLI is installed automatically.
 
 ### Evidence limits
 

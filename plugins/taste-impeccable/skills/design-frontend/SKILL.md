@@ -208,9 +208,38 @@ Load rubric details only when needed:
 Run two fresh reviewers with no conversation history. Select the strongest
 available isolation in this order:
 
-1. Two new local Codex child sessions using `codex exec --ephemeral --sandbox
-   read-only -C <project>`, each receiving one portable TOML instruction body
-   plus the frozen packet. Never use a sandbox-bypass flag.
+1. Two new local Codex child sessions using the bundled launcher below. It
+   invokes `codex exec --ephemeral --sandbox read-only` with approvals disabled,
+   each receiving one portable TOML instruction body plus the frozen packet.
+   Never use a sandbox-bypass flag. Do not invoke a bare `codex` from PATH:
+   another machine may have a stale standalone CLI alongside a current app.
+
+   Prepare separate prompt files for A and B containing the role's
+   `developer_instructions`, the self-contained packet and relevant references.
+   Keep prompts and reports in a temporary evidence directory outside the product
+   workspace. Run each reviewer through:
+
+   ```bash
+   node <skill-dir>/scripts/review.mjs --project <project> --prompt-file <reviewer-packet.txt> --output <reviewer-report.txt>
+   ```
+
+   The launcher discovers installed app and PATH runtimes, compares their actual
+   `--version` output, and tries the newest first. A custom installation can be
+   selected with `--codex <executable>` or `TASTE_CODEX_BIN`; the explicit option
+   limits execution to that runtime. App discovery includes current and legacy
+   macOS bundle layouts; on Windows/Linux use an executable on PATH or the
+   explicit option. It never installs or upgrades anything.
+
+   Preserve the user's selected review model with `--model <model>` when one is
+   explicitly specified; otherwise retain Codex's configured/default model.
+   Never guess a model name from the parent session or silently substitute a
+   different model/provider. On a definite compatibility error, the launcher
+   tries another installed runtime with the same model and read-only policy.
+   Authentication, network, quota and sandbox errors are reported, not treated
+   as model incompatibility. Record the actual CLI path/version and failure.
+   Exhaust installed compatible runtimes and the read-only custom-agent route
+   before declaring independent review unavailable. If none works, report the
+   exact gap and follow the existing degraded contract; do not claim isolation.
 2. Runtime-registered custom agents only when the runtime explicitly confirms
    their effective sandbox remains read-only after applying the parent turn's
    live permission overrides. A TOML default alone is not proof.

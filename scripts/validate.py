@@ -1130,6 +1130,10 @@ def validate_evals(validation: Validation) -> None:
                 f"eval case {case_id or index} 必须禁止 Skill 调用事件",
             )
 
+    node = shutil_which("node")
+    if node:
+        validation.run("独立审校 CLI 兼容与失败路径", [node, "--test", str(ROOT / "tests" / "review-launcher.test.mjs")])
+
     baseline_check = ROOT / "scripts" / "run_plan_evals.py"
     if baseline_check.is_file():
         validation.run(
