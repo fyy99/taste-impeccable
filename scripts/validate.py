@@ -280,6 +280,15 @@ def validate_orchestration_contract(validation: Validation) -> None:
             f"SKILL.md 编排契约缺失：{marker}",
         )
 
+    review_reference = (SKILL_ROOT / "references" / "impeccable" / "review-method.md").read_text(encoding="utf-8")
+    validation.require(
+        "Keep both independent reviewers" in review_reference
+        and "web detector is not applicable" in review_reference
+        and "Native platforms run A alone" not in review_reference
+        and "skip both sub-agent gates" not in review_reference,
+        "原生源码不得以空网页扫描假绿，且必须保留双角色独立证据审校",
+    )
+
     impeccable_root = SKILL_ROOT / "references" / "impeccable"
     forbidden_reference_markers = [
         "$impeccable",
@@ -475,8 +484,8 @@ def validate_lock_and_artifacts(
 ) -> None:
     validation.require(lock.get("schema_version") == 1, "锁文件 schema_version 必须为 1")
     validation.require(
-        lock.get("transform_version") == 5,
-        "锁文件 transform_version 必须为 5；转换器变更需显式升级",
+        lock.get("transform_version") == 6,
+        "锁文件 transform_version 必须为 6；转换器变更需显式升级",
     )
     validation.require(
         lock.get("role_contract_version") == 1,

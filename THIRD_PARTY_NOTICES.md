@@ -4,7 +4,7 @@
 
 <!-- BEGIN GENERATED UPSTREAM PINS -->
 - Taste：`refs/heads/main` → `f624f37a8c650b9cc550253104925efe4c8de246`
-- Impeccable：`refs/tags/skill-v4.5.2` → `d631a8827f99414d2b6daba4ef08b7f8701751d7`
+- Impeccable：`refs/tags/skill-v4.6.0` → `8a0e198da34ebc5b936a9d5975fb7a3b1cf353b7`
 <!-- END GENERATED UPSTREAM PINS -->
 
 ## Taste

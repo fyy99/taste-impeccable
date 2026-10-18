@@ -296,6 +296,27 @@ def generate_impeccable_references(
     critique = critique_raw.decode("utf-8")
     audit = audit_raw.decode("utf-8")
 
+    # 上游原生平台单审校例外不适用于本项目的双角色证据契约。
+    critique = critique.replace(
+        ", except on a native platform (see Assessment Orchestration).", "."
+    ).replace(" Native platforms run A alone (see Assessment Orchestration).", "")
+    critique = critique.replace(
+        ", or the platform is native (see Assessment Orchestration).", "."
+    )
+    native_start = "**Native platforms** (`ios` / `android` / `adaptive`):"
+    if native_start in critique:
+        critique = remove_between(critique, native_start, "Delegate Assessment A and Assessment B")
+    critique = critique.replace(
+        "- Native: `Method: design review only (detector not applicable, native platform)`\n", ""
+    )
+    native_note = (
+        "For native source, the web detector is not applicable; never treat an empty "
+        "markup scan as native validation. Keep both independent reviewers: A uses "
+        "platform-appropriate UX criteria and B verifies build, simulator/device, "
+        "accessibility and actual interaction evidence. The parent scope gate and "
+        "read-only isolation contract still apply.\n\n"
+    )
+
     invariants = between(critique, "### Hard Invariants", "### Setup")
     invariants = "\n".join(
         line
@@ -353,7 +374,7 @@ def generate_impeccable_references(
         "# Impeccable Independent Review Method\n\n"
         "This filtered reference is review-only. The builder owns every code change; "
         "reviewers return evidence and findings but never edit the target.\n\n"
-        f"{invariants}\n\n"
+        f"{native_note}{invariants}\n\n"
         f"{orchestration}\n\n"
         "The parent orchestrator decides whether delegation is available. When it is "
         "available, keep both review packets self-contained and prevent either reviewer "
