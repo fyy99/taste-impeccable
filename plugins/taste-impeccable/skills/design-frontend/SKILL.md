@@ -94,6 +94,17 @@ before selecting refinements. Do not replace established project conventions
 with the upstream house style. Add interactions or media only where they serve
 the task; never invent proof, quotes, customers or results.
 
+The upstream app-screen branch does not change the Phase 0 classifications.
+For an in-scope software page's real UI fragments, the builder may use
+`references/taste/references/app-screens.md`, `draw.mjs --app` and the app/chart
+assets while preserving the project's palette, type and actual data. Do not use
+that branch to bypass a scope-gated dashboard or editor. Scroll scenes are optional:
+verify the actual bundled files before using a recipe. The upstream package includes
+only shared `assets/scenes/stage.css` and `stage.js`, not every named scene's CSS/JS
+or demo. Never copy a missing scene file or claim a scene exists because a direction
+sheet names it. Implement the required effect from the actual project and available
+APIs only when it serves the brief; verify scrolling and reduced-motion reachability.
+
 The toolkit writes `.taste-skill/` evidence in the builder's project. These are
 implementation artifacts, never reviewer actions. Verify packages and current
 APIs before adding dependencies. Ask only for a material missing fact that blocks
@@ -272,6 +283,12 @@ writers and record a workspace fingerprint: repository status, the current diff
 checksum, and hashes for reviewed untracked artifacts. Compare it after both
 reviews even when a sandbox is enforced. Any review-time file drift invalidates
 the read-only claim and fails the review.
+
+For a shared desktop/webview window, run the two isolated reviewers sequentially:
+A finishes and restores the seeded route, scroll, theme and panels before B starts.
+This preserves isolation without racing the same window; it is not single-context
+review. The bundled static detector does not accept `--cdp` or URL targets. Use the
+available harness tools for rendered evidence and disclose unsupported webviews.
 
 ### Reviewer A — fresh-eyes design review
 

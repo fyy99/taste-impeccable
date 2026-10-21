@@ -28,3 +28,19 @@ test('源码检查真实命中已知问题，并以失败退出而非假绿', ()
   const payload = JSON.parse(result.stdout);
   assert(payload.findings.some(x => x.id === 'gradient' && x.level === 'FAIL'));
 });
+
+test('应用片段方向库模块与资源齐全，保持品牌不需要切换主范围流程', () => {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'taste-app-fragment-'));
+  try {
+    const kinds = JSON.parse(fs.readFileSync(path.join(root, 'library/app.json'), 'utf8')).kinds;
+    const kind = Object.keys(kinds)[0];
+    const result = spawnSync(process.execPath, [path.join(root, 'scripts/draw.mjs'), '--app', '--kind', kind, '--brief', 'A real email inbox fragment', '--seed', '1021', '--keep', 'palette,type', '--out', dir], {
+      encoding: 'utf8', cwd: dir, env: { ...process.env, TASTE_SKILL_HISTORY: path.join(dir, 'history.json') },
+    });
+    assert.equal(result.status, 0, result.stderr);
+    const sheet = JSON.parse(fs.readFileSync(path.join(dir, 'direction.json'), 'utf8'));
+    assert.equal(sheet.kind, 'app');
+    assert.equal(sheet.seed, 1021);
+    for (const file of ['assets/app.css', 'assets/charts.js', 'scripts/lib/app-draw.mjs']) assert(fs.existsSync(path.join(root, file)), file);
+  } finally { fs.rmSync(dir, { recursive: true, force: true }); }
+});

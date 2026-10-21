@@ -249,6 +249,9 @@ def generate_taste(
             body = (between(body, "# tasteskill v2", "### 7. Gate")
                     + "\n" + between(body, "### 9. Move", "### 10. Report")
                     + "\n" + between(body, "## House rules"))
+            if "## Page or app screen" in body:
+                body = remove_between(body, "## Page or app screen", "## The run")
+                body = body.replace("## The run", "The parent scope gate decides whether this page run applies. App-screen references are optional builder material for already in-scope UI fragments; they do not expand the parent scope.\n\n## The run", 1)
             raw = normalize_markdown(body).encode()
             transform = "extract-builder-guidance;drop-upstream-review-loop-and-report"
         if target.suffix == ".json":
@@ -434,6 +437,13 @@ def generate_impeccable_references(
         "personas from that information:",
     )
     technical = between(audit, "## Diagnostic Scan", "## Recommended Actions")
+    # 完整上游 CLI 的桌面附加模式不属于本插件静态只读 detector 接口。
+    if "**Desktop apps** (Electron" in technical:
+        technical = remove_between(technical, "**Desktop apps** (Electron", "**Score 0-4**: 0=systemic drift")
+        technical = technical.replace(
+            "**Score 0-4**: 0=systemic drift",
+            "Desktop/webview runtime evidence uses the available harness tooling. The bundled detector accepts only local frontend files; --cdp and URL attachment are not exposed. Keep two isolated reviewers and serialize access to a shared app window, restoring its original state after each pass. Missing rendered evidence remains an explicit gap.\n\n**Score 0-4**: 0=systemic drift", 1
+        )
     upstream_severity = """Tag every issue with **P0-P3 severity**:
 - **P0 Blocking**: Prevents task completion. Fix immediately
 - **P1 Major**: Significant difficulty or WCAG AA violation. Fix before release
