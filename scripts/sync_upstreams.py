@@ -538,7 +538,20 @@ def generate_impeccable_detector(
     engine = config["engine"]
     if raw.decode().strip() != engine["version"]:
         raise SyncError("上游引擎版本变化；先审阅 release 并更新各平台 SHA-256")
+    checksums_path = config["engine_checksums_source"]
+    checksums_raw = snapshot.read(checksums_path)
+    source_hashes[f"impeccable:{checksums_path}"] = sha256(checksums_raw)
+    committed = {}
+    for line in checksums_raw.decode().splitlines():
+        if not line.strip() or line.lstrip().startswith("#"):
+            continue
+        version, filename, value = line.split()
+        if version == engine["version"]:
+            committed[filename] = value
     for asset in engine["assets"].values():
+        filename = asset["url"].rsplit("/", 1)[-1]
+        if committed.get(filename) != asset["sha256"]:
+            raise SyncError(f"引擎资产与上游提交中的校验表不一致：{filename}")
         if not re.fullmatch(r"[0-9a-f]{64}", asset["sha256"]):
             raise SyncError("引擎资产缺少合法 SHA-256")
         prefix = f"https://github.com/pbakaus/impeccable/releases/download/engine-v{engine['version']}/"

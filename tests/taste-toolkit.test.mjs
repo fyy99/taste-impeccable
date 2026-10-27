@@ -44,3 +44,13 @@ test('应用片段方向库模块与资源齐全，保持品牌不需要切换�
     for (const file of ['assets/app.css', 'assets/charts.js', 'scripts/lib/app-draw.mjs']) assert(fs.existsSync(path.join(root, file)), file);
   } finally { fs.rmSync(dir, { recursive: true, force: true }); }
 });
+
+test('同类别不同宽度截图不覆盖，清理仅匹配取证工具自己的文件', async () => {
+  const { screenshotLabel, isInspectionScreenshot } = await import(new URL('../plugins/taste-impeccable/skills/design-frontend/references/taste/scripts/lib/inspection-files.mjs', import.meta.url));
+  const widths = [1440, 1024, 768, 390];
+  const labels = widths.map(w => screenshotLabel(w, widths));
+  assert.equal(new Set(labels).size, widths.length);
+  assert.deepEqual(labels, ['desktop', 'tablet-1024', 'tablet-768', 'mobile']);
+  assert(isInspectionScreenshot('tablet-1024-fold.jpg'));
+  assert(!isInspectionScreenshot('tablet-1024-original.jpg'));
+});

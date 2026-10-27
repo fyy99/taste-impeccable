@@ -484,8 +484,8 @@ def validate_lock_and_artifacts(
 ) -> None:
     validation.require(lock.get("schema_version") == 1, "锁文件 schema_version 必须为 1")
     validation.require(
-        lock.get("transform_version") == 7,
-        "锁文件 transform_version 必须为 7；转换器变更需显式升级",
+        lock.get("transform_version") == 8,
+        "锁文件 transform_version 必须为 8；转换器变更需显式升级",
     )
     validation.require(
         lock.get("role_contract_version") == 1,

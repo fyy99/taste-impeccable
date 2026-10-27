@@ -193,6 +193,18 @@ Impeccable 固定 `skill-v4.7.0` / `aeeb3d8c30b5f95aeeb3e893b0f1a308af8fdb8f`，
 CLI 的 `--cdp` 指令；本项目 detector 仍只有静态本地接口，运行证据由 harness
 工具提供。引擎新功能的存在不代表本插件开放 URL/CDP 扫描。
 
+## 2026-10-27 上游兼容性复核
+
+Taste 固定 `12af471f627f866411b4bd785b19646d3672784c`，补充键盘操作、可访问名称
+及生产构建取证要求。新增 inspection-files 模块避免同类别不同宽度的截图互相覆盖。
+实际浏览器对照：旧版 1024/768 均写入 tablet-fold.jpg；新版 1440/1024/768/390
+生成四个独立文件，原覆盖问题不再出现。工具对故意违规测试页返回失败符合预期。
+Impeccable 固定 `skill-v4.8.0` / `414603bf14c7a344edb466bb1f85690c77ce8b7d`，
+引擎 `0.1.18`。审校文本补充大文本 3:1 对比度与 WCAG AA 24 CSS px 目标尺寸例外；
+44px 仍是可用性检查线索，不自动等同 AA 违反，严重度依实际任务影响裁定。
+各平台引擎 SHA-256 同时核对官方 release 资产与该固定提交的
+skill/scripts/engine-checksums.txt；上游 hooks、GitHub Actions 与遥测入口仍不接入。
+
 ## 当前上游兼容性复核
 
 2026-10-03：Taste 固定 `ce26fc25c0e5e8cab638f883de62d9a86ee5e45b`；

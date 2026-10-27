@@ -148,6 +148,9 @@ For in-scope expressive surfaces, the builder may run
 to collect additional evidence. The inspector needs an installed supported browser;
 prefer the harness browser for interactive verification. It writes screenshots,
 starts a temporary local server when needed, and is never run by a reviewer.
+Run the final rendered checks against the actual production build when the project
+has a build step; a dev-server capture alone does not prove the shipped artifact.
+Keep separate captures for distinct widths even when both are tablet or mobile.
 Treat numerical style/media/motion findings as context-dependent evidence, not an
 automatic severity assignment or a reason to fabricate images, add unnecessary
 motion, override accessibility or redesign an established product system.
