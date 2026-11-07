@@ -484,8 +484,8 @@ def validate_lock_and_artifacts(
 ) -> None:
     validation.require(lock.get("schema_version") == 1, "锁文件 schema_version 必须为 1")
     validation.require(
-        lock.get("transform_version") == 8,
-        "锁文件 transform_version 必须为 8；转换器变更需显式升级",
+        lock.get("transform_version") == 9,
+        "锁文件 transform_version 必须为 9；转换器变更需显式升级",
     )
     validation.require(
         lock.get("role_contract_version") == 1,
@@ -1156,7 +1156,7 @@ def validate_evals(validation: Validation) -> None:
         validation.run("独立审校 CLI 兼容与失败路径", [node, "--test", str(ROOT / "tests" / "review-launcher.test.mjs")])
 
     if node:
-        validation.run("Taste 方向库与源码检查", [node, "--test", str(ROOT / "tests" / "taste-toolkit.test.mjs")])
+        validation.run("Taste 配色、文案检查与门禁隔离", [node, "--test", str(ROOT / "tests" / "taste-toolkit.test.mjs")])
 
     baseline_check = ROOT / "scripts" / "run_plan_evals.py"
     if baseline_check.is_file():

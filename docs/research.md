@@ -205,6 +205,15 @@ Impeccable 固定 `skill-v4.8.0` / `414603bf14c7a344edb466bb1f85690c77ce8b7d`，
 各平台引擎 SHA-256 同时核对官方 release 资产与该固定提交的
 skill/scripts/engine-checksums.txt；上游 hooks、GitHub Actions 与遥测入口仍不接入。
 
+## 2026-11-07 Taste 2.5.1 兼容复核
+
+Taste 固定 `f6b76575f949707b4e3c37cd86cb44b0b98643e8`。旧版 `draw/lint/inspect`
+入口已被上游替换。只纳入按业务分类的实现参考、配色与字体、文案检查、图片
+来源查询及可独立运行的浏览器取证工具和实际依赖。模板、完整效果库、第三方素材、
+独立门禁及 hooks 不打包；浏览器和文案结果仍由本项目按用户任务影响裁决。
+隔离目录对照证实上游 `start.mjs deal` 会生成完成门禁标记；本插件的转换去掉
+该副作用，配色字体生成仍通过。Impeccable、引擎与审校模型继承逻辑无变化。
+
 ## 当前上游兼容性复核
 
 2026-10-03：Taste 固定 `ce26fc25c0e5e8cab638f883de62d9a86ee5e45b`；

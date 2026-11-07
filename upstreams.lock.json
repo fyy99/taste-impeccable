@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
-  "transform_version": 8,
+  "transform_version": 9,
   "role_contract_version": 1,
-  "reviewed_at": "2026-10-27",
+  "reviewed_at": "2026-11-07",
   "generated_by": "scripts/sync_upstreams.py",
   "policy": {
     "orchestration_is_manual": true,
@@ -30,15 +30,15 @@
       "repository": "https://github.com/Leonxlnx/taste-skill.git",
       "web_repository": "https://github.com/Leonxlnx/taste-skill",
       "ref": "refs/heads/main",
-      "commit": "12af471f627f866411b4bd785b19646d3672784c",
+      "commit": "f6b76575f949707b4e3c37cd86cb44b0b98643e8",
       "license": "MIT",
       "license_path": "LICENSE",
       "skill_source": "skills/taste-skill/SKILL.md",
       "filtered_out": {
         "source_sections": [
-          "7: upstream gate is builder evidence only, governed by parent Phase 3",
-          "8: replace upstream critique loop with parent isolated review contract",
-          "10: reporting follows parent Phase 7"
+          "standalone finish gate and Stop hook",
+          "standalone reporting and fixed rerun instructions",
+          "bulk demo, icon, effects and media kit"
         ],
         "skills": [
           "skills/taste-skill-v1/SKILL.md",
@@ -59,42 +59,53 @@
       "source_prefix": "skills/taste-skill/",
       "included_files": {
         "guide.md": "SKILL.md",
-        "references/app-screens.md": "references/app-screens.md",
-        "references/colour.md": "references/colour.md",
-        "references/copy.md": "references/copy.md",
-        "references/critique.md": "references/critique.md",
-        "references/imagery.md": "references/imagery.md",
-        "references/layout.md": "references/layout.md",
-        "references/motion.md": "references/motion.md",
-        "references/research.md": "references/research.md",
-        "references/scenes.md": "references/scenes.md",
-        "references/tells.md": "references/tells.md",
-        "references/type.md": "references/type.md",
-        "scripts/assets.mjs": "scripts/assets.mjs",
-        "scripts/draw.mjs": "scripts/draw.mjs",
-        "scripts/inspect.mjs": "scripts/inspect.mjs",
-        "scripts/lib/app-draw.mjs": "scripts/lib/app-draw.mjs",
-        "scripts/lib/cdp.mjs": "scripts/lib/cdp.mjs",
-        "scripts/lib/inspection-files.mjs": "scripts/lib/inspection-files.mjs",
-        "scripts/lib/probe.mjs": "scripts/lib/probe.mjs",
-        "scripts/lib/rules.mjs": "scripts/lib/rules.mjs",
-        "scripts/lint.mjs": "scripts/lint.mjs",
-        "scripts/scenes.mjs": "scripts/scenes.mjs",
-        "library/app.json": "library/app.json",
-        "library/directions.json": "library/directions.json",
-        "library/heroes.json": "library/heroes.json",
-        "library/motions.json": "library/motions.json",
+        "scripts/start.mjs": "scripts/start.mjs",
+        "scripts/copy-lint.mjs": "scripts/copy-lint.mjs",
+        "scripts/consistency.mjs": "scripts/consistency.mjs",
+        "scripts/photos.mjs": "scripts/photos.mjs",
+        "scripts/shoot.mjs": "scripts/shoot.mjs",
         "library/palettes.json": "library/palettes.json",
-        "library/photos.json": "library/photos.json",
-        "library/sections.json": "library/sections.json",
-        "library/sites.json": "library/sites.json",
         "library/type.json": "library/type.json",
-        "assets/app.css": "assets/app.css",
-        "assets/base.css": "assets/base.css",
-        "assets/base.js": "assets/base.js",
-        "assets/charts.js": "assets/charts.js",
-        "assets/scenes/stage.css": "assets/scenes/stage.css",
-        "assets/scenes/stage.js": "assets/scenes/stage.js"
+        "assets/effects/fx.js": "assets/effects/fx.js",
+        "assets/moments/index.json": "assets/moments/index.json",
+        "assets/photos/photos.json": "assets/photos/photos.json",
+        "references/copy.md": "references/copy.md",
+        "references/copy-voice.md": "references/copy-voice.md",
+        "references/copy-registers.md": "references/copy-registers.md",
+        "references/copy-moves.md": "references/copy-moves.md",
+        "references/copy-tells.md": "references/copy-tells.md",
+        "references/layout-v4.md": "references/layout-v4.md",
+        "references/sections.md": "references/sections.md",
+        "references/sections-library.md": "references/sections-library.md",
+        "references/photos.md": "references/photos.md",
+        "references/motion.md": "references/motion.md",
+        "references/cards.md": "references/cards.md",
+        "references/system.md": "references/system.md",
+        "assets/effects/ascii-shade/meta.json": "assets/effects/ascii-shade/meta.json",
+        "assets/effects/aurora-curtains/meta.json": "assets/effects/aurora-curtains/meta.json",
+        "assets/effects/bayer-dither/meta.json": "assets/effects/bayer-dither/meta.json",
+        "assets/effects/caustics/meta.json": "assets/effects/caustics/meta.json",
+        "assets/effects/contour-lines/meta.json": "assets/effects/contour-lines/meta.json",
+        "assets/effects/dot-terrain/meta.json": "assets/effects/dot-terrain/meta.json",
+        "assets/effects/dotted-globe/meta.json": "assets/effects/dotted-globe/meta.json",
+        "assets/effects/duotone-grade/meta.json": "assets/effects/duotone-grade/meta.json",
+        "assets/effects/edge-glow/meta.json": "assets/effects/edge-glow/meta.json",
+        "assets/effects/film-light-leak/meta.json": "assets/effects/film-light-leak/meta.json",
+        "assets/effects/fluted-glass/meta.json": "assets/effects/fluted-glass/meta.json",
+        "assets/effects/god-rays/meta.json": "assets/effects/god-rays/meta.json",
+        "assets/effects/gradient-mesh/meta.json": "assets/effects/gradient-mesh/meta.json",
+        "assets/effects/grain-gradient/meta.json": "assets/effects/grain-gradient/meta.json",
+        "assets/effects/grid-pulse/meta.json": "assets/effects/grid-pulse/meta.json",
+        "assets/effects/halftone-screen/meta.json": "assets/effects/halftone-screen/meta.json",
+        "assets/effects/line-engraving/meta.json": "assets/effects/line-engraving/meta.json",
+        "assets/effects/orb-sphere/meta.json": "assets/effects/orb-sphere/meta.json",
+        "assets/effects/painterly-landscape/meta.json": "assets/effects/painterly-landscape/meta.json",
+        "assets/effects/prism-dispersion/meta.json": "assets/effects/prism-dispersion/meta.json",
+        "assets/effects/ridgeline/meta.json": "assets/effects/ridgeline/meta.json",
+        "assets/effects/ruled-grounds/meta.json": "assets/effects/ruled-grounds/meta.json",
+        "assets/effects/silk-folds/meta.json": "assets/effects/silk-folds/meta.json",
+        "assets/effects/soft-light-bars/meta.json": "assets/effects/soft-light-bars/meta.json",
+        "assets/effects/spotlight-cone/meta.json": "assets/effects/spotlight-cone/meta.json"
       }
     },
     "impeccable": {
@@ -196,43 +207,54 @@
     "impeccable:NOTICE.md": "c60a093c2845fd9fb82f9c6f742ece31f379f8190b535309d32d66c45ccffdcb",
     "impeccable:skill/scripts/engine-checksums.txt": "2f0235179cbc515d7c7ec71a9a08283d0cb88a5238d35ffa5a5f42122e78fe35",
     "taste:LICENSE": "4575a543ab88dad12ccea7d97e563d0bce5b448b06072e65d3264497dad326df",
-    "taste:skills/taste-skill/SKILL.md": "3435ed963b15a1b6447746ec8844ab2cd38d8d2e8ead3451937f42df01e408c4",
-    "taste:skills/taste-skill/assets/app.css": "16518c3a999fb81b2698137f1f743128c189272e8b1d411c4b02598c6755b67f",
-    "taste:skills/taste-skill/assets/base.css": "aa6ea21613c79e06e06dea3d33200c78590c89b0346bb976ec07947bb45ceafa",
-    "taste:skills/taste-skill/assets/base.js": "8d50416125596b84c0083d5d5ffba09add57db4b06cbf0eedac2d4999b7653bc",
-    "taste:skills/taste-skill/assets/charts.js": "a7e916594729576b7c7e37048a68508a3243fe8fbc9654775cd245232e9f8100",
-    "taste:skills/taste-skill/assets/scenes/stage.css": "b5c587dac45ac6fcc34ae7cb4aa2b3e43797b2ef5d71fd32b48483bda3fca3e0",
-    "taste:skills/taste-skill/assets/scenes/stage.js": "9ce782a94406e6a230c49ca5f87e56aff9d436da3f56416b1659421f8976bc2b",
-    "taste:skills/taste-skill/library/app.json": "3678ccbe1e8d05feff6d4f07fa16a0d610aefeea5e697e842a876713ba763cf5",
-    "taste:skills/taste-skill/library/directions.json": "d71e3824af33a92d9e1ca543e17f80baa5b7a30c815df5125cfe3300a14892c1",
-    "taste:skills/taste-skill/library/heroes.json": "98d5e01104412a5fb27936f9c686f3bc0a5f76ce0793186d3de46b982c65b172",
-    "taste:skills/taste-skill/library/motions.json": "51815dd09a823c829897f99ed9ea7dc5c35bd305ac989b8a0632ea6d42a3f08b",
-    "taste:skills/taste-skill/library/palettes.json": "a14be9f45baba848c53436f4aa44eb4f1925ad3e232c5d1dcddf4f565661a525",
-    "taste:skills/taste-skill/library/photos.json": "8fc3b76bca90f44675bd99d99bb4ce95b0756c6c5d4141b7e917d11d90e61520",
-    "taste:skills/taste-skill/library/sections.json": "7c2c8a470a22501176948661f803434db8c542a511281752c717252de80c1ad8",
-    "taste:skills/taste-skill/library/sites.json": "a2bc4d0cff8ebff481f0dfd4879c106d5e1e16cb3122f9ab3702184a5e1f3502",
-    "taste:skills/taste-skill/library/type.json": "dbabf41a468775cf6cc5ea5f3c898b0663293822e167b72b02feba1ef03ebf37",
-    "taste:skills/taste-skill/references/app-screens.md": "55e937ec30de605b53a11310b446f328a3ce7403de24fff008920a00be1a5ed4",
-    "taste:skills/taste-skill/references/colour.md": "6556bcc7eed48b7bc2d0d281c28bf57c1b75e94d7ca0bde49f5d9df8c6a09351",
-    "taste:skills/taste-skill/references/copy.md": "676edbe75d5f3cfd8a793010ea9f730525ae074b231a674c2426264d3398262e",
-    "taste:skills/taste-skill/references/critique.md": "9c2f4392674530b3f02ac529fba53d82ab37b85f401c4c1989fbe98d6217f0b4",
-    "taste:skills/taste-skill/references/imagery.md": "518def6b2c643b295e13e66b09b66f2e3fc1421d3cf6c7dbb1dc749097ad2ad9",
-    "taste:skills/taste-skill/references/layout.md": "40080640719b07737afb94a8868afef87767a1ab4892814d9b6882e2d283453b",
-    "taste:skills/taste-skill/references/motion.md": "79f94d8469898d2bf6186c198ad86ddf691a67c6536eaec36a4ec101285d9a37",
-    "taste:skills/taste-skill/references/research.md": "83433646a352cae588591e05bc0a75fe1deadff55ede8851bc8dd5dd483adfc5",
-    "taste:skills/taste-skill/references/scenes.md": "733ac7258a1a28f2f6ae8205bc36ba66c563594ad0a2e2f829c5eaaba3199a61",
-    "taste:skills/taste-skill/references/tells.md": "8e6de4411c43d3108f832b3f33bb1a2a838148a72b92a176df893b67d99a0da9",
-    "taste:skills/taste-skill/references/type.md": "6353ff1d0ce2f9913628c88fbcb7dad3cc3877e61196848bce99e33a17d20611",
-    "taste:skills/taste-skill/scripts/assets.mjs": "b4b4b99b5634735f5a0b4213169cda5240ee6bbed8ed8042ad1bcf2b6607c1fa",
-    "taste:skills/taste-skill/scripts/draw.mjs": "6c2047d207d2400d3b099956dfe2ac306203b614246e66bc8760212a7f797dbf",
-    "taste:skills/taste-skill/scripts/inspect.mjs": "c0d7366f789b3f594787b37a525d1d7096104a499aac8a97ae04b405046cf02c",
-    "taste:skills/taste-skill/scripts/lib/app-draw.mjs": "aa0802d341d19b53ec14ec21746e428be49a8ec3ed7b30253194105fc18a8df6",
-    "taste:skills/taste-skill/scripts/lib/cdp.mjs": "320fb75c6454a97b88458e5c33559a1188042aa0041bd5eff53455900236c88a",
-    "taste:skills/taste-skill/scripts/lib/inspection-files.mjs": "5635c0d5fbe0f5bd012e58534bcd554ff7440a4e5c724a61a61c476c7f42e918",
-    "taste:skills/taste-skill/scripts/lib/probe.mjs": "a5a17df891e438f55f196d8233601c3c79c873755f442c1ac5c3568de4e6bb48",
-    "taste:skills/taste-skill/scripts/lib/rules.mjs": "8244aa9f53e77a59a562410310414e6b1a0f0cf002ce8f5aa792740b7f0149bf",
-    "taste:skills/taste-skill/scripts/lint.mjs": "05f2fae2f56fc051b539cdbacb43a6f78fbbfb9644bb74aa11be472ff12dcaf5",
-    "taste:skills/taste-skill/scripts/scenes.mjs": "234ec582e2b841457c33033feeeba8535f9ac285495a74d08dc533a1566c90d5"
+    "taste:skills/taste-skill/SKILL.md": "0c7a5852a5217be79cab422c6d58329b776f0c25bd6da8a7a01707ce75be6206",
+    "taste:skills/taste-skill/assets/effects/ascii-shade/meta.json": "b2af7c7d4535633af94428aa33939797ad0a6050233fdad15139fca2475633cd",
+    "taste:skills/taste-skill/assets/effects/aurora-curtains/meta.json": "e5b5a0b7aa8a34d5406d64030385bcc739ea9a70eb328e049408b85334e81f7b",
+    "taste:skills/taste-skill/assets/effects/bayer-dither/meta.json": "7030d442fbfe6a34b53d55dfeb42c3d6aff3d20268f8b4286e6b3cca6bb8aeaa",
+    "taste:skills/taste-skill/assets/effects/caustics/meta.json": "de0512a2103564f2dde47d22cfe9a03602370216ea16a24ca746dd93bcc52309",
+    "taste:skills/taste-skill/assets/effects/contour-lines/meta.json": "b6304ab285dfc2db8d47e9b0aeeaa9b4e848a70d44eabb4243b7a25a91af1264",
+    "taste:skills/taste-skill/assets/effects/dot-terrain/meta.json": "3cea0c619686ecd9d5260234c1b69da516135f98b671bb3b7f2172cb09cb2c0f",
+    "taste:skills/taste-skill/assets/effects/dotted-globe/meta.json": "9923ca9dd570075fac42d26ef3b36b332e1bc809b2dc504f9b3d5c5bdcb7585a",
+    "taste:skills/taste-skill/assets/effects/duotone-grade/meta.json": "e99670e0f239d8acba00d662d5e80cc06ca86c8f9031c2a04e57eb0b1db2478e",
+    "taste:skills/taste-skill/assets/effects/edge-glow/meta.json": "4d61f7777d95c94e4562015f0151adbb2c90037a689c84860a7af11dcd455d1d",
+    "taste:skills/taste-skill/assets/effects/film-light-leak/meta.json": "c38e7eaabbdd1d5a423131546b832b9291affcbbb7ee777e0f99de97ae6f79fa",
+    "taste:skills/taste-skill/assets/effects/fluted-glass/meta.json": "7c88dc7e711989069bfc5a79273853b126ef825151111c9ea897dd8954e912cb",
+    "taste:skills/taste-skill/assets/effects/fx.js": "19e3af0f7c2963a70c3e0e114f599cb9525d1a69f5ebcda5acbd482ba2591374",
+    "taste:skills/taste-skill/assets/effects/god-rays/meta.json": "0e2e553eedb8d7c067a067d959aabf0027ebbb9266651d179fda7097bd96d116",
+    "taste:skills/taste-skill/assets/effects/gradient-mesh/meta.json": "11d9b964ea8c068464a44e113062730f6b9fe44b88dc62a792a4ec5ff8fb3363",
+    "taste:skills/taste-skill/assets/effects/grain-gradient/meta.json": "bda68353dd1da0d046d08f08e089175a58f281e42a63981fcdc0841fa5e8d55b",
+    "taste:skills/taste-skill/assets/effects/grid-pulse/meta.json": "5f94a69bddb22e9464937bb60802f3f6828b55c2272e160bdbab1516fc6ed657",
+    "taste:skills/taste-skill/assets/effects/halftone-screen/meta.json": "cbafec008401910421727d175729070ba99ff27135c9b318f942d500d2d2dfb4",
+    "taste:skills/taste-skill/assets/effects/line-engraving/meta.json": "54c3e1c8ae4ab11c37bf647b003a138ea4758d17edd5f68c17ffa357361276c7",
+    "taste:skills/taste-skill/assets/effects/orb-sphere/meta.json": "b6ed14ee7754b8c42eed9a82093a4f6cfa9f43972f36bc6fbfd3b05b5857abd9",
+    "taste:skills/taste-skill/assets/effects/painterly-landscape/meta.json": "60cfdde2a6c283178ef5fe55781f474320b20b017737c8fd8a4fba30534894d6",
+    "taste:skills/taste-skill/assets/effects/prism-dispersion/meta.json": "aabb75bfe763fffe5fce59d697cd0bfa9e9f353edbaff240710a5bba825407e9",
+    "taste:skills/taste-skill/assets/effects/ridgeline/meta.json": "15bcff1acc65ef57d6c3ecb7d5e325e177597e2a2b9e57c9edf37e357acf9ee7",
+    "taste:skills/taste-skill/assets/effects/ruled-grounds/meta.json": "266ff0db647b27df582b1315fa17f490212745ea3b6ccd76f3906bd7079f94fd",
+    "taste:skills/taste-skill/assets/effects/silk-folds/meta.json": "cdeda33bc59c4ad25a24053b5479024a44612a593fc2f35d73fbe5b65471d6b6",
+    "taste:skills/taste-skill/assets/effects/soft-light-bars/meta.json": "d57a11926a262cbd6e22fffb9909d23d780088a2c5557549877151b2a0c4d1f2",
+    "taste:skills/taste-skill/assets/effects/spotlight-cone/meta.json": "c6c90fbc1fac51b87e7b0de61ec9bf99a197ec7779723dc67ac35c56b4d047c4",
+    "taste:skills/taste-skill/assets/moments/index.json": "db86d14cfb013db307ce95c0a42467987b52e5004c56d40ac41e69a8ac8170fd",
+    "taste:skills/taste-skill/assets/photos/photos.json": "4e5108b4a1e6cf744dff5dc510c42109579b1181837c0feb6edab86960b8fadf",
+    "taste:skills/taste-skill/library/palettes.json": "96d594648249b2dff17addcd0e2965b0eee0cf2815ae68542add82a87d856d6d",
+    "taste:skills/taste-skill/library/type.json": "144be2adc366028ec2d380782e9150436f6bf5f1e4177159674c84435250d830",
+    "taste:skills/taste-skill/references/cards.md": "f70d8c41c55ff7e777b5ce51cbe61fee05c024b268c744beb53528ec8a4869a1",
+    "taste:skills/taste-skill/references/copy-moves.md": "6e5c7eb52ab5cbe61c07eb936c3d17d4432f02dbae2da1f1bbab5e9aef7b2400",
+    "taste:skills/taste-skill/references/copy-registers.md": "8e2e6d5b9ef09e38bfdd2f1c9a32796bd91c1f3f99c6c51abbbe89d99119d6fd",
+    "taste:skills/taste-skill/references/copy-tells.md": "e113d4f788f64e44e92cefa0823be4cf0662f2806ed87f91aa52d9cf8877d6ed",
+    "taste:skills/taste-skill/references/copy-voice.md": "3a287b8f10384229aa52e6d75480fddc377aafd05f7d0ee9d1a180d2ebf44e8a",
+    "taste:skills/taste-skill/references/copy.md": "607520bc4213e06e6635f4fa44915d3fb5482b5b2e3779faa0a5c9d2abcc9e69",
+    "taste:skills/taste-skill/references/layout-v4.md": "6316217db46993977700cf4203cc29f96cad0d7bf3a97e877241b1be0901fd19",
+    "taste:skills/taste-skill/references/motion.md": "d7bc6fe01cab8a1c1e921309291828c68f875a25907317279842cf306391c373",
+    "taste:skills/taste-skill/references/photos.md": "b115cafc205ee20f19e6e90d061d24d31460966f1bd4315fb3434ca2d560c33e",
+    "taste:skills/taste-skill/references/sections-library.md": "ce1c6bc27c41a3b49430a9ad3f06e02efd22471b869e4d3ea802a947ae6fb0c9",
+    "taste:skills/taste-skill/references/sections.md": "999cb82dba04d205052725e93a240fcb59be1c1d7ab31129a191eb6f4ee31e89",
+    "taste:skills/taste-skill/references/system.md": "f6bfbdb36b49c4584b4fd10ff24e9e97098bd93d09da3e08e8424500ee641d01",
+    "taste:skills/taste-skill/scripts/consistency.mjs": "080b835e99353f63650f8966813d735f142293119cd371c554b66a1effc5e3da",
+    "taste:skills/taste-skill/scripts/copy-lint.mjs": "1d9238959378867f24fdc232279c8526fe985aa09435d36ad745c0573b646bdb",
+    "taste:skills/taste-skill/scripts/photos.mjs": "aa949f12c078c744af3180cdde8629fbab5a4594e77160acf30272326053b18e",
+    "taste:skills/taste-skill/scripts/shoot.mjs": "183cde0444a7a17310e157c031f565d36d9b704afd0c9ce7aadde05d933647fd",
+    "taste:skills/taste-skill/scripts/start.mjs": "0aae0d87b7b43bf5543d456bed4029c6986e835143a32c6b05c51d89035029ee"
   },
   "artifacts": {
     "plugins/taste-impeccable/skills/design-frontend/references/impeccable/cognitive-load.md": {
@@ -250,116 +272,149 @@
     "plugins/taste-impeccable/skills/design-frontend/references/impeccable/technical-audit.md": {
       "sha256": "8178c040f32757da0a41c6b4b47fd0a445400702d6e8ba87f8ec984a6bfcbc68"
     },
-    "plugins/taste-impeccable/skills/design-frontend/references/taste/assets/app.css": {
-      "sha256": "112ee8e92e3bac2c06f05b15ace0a7c6d53fdc5dec54fa135fb557b5939780ec"
+    "plugins/taste-impeccable/skills/design-frontend/references/taste/assets/effects/ascii-shade/meta.json": {
+      "sha256": "b2af7c7d4535633af94428aa33939797ad0a6050233fdad15139fca2475633cd"
     },
-    "plugins/taste-impeccable/skills/design-frontend/references/taste/assets/base.css": {
-      "sha256": "3566aedb1738fc2afdb3c70da13df7fe4b82ff1ff0b8d3d753219c2850acf199"
+    "plugins/taste-impeccable/skills/design-frontend/references/taste/assets/effects/aurora-curtains/meta.json": {
+      "sha256": "e5b5a0b7aa8a34d5406d64030385bcc739ea9a70eb328e049408b85334e81f7b"
     },
-    "plugins/taste-impeccable/skills/design-frontend/references/taste/assets/base.js": {
-      "sha256": "ce694475a47127b33d38e17d54e7de04a8bea729d3f900d66324415110c33c9a"
+    "plugins/taste-impeccable/skills/design-frontend/references/taste/assets/effects/bayer-dither/meta.json": {
+      "sha256": "7030d442fbfe6a34b53d55dfeb42c3d6aff3d20268f8b4286e6b3cca6bb8aeaa"
     },
-    "plugins/taste-impeccable/skills/design-frontend/references/taste/assets/charts.js": {
-      "sha256": "33ba530a7504d0cca42e01bc05e2059a2196951df072c9278f7bbda96aeae4e3"
+    "plugins/taste-impeccable/skills/design-frontend/references/taste/assets/effects/caustics/meta.json": {
+      "sha256": "de0512a2103564f2dde47d22cfe9a03602370216ea16a24ca746dd93bcc52309"
     },
-    "plugins/taste-impeccable/skills/design-frontend/references/taste/assets/scenes/stage.css": {
-      "sha256": "665e1ca6902969a781253a3d434c84447c12246d2b7568e58463322f318de19f"
+    "plugins/taste-impeccable/skills/design-frontend/references/taste/assets/effects/contour-lines/meta.json": {
+      "sha256": "b6304ab285dfc2db8d47e9b0aeeaa9b4e848a70d44eabb4243b7a25a91af1264"
     },
-    "plugins/taste-impeccable/skills/design-frontend/references/taste/assets/scenes/stage.js": {
-      "sha256": "2446fff1a6723f846a81f108e5f10959718158e995ea4ff75fb0fbec17d22137"
+    "plugins/taste-impeccable/skills/design-frontend/references/taste/assets/effects/dot-terrain/meta.json": {
+      "sha256": "3cea0c619686ecd9d5260234c1b69da516135f98b671bb3b7f2172cb09cb2c0f"
+    },
+    "plugins/taste-impeccable/skills/design-frontend/references/taste/assets/effects/dotted-globe/meta.json": {
+      "sha256": "9923ca9dd570075fac42d26ef3b36b332e1bc809b2dc504f9b3d5c5bdcb7585a"
+    },
+    "plugins/taste-impeccable/skills/design-frontend/references/taste/assets/effects/duotone-grade/meta.json": {
+      "sha256": "e99670e0f239d8acba00d662d5e80cc06ca86c8f9031c2a04e57eb0b1db2478e"
+    },
+    "plugins/taste-impeccable/skills/design-frontend/references/taste/assets/effects/edge-glow/meta.json": {
+      "sha256": "4d61f7777d95c94e4562015f0151adbb2c90037a689c84860a7af11dcd455d1d"
+    },
+    "plugins/taste-impeccable/skills/design-frontend/references/taste/assets/effects/film-light-leak/meta.json": {
+      "sha256": "c38e7eaabbdd1d5a423131546b832b9291affcbbb7ee777e0f99de97ae6f79fa"
+    },
+    "plugins/taste-impeccable/skills/design-frontend/references/taste/assets/effects/fluted-glass/meta.json": {
+      "sha256": "7c88dc7e711989069bfc5a79273853b126ef825151111c9ea897dd8954e912cb"
+    },
+    "plugins/taste-impeccable/skills/design-frontend/references/taste/assets/effects/fx.js": {
+      "sha256": "74533877dfb28a349576f79475a9359794d61287daf1de58ac0c8660c2ce723a"
+    },
+    "plugins/taste-impeccable/skills/design-frontend/references/taste/assets/effects/god-rays/meta.json": {
+      "sha256": "0e2e553eedb8d7c067a067d959aabf0027ebbb9266651d179fda7097bd96d116"
+    },
+    "plugins/taste-impeccable/skills/design-frontend/references/taste/assets/effects/gradient-mesh/meta.json": {
+      "sha256": "11d9b964ea8c068464a44e113062730f6b9fe44b88dc62a792a4ec5ff8fb3363"
+    },
+    "plugins/taste-impeccable/skills/design-frontend/references/taste/assets/effects/grain-gradient/meta.json": {
+      "sha256": "bda68353dd1da0d046d08f08e089175a58f281e42a63981fcdc0841fa5e8d55b"
+    },
+    "plugins/taste-impeccable/skills/design-frontend/references/taste/assets/effects/grid-pulse/meta.json": {
+      "sha256": "5f94a69bddb22e9464937bb60802f3f6828b55c2272e160bdbab1516fc6ed657"
+    },
+    "plugins/taste-impeccable/skills/design-frontend/references/taste/assets/effects/halftone-screen/meta.json": {
+      "sha256": "cbafec008401910421727d175729070ba99ff27135c9b318f942d500d2d2dfb4"
+    },
+    "plugins/taste-impeccable/skills/design-frontend/references/taste/assets/effects/line-engraving/meta.json": {
+      "sha256": "54c3e1c8ae4ab11c37bf647b003a138ea4758d17edd5f68c17ffa357361276c7"
+    },
+    "plugins/taste-impeccable/skills/design-frontend/references/taste/assets/effects/orb-sphere/meta.json": {
+      "sha256": "b6ed14ee7754b8c42eed9a82093a4f6cfa9f43972f36bc6fbfd3b05b5857abd9"
+    },
+    "plugins/taste-impeccable/skills/design-frontend/references/taste/assets/effects/painterly-landscape/meta.json": {
+      "sha256": "60cfdde2a6c283178ef5fe55781f474320b20b017737c8fd8a4fba30534894d6"
+    },
+    "plugins/taste-impeccable/skills/design-frontend/references/taste/assets/effects/prism-dispersion/meta.json": {
+      "sha256": "aabb75bfe763fffe5fce59d697cd0bfa9e9f353edbaff240710a5bba825407e9"
+    },
+    "plugins/taste-impeccable/skills/design-frontend/references/taste/assets/effects/ridgeline/meta.json": {
+      "sha256": "15bcff1acc65ef57d6c3ecb7d5e325e177597e2a2b9e57c9edf37e357acf9ee7"
+    },
+    "plugins/taste-impeccable/skills/design-frontend/references/taste/assets/effects/ruled-grounds/meta.json": {
+      "sha256": "266ff0db647b27df582b1315fa17f490212745ea3b6ccd76f3906bd7079f94fd"
+    },
+    "plugins/taste-impeccable/skills/design-frontend/references/taste/assets/effects/silk-folds/meta.json": {
+      "sha256": "cdeda33bc59c4ad25a24053b5479024a44612a593fc2f35d73fbe5b65471d6b6"
+    },
+    "plugins/taste-impeccable/skills/design-frontend/references/taste/assets/effects/soft-light-bars/meta.json": {
+      "sha256": "d57a11926a262cbd6e22fffb9909d23d780088a2c5557549877151b2a0c4d1f2"
+    },
+    "plugins/taste-impeccable/skills/design-frontend/references/taste/assets/effects/spotlight-cone/meta.json": {
+      "sha256": "c6c90fbc1fac51b87e7b0de61ec9bf99a197ec7779723dc67ac35c56b4d047c4"
+    },
+    "plugins/taste-impeccable/skills/design-frontend/references/taste/assets/moments/index.json": {
+      "sha256": "db86d14cfb013db307ce95c0a42467987b52e5004c56d40ac41e69a8ac8170fd"
+    },
+    "plugins/taste-impeccable/skills/design-frontend/references/taste/assets/photos/photos.json": {
+      "sha256": "4e5108b4a1e6cf744dff5dc510c42109579b1181837c0feb6edab86960b8fadf"
     },
     "plugins/taste-impeccable/skills/design-frontend/references/taste/guide.md": {
-      "sha256": "acac5bd9661bbb140928f45d0063747aadc74b3bcf2c6a68fe94b5e402f932a4"
-    },
-    "plugins/taste-impeccable/skills/design-frontend/references/taste/library/app.json": {
-      "sha256": "3678ccbe1e8d05feff6d4f07fa16a0d610aefeea5e697e842a876713ba763cf5"
-    },
-    "plugins/taste-impeccable/skills/design-frontend/references/taste/library/directions.json": {
-      "sha256": "d71e3824af33a92d9e1ca543e17f80baa5b7a30c815df5125cfe3300a14892c1"
-    },
-    "plugins/taste-impeccable/skills/design-frontend/references/taste/library/heroes.json": {
-      "sha256": "98d5e01104412a5fb27936f9c686f3bc0a5f76ce0793186d3de46b982c65b172"
-    },
-    "plugins/taste-impeccable/skills/design-frontend/references/taste/library/motions.json": {
-      "sha256": "51815dd09a823c829897f99ed9ea7dc5c35bd305ac989b8a0632ea6d42a3f08b"
+      "sha256": "741ad5671916c9c2f2e5950d2477c262f2499e8edd6f093c7e1a359979237811"
     },
     "plugins/taste-impeccable/skills/design-frontend/references/taste/library/palettes.json": {
-      "sha256": "a14be9f45baba848c53436f4aa44eb4f1925ad3e232c5d1dcddf4f565661a525"
-    },
-    "plugins/taste-impeccable/skills/design-frontend/references/taste/library/photos.json": {
-      "sha256": "8fc3b76bca90f44675bd99d99bb4ce95b0756c6c5d4141b7e917d11d90e61520"
-    },
-    "plugins/taste-impeccable/skills/design-frontend/references/taste/library/sections.json": {
-      "sha256": "7c2c8a470a22501176948661f803434db8c542a511281752c717252de80c1ad8"
-    },
-    "plugins/taste-impeccable/skills/design-frontend/references/taste/library/sites.json": {
-      "sha256": "a2bc4d0cff8ebff481f0dfd4879c106d5e1e16cb3122f9ab3702184a5e1f3502"
+      "sha256": "96d594648249b2dff17addcd0e2965b0eee0cf2815ae68542add82a87d856d6d"
     },
     "plugins/taste-impeccable/skills/design-frontend/references/taste/library/type.json": {
-      "sha256": "dbabf41a468775cf6cc5ea5f3c898b0663293822e167b72b02feba1ef03ebf37"
+      "sha256": "144be2adc366028ec2d380782e9150436f6bf5f1e4177159674c84435250d830"
     },
-    "plugins/taste-impeccable/skills/design-frontend/references/taste/references/app-screens.md": {
-      "sha256": "47fb27eb2b3343941740d91e3ce0ad5659b3c91616918778dbbd975eb21693ba"
+    "plugins/taste-impeccable/skills/design-frontend/references/taste/references/cards.md": {
+      "sha256": "cf7ed8bff9b3c4159fdb0ff1f4187817f21af116c0b6b5a5d342bc372797a3e0"
     },
-    "plugins/taste-impeccable/skills/design-frontend/references/taste/references/colour.md": {
-      "sha256": "46b32fdaaa7b0ac658a690e2599358094d3449159f20d69b64fb4f698c147af3"
+    "plugins/taste-impeccable/skills/design-frontend/references/taste/references/copy-moves.md": {
+      "sha256": "7565fa045ca338aba47c43ad4974e283e6e0619403915b6ad47aff50459fdde4"
+    },
+    "plugins/taste-impeccable/skills/design-frontend/references/taste/references/copy-registers.md": {
+      "sha256": "b0b708dc8e304d33736b0170be9818da132d745abee069671c17e241be3e240c"
+    },
+    "plugins/taste-impeccable/skills/design-frontend/references/taste/references/copy-tells.md": {
+      "sha256": "6239e8e3a1101ea5a7184f3f09594c7497b250b11767472535cd35440cceba59"
+    },
+    "plugins/taste-impeccable/skills/design-frontend/references/taste/references/copy-voice.md": {
+      "sha256": "0ec7fd6dc2fbb9393b56baf7a61f596a7c145050fb81659971d731c5f1e0d51e"
     },
     "plugins/taste-impeccable/skills/design-frontend/references/taste/references/copy.md": {
-      "sha256": "4d0e4d8e31278e9cd767bb6f06b1244ba70af99957df5f3ffc80ea79234ee1fc"
+      "sha256": "dbf735ca2dca838a19017566bad1f4bf964597c47904453721f73530dfd05929"
     },
-    "plugins/taste-impeccable/skills/design-frontend/references/taste/references/critique.md": {
-      "sha256": "b91dcac143f1684b18fd739427ad11f2c3590e504af940de94e3f37460f5d09c"
-    },
-    "plugins/taste-impeccable/skills/design-frontend/references/taste/references/imagery.md": {
-      "sha256": "b349d11da442fbe8913174c40ebeb3423c2f053643edf0e2665598435e5d347b"
-    },
-    "plugins/taste-impeccable/skills/design-frontend/references/taste/references/layout.md": {
-      "sha256": "1d19ad9849f705146567b9691323bb4075ba345bd0d6315fbb783b82cc861237"
+    "plugins/taste-impeccable/skills/design-frontend/references/taste/references/layout-v4.md": {
+      "sha256": "828cb50c73ecb3aa91b2ea1b8b487ef69a377eca494300976eb4f08a5da7368b"
     },
     "plugins/taste-impeccable/skills/design-frontend/references/taste/references/motion.md": {
-      "sha256": "7557fae8907f3c3a615a992d87a6ea4a59558d36197ccef2c8475f1e81a73b79"
+      "sha256": "124879c7786bcc7cb4c568eb72c811eef9fb1f1de71bf1070b877e70ca6f0124"
     },
-    "plugins/taste-impeccable/skills/design-frontend/references/taste/references/research.md": {
-      "sha256": "39570c59e5b38b03cc53eaee19b9863a5c09151c933f10511ff598869f80f03e"
+    "plugins/taste-impeccable/skills/design-frontend/references/taste/references/photos.md": {
+      "sha256": "ca96d309884e27be8e4b12799aed3d8e7070fccc64bc82739074c2a0c89b99e4"
     },
-    "plugins/taste-impeccable/skills/design-frontend/references/taste/references/scenes.md": {
-      "sha256": "c2393a0ce2f8513b6b3ae82e1e8038101a94d4e4bdc697cfebbdfc1f2e56b752"
+    "plugins/taste-impeccable/skills/design-frontend/references/taste/references/sections-library.md": {
+      "sha256": "7f225f9b7a68c3fc113a8e88a1666ef7f944c33a3c4bd243cf5e22d9c4bb92dd"
     },
-    "plugins/taste-impeccable/skills/design-frontend/references/taste/references/tells.md": {
-      "sha256": "a2be5f57e5744c77358656b3aee56d4b82f2a08549a4082a0ae34e89b9dc3970"
+    "plugins/taste-impeccable/skills/design-frontend/references/taste/references/sections.md": {
+      "sha256": "3176ded426d8c3c27042cd70e2cadd14f04032d8d4d1a3f0877d0e2630193c1b"
     },
-    "plugins/taste-impeccable/skills/design-frontend/references/taste/references/type.md": {
-      "sha256": "509bd0bd4c2978494ad5763229848139a58de7200ece4150b810937773f049f6"
+    "plugins/taste-impeccable/skills/design-frontend/references/taste/references/system.md": {
+      "sha256": "28f3abfb8d1515ef4f08699d8dc60e7b928ac27c21569656dd1973ab2e2ae635"
     },
-    "plugins/taste-impeccable/skills/design-frontend/references/taste/scripts/assets.mjs": {
-      "sha256": "e31819fdf5bde2eba954d9241e771fcd2e8cee2fcde4ab7ce466d8fb8a7f516d"
+    "plugins/taste-impeccable/skills/design-frontend/references/taste/scripts/consistency.mjs": {
+      "sha256": "28090ad4fe10038d32da1cbea617c6016364cbb02cce9ae7cafe06ec001d1699"
     },
-    "plugins/taste-impeccable/skills/design-frontend/references/taste/scripts/draw.mjs": {
-      "sha256": "92781adf090a726bb694fab05ab24369a5f2ff6bc16ebb7376302959616762e3"
+    "plugins/taste-impeccable/skills/design-frontend/references/taste/scripts/copy-lint.mjs": {
+      "sha256": "e031724a27fd420f08155f421b271692cc0f40268ce8be70d8adc4628d7cc917"
     },
-    "plugins/taste-impeccable/skills/design-frontend/references/taste/scripts/inspect.mjs": {
-      "sha256": "c8b96960e58cf5e0fe89058f5e3f69dccd7b180942fe5a5980792071b9729a61"
+    "plugins/taste-impeccable/skills/design-frontend/references/taste/scripts/photos.mjs": {
+      "sha256": "514be2a90e39f9ef4345a9e3ad7ca10d508f8c8ad1ef9fdc5722547421880fc2"
     },
-    "plugins/taste-impeccable/skills/design-frontend/references/taste/scripts/lib/app-draw.mjs": {
-      "sha256": "a7ab3eccdb5f365d49094482b1701ce8063e3e64066c13fd3f7efac6854fa5dd"
+    "plugins/taste-impeccable/skills/design-frontend/references/taste/scripts/shoot.mjs": {
+      "sha256": "fb9c09bbcb038479b34acc50e72712957ad7e99c58f33fac371f4b28d3bb55be"
     },
-    "plugins/taste-impeccable/skills/design-frontend/references/taste/scripts/lib/cdp.mjs": {
-      "sha256": "0c79b780c6c860b9a84368b377f5ef530b8adb53c7156f9791f6f943bd01cd64"
-    },
-    "plugins/taste-impeccable/skills/design-frontend/references/taste/scripts/lib/inspection-files.mjs": {
-      "sha256": "e58492b31df13ad1b36ef5253e1a331d9ec1a0482f46db9ed3a908596f96d16c"
-    },
-    "plugins/taste-impeccable/skills/design-frontend/references/taste/scripts/lib/probe.mjs": {
-      "sha256": "815f37f404066d028ad84dc3712c3f82f418ad54d5584c420f1fcf3d0774ebea"
-    },
-    "plugins/taste-impeccable/skills/design-frontend/references/taste/scripts/lib/rules.mjs": {
-      "sha256": "2a9e4654aa5cc0cc5db32f5258a6325e5dd646a20a1e9bf243922aa69c2c2b5d"
-    },
-    "plugins/taste-impeccable/skills/design-frontend/references/taste/scripts/lint.mjs": {
-      "sha256": "7a5b024420d1eb55ae4be70df7676d7b5ad92184dd9932032d37df270e1f002a"
-    },
-    "plugins/taste-impeccable/skills/design-frontend/references/taste/scripts/scenes.mjs": {
-      "sha256": "32be98a660e8cb41c4bec41dfa1ca798a6db3f6657f312218db58385f251c562"
+    "plugins/taste-impeccable/skills/design-frontend/references/taste/scripts/start.mjs": {
+      "sha256": "d699c9c14cd97a14f4d07bc8ceb222b4ed3903633a5339b51106357036d151ce"
     },
     "plugins/taste-impeccable/skills/design-frontend/scripts/detect.mjs": {
       "sha256": "2e8cf163294ba993126adbe2f7d93103743bb0ba9f14c1e750bd1d57838e282d"

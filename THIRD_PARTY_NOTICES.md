@@ -3,7 +3,7 @@
 本项目包含经筛选、重组或改写的第三方材料。Taste 和 Impeccable 的名称仅用于说明来源；本项目不是两者的官方发行版，也不代表原作者背书。
 
 <!-- BEGIN GENERATED UPSTREAM PINS -->
-- Taste：`refs/heads/main` → `12af471f627f866411b4bd785b19646d3672784c`
+- Taste：`refs/heads/main` → `f6b76575f949707b4e3c37cd86cb44b0b98643e8`
 - Impeccable：`refs/tags/skill-v4.8.0` → `414603bf14c7a344edb466bb1f85690c77ce8b7d`
 <!-- END GENERATED UPSTREAM PINS -->
 
@@ -14,11 +14,10 @@
 - 原作者：Leonxlnx
 - 许可证：MIT，全文见 `LICENSES/TASTE-MIT.txt`
 
-本项目携带新版 Taste v2 的 builder 指导、参考材料、方向库、基础素材与配套脚本；
-主入口被改写为 builder-only 参考，上游独立审校轮次和报告流程由本项目编排替代。
-方向库 JSON 保留原始字节，来源与 SHA-256 在 upstreams.lock.json 逐文件绑定；
-其余衍生文件带来源标记。库内外部照片链接不表示本项目拥有图片权利，使用前须
-核验相应来源、授权与署名。其它设计入口、实验版、安装器与上游评测不打包。
+本项目携带 Taste 2.5.1 的实现参考、配色与字体数据、检测元数据和经过筛选的工具。
+保留原始 JSON 字节，来源与 SHA-256 在 upstreams.lock.json 逐文件绑定；
+其余衍生文件带来源标记。未打包上游 finish gate、hooks、模板、演示媒体或第三方
+图标。库中图片链接不表示本项目拥有图片权利，使用前须核验来源、授权与署名。
 
 ## Impeccable
 

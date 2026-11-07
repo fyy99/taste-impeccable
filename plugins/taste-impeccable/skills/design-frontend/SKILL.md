@@ -69,46 +69,25 @@ with no user-facing interface, stop using this skill entirely.
 
 ## Phase 1: Taste design read
 
-Read `references/taste/guide.md` before the first UI edit. In its commands,
-`<skill>` means `<skill-dir>/references/taste`, the vendored builder toolkit.
-Its source and scripts are builder-only; never pass them or the direction sheet's
-rationale to the Impeccable reviewers. The parent phase order, role boundaries,
-project constraints and two-cycle review limit override upstream defaults.
-
-Infer the brief and inventory real subject-specific content, brand constraints,
-assets and proof. Write the page's argument as claims with evidence, then deal
-three researched directions using the toolkit's `scripts/draw.mjs`. Choose the
-one grounded in the subject and record its seed and any justified redraw. Keep
-existing palette and typography where the project fixes them. Do not use the
-legacy three numeric dials: the new default uses a direction sheet.
+Read `references/taste/guide.md` for Taste 2.5's page-kind and composition guidance.
+Apply it only within the Phase 0 scope. Inventory the real offer, audience, primary
+transaction, material and proof. Plan each section around one useful claim and its
+supporting content. Preserve the project's existing palette, type and components
+where established. When new tokens are needed, `scripts/start.mjs deal --page <kind>`
+under `references/taste/` can suggest a palette and type pairing; integrate the
+chosen tokens into the project's own styles. Record the rationale locally, away
+from the independent review packet. Do not copy its optional upstream kit links.
 
 State exactly one concise line before implementation:
 
 `Design Read: <surface> for <audience>, <visual language>, using <project foundation>.`
 
-Record the subject-specific idea, honest imagery plan, full copy and applicable
-working interaction. Read `references/taste/references/copy.md` and load type,
-colour, layout, imagery and motion references from that directory as needed.
-For an existing surface, audit and lock its real behavior and design system
-before selecting refinements. Do not replace established project conventions
-with the upstream house style. Add interactions or media only where they serve
-the task; never invent proof, quotes, customers or results.
-
-The upstream app-screen branch does not change the Phase 0 classifications.
-For an in-scope software page's real UI fragments, the builder may use
-`references/taste/references/app-screens.md`, `draw.mjs --app` and the app/chart
-assets while preserving the project's palette, type and actual data. Do not use
-that branch to bypass a scope-gated dashboard or editor. Scroll scenes are optional:
-verify the actual bundled files before using a recipe. The upstream package includes
-only shared `assets/scenes/stage.css` and `stage.js`, not every named scene's CSS/JS
-or demo. Never copy a missing scene file or claim a scene exists because a direction
-sheet names it. Implement the required effect from the actual project and available
-APIs only when it serves the brief; verify scrolling and reduced-motion reachability.
-
-The toolkit writes `.taste-skill/` evidence in the builder's project. These are
-implementation artifacts, never reviewer actions. Verify packages and current
-APIs before adding dependencies. Ask only for a material missing fact that blocks
-implementation; otherwise infer and proceed.
+Use the bundled copy, layout, sections, cards and motion references as needed.
+Keep the real product and visitor's tasks primary. Section count, media count,
+motion and brand treatments are guidance, not requirements to invent content or
+replace existing conventions. Only use bundled tools and actual project assets.
+Do not arm the upstream finish gate or install its Stop hook. Ask only for a
+material missing fact that blocks implementation; otherwise infer and proceed.
 
 ## Phase 2: Taste implementation
 
@@ -134,28 +113,26 @@ the brief, project truth, and Taste references.
 
 For in-scope expressive surfaces, implement the selected direction with real
 content and reduced-motion fallbacks using the toolkit references. Asset search
-and download (`scripts/assets.mjs`) require real source/license review; a found
-image never masquerades as the client's own product. The optional base assets
-are starting points, not a replacement for project tokens.
+and download (`scripts/photos.mjs` under `references/taste/`) require real
+source and license review. Clearly identify stand-ins; never imply a stock image
+is the client's own product. Add motion only when it serves the task, and preserve
+reachability under reduced motion. The bundle does not include the upstream starter,
+effect implementations, demos or third-party media.
 
 ## Phase 3: inspect the running artifact
 
 Review source code alone only when no renderable surface exists.
 
-For in-scope expressive surfaces, the builder may run
-`node <skill-dir>/references/taste/scripts/lint.mjs <source>` and
-`node <skill-dir>/references/taste/scripts/inspect.mjs <url-or-html> --out <evidence-dir>`
-to collect additional evidence. The inspector needs an installed supported browser;
-prefer the harness browser for interactive verification. It writes screenshots,
-starts a temporary local server when needed, and is never run by a reviewer.
-Run the final rendered checks against the actual production build when the project
-has a build step; a dev-server capture alone does not prove the shipped artifact.
-Keep separate captures for distinct widths even when both are tablet or mobile.
-Treat numerical style/media/motion findings as context-dependent evidence, not an
-automatic severity assignment or a reason to fabricate images, add unnecessary
-motion, override accessibility or redesign an established product system.
-Upstream self-critique is builder preparation only: it cannot replace Phase 5
-or add extra independent review cycles.
+For in-scope expressive surfaces, the builder may use `copy-lint.mjs` for copy
+and `consistency.mjs` or `shoot.mjs` for supplementary browser evidence. They live
+under `<skill-dir>/references/taste/scripts`. Prefer the in-app browser for live
+interaction; run the packaged browser tools only against the intended page with a
+fresh disposable profile and dedicated evidence output. For built local files, set
+`--root` to the production build directory. These tools are builder-only. Final
+rendered verification should use the production build when available, with separate
+captures for each tested width. Treat findings as evidence under this skill's gate;
+never run upstream `gate.mjs`, waive issues just to pass, or let builder self-checks
+replace the isolated Phase 5 review.
 
 For a viewable frontend:
 
@@ -401,7 +378,7 @@ SemVer change, and updated evals; upstream synchronization never enables it.
 
 Lead with the delivered result and final gate. Include:
 
-- scope, final Design Read, direction seed and any justified redraws;
+- scope, final Design Read, chosen page kind and any design deviations;
 - changed surfaces and states;
 - build/test/runtime evidence;
 - adjudicated finding IDs and P0/P1 findings fixed;

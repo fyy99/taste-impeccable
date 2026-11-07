@@ -245,15 +245,22 @@ def generate_taste(
             if not text.startswith("---\n"):
                 raise SyncError("Taste frontmatter 结构变化")
             body = text.split("---\n", 2)[2].lstrip()
-            # 只保留 maker 指导；上游审校轮次和报告不能覆盖父编排。
-            body = (between(body, "# tasteskill v2", "### 7. Gate")
-                    + "\n" + between(body, "### 9. Move", "### 10. Report")
-                    + "\n" + between(body, "## House rules"))
-            if "## Page or app screen" in body:
-                body = remove_between(body, "## Page or app screen", "## The run")
-                body = body.replace("## The run", "The parent scope gate decides whether this page run applies. App-screen references are optional builder material for already in-scope UI fragments; they do not expand the parent scope.\n\n## The run", 1)
+            # 保留按真实业务分类的设计参考，不引入上游独立门禁或整套模板。
+            body = (
+                "# Taste 2.5: builder references\n\n"
+                "Use this page-type and composition guidance only after the parent scope gate. "
+                "The product's actual behavior, verified content, design system and accessibility win. "
+                "Asset counts and stylistic targets below are suggestions; never invent evidence. "
+                "Only the builder tools and reference files present in this package are available. "
+                "Unbundled effects, templates, scenes and gates mentioned below are upstream context.\n\n"
+                + between(body, "## 1. The kind of business decides everything", "## 3. What serves which page")
+            )
             raw = normalize_markdown(body).encode()
-            transform = "extract-builder-guidance;drop-upstream-review-loop-and-report"
+            transform = "extract-page-kind-and-composition;exclude-standalone-gate"
+        elif relative == "scripts/start.mjs":
+            # 调色/字体工具不能向项目或祖先目录写入上游 finish gate 标记。
+            raw = remove_between(raw.decode(), "// the finish gate (scripts/gate.mjs)", "const GROUPS =").encode()
+            transform = "copy-without-finish-gate-arming"
         if target.suffix == ".json":
             # 方向库是数组，必须保持原始 JSON 字节；来源由 lock 与逐文件 source hash 绑定。
             json.loads(raw)
@@ -268,7 +275,7 @@ def generate_taste(
             header = markdown_header(**header_args).replace("<!--", "/*").replace("-->", "*/")
             generated[target] = header.encode() + raw
         else:
-            generated[target] = markdown_header(**header_args).encode() + raw
+            generated[target] = markdown_header(**header_args).encode() + normalize_markdown(raw.decode()).encode()
     return generated
 
 
