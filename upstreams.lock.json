@@ -2,7 +2,7 @@
   "schema_version": 1,
   "transform_version": 9,
   "role_contract_version": 1,
-  "reviewed_at": "2026-11-07",
+  "reviewed_at": "2026-11-10",
   "generated_by": "scripts/sync_upstreams.py",
   "policy": {
     "orchestration_is_manual": true,
@@ -111,9 +111,9 @@
     "impeccable": {
       "repository": "https://github.com/pbakaus/impeccable.git",
       "web_repository": "https://github.com/pbakaus/impeccable",
-      "ref": "refs/tags/skill-v4.8.0",
+      "ref": "refs/tags/skill-v4.8.2",
       "release_tag_pattern": "skill-v*",
-      "commit": "414603bf14c7a344edb466bb1f85690c77ce8b7d",
+      "commit": "035c8f319edd019936525a062fe99e83ca8d12c6",
       "license": "Apache-2.0",
       "license_path": "LICENSE",
       "notice_path": "NOTICE.md",
@@ -172,27 +172,27 @@
       },
       "engine_version_source": ".agents/skills/impeccable/scripts/VERSION",
       "engine": {
-        "version": "0.1.18",
+        "version": "0.1.21",
         "assets": {
           "darwin-arm64": {
-            "url": "https://github.com/pbakaus/impeccable/releases/download/engine-v0.1.18/impeccable-darwin-arm64",
-            "sha256": "543ee2f72036ad185dc9991ac3ba86b74d91f988f3d497776a088b8b65c8a9e1"
+            "url": "https://github.com/pbakaus/impeccable/releases/download/engine-v0.1.21/impeccable-darwin-arm64",
+            "sha256": "086fd22e54c445a0e792f66d2f168e35ec93f7c59054e1fde539d0d95b01ce41"
           },
           "darwin-x64": {
-            "url": "https://github.com/pbakaus/impeccable/releases/download/engine-v0.1.18/impeccable-darwin-x64",
-            "sha256": "1f1eee78c142f7e40e16f481aeeeb1fad1d8515d8a1ef033d7c6d133e52232b3"
+            "url": "https://github.com/pbakaus/impeccable/releases/download/engine-v0.1.21/impeccable-darwin-x64",
+            "sha256": "bbcd4307b4dd7e0c8a3a264b880b5d73ae1971cc1d219677b6f7e044b9f05eb7"
           },
           "linux-arm64": {
-            "url": "https://github.com/pbakaus/impeccable/releases/download/engine-v0.1.18/impeccable-linux-arm64",
-            "sha256": "317cb18d64b0f7715681dd6e574ad64b2adb5a6caf8e7a1b3b57965f805404be"
+            "url": "https://github.com/pbakaus/impeccable/releases/download/engine-v0.1.21/impeccable-linux-arm64",
+            "sha256": "e2cda6ac3eefb1cdd51d147f6e897a19c773fe7bbfbdbd1361eef744d4137080"
           },
           "linux-x64": {
-            "url": "https://github.com/pbakaus/impeccable/releases/download/engine-v0.1.18/impeccable-linux-x64",
-            "sha256": "736ed785e74ae2344d3036127f614ddde5ab520a527d8bc82a891612ef71f648"
+            "url": "https://github.com/pbakaus/impeccable/releases/download/engine-v0.1.21/impeccable-linux-x64",
+            "sha256": "579a0b6ff639ed28812ae632c556b6524a5b7d13fff4227cd3095a65554415b6"
           },
           "windows-x64": {
-            "url": "https://github.com/pbakaus/impeccable/releases/download/engine-v0.1.18/impeccable-windows-x64.exe",
-            "sha256": "8f61e96b0c97001546a824d79b44f46b423b560f3eb1a0cc44a8695a1b395d9f"
+            "url": "https://github.com/pbakaus/impeccable/releases/download/engine-v0.1.21/impeccable-windows-x64.exe",
+            "sha256": "4cb1d921315e51ace39af5abbfd2e1be3c8624fcfc5074539f43ba894777fece"
           }
         }
       },
@@ -202,10 +202,10 @@
   "source_hashes": {
     "impeccable:.agents/skills/impeccable/reference/audit.md": "5ba9e3a090fc4c4d212c8cbfa5a48f7454ceb10fa81a284b4a7b4e8351ece2f1",
     "impeccable:.agents/skills/impeccable/reference/critique.md": "c210c9506877c6c8d88880a337fddd95d4315daf70ed6bc631ee6520481f1a0c",
-    "impeccable:.agents/skills/impeccable/scripts/VERSION": "447836d46f39c5900faf74ad6a6554b8e1fafeca1f78de0416d5f05c6e09a080",
+    "impeccable:.agents/skills/impeccable/scripts/VERSION": "b436859fb641d04afbc4796b5df155639d6685280c4a0e8fe8791363d977f222",
     "impeccable:LICENSE": "02bb8c3b4e70190e3986c0404ad2fd8d639b4f534252d82379cc1b502b6d1812",
     "impeccable:NOTICE.md": "c60a093c2845fd9fb82f9c6f742ece31f379f8190b535309d32d66c45ccffdcb",
-    "impeccable:skill/scripts/engine-checksums.txt": "2f0235179cbc515d7c7ec71a9a08283d0cb88a5238d35ffa5a5f42122e78fe35",
+    "impeccable:skill/scripts/engine-checksums.txt": "bb625a48a3946ca84904ce6ae13957374165eec078bc6565a4717e290114919e",
     "taste:LICENSE": "4575a543ab88dad12ccea7d97e563d0bce5b448b06072e65d3264497dad326df",
     "taste:skills/taste-skill/SKILL.md": "0c7a5852a5217be79cab422c6d58329b776f0c25bd6da8a7a01707ce75be6206",
     "taste:skills/taste-skill/assets/effects/ascii-shade/meta.json": "b2af7c7d4535633af94428aa33939797ad0a6050233fdad15139fca2475633cd",
@@ -258,19 +258,19 @@
   },
   "artifacts": {
     "plugins/taste-impeccable/skills/design-frontend/references/impeccable/cognitive-load.md": {
-      "sha256": "f09ec3718a92190702b16556870cc7a2e4acd9089d09e61b9a5764ed26f982de"
+      "sha256": "a23c5ed3ed62d2ddeb71382ff6dc3f0345fd2d0d858dd638bd362cc467581d17"
     },
     "plugins/taste-impeccable/skills/design-frontend/references/impeccable/heuristics.md": {
-      "sha256": "2ce315d84a0665ba8e5c1aa28a4832ee2fc21601b87d0236a25b7ce31923f0d1"
+      "sha256": "64d9842e57f2123e7792aee6991c7c84fa6b7c2bf47777fdc1510d94eab57691"
     },
     "plugins/taste-impeccable/skills/design-frontend/references/impeccable/personas.md": {
-      "sha256": "86e087611e0b49118feff6a03017d32c9db08df587171e29e963d31078ebcf70"
+      "sha256": "09bd33870bcc74d3192257613471127644616c3a4f283d9b6ab2fc66a2e4547d"
     },
     "plugins/taste-impeccable/skills/design-frontend/references/impeccable/review-method.md": {
-      "sha256": "bbbd63d5756ffa642430dab462ca2811d508b1e0f9bde05ea4a354ee71ece3d8"
+      "sha256": "074f13ce38b2d675288dbd7cca83b59f7a5a56b90bc9794922aa5f2bff781d59"
     },
     "plugins/taste-impeccable/skills/design-frontend/references/impeccable/technical-audit.md": {
-      "sha256": "8178c040f32757da0a41c6b4b47fd0a445400702d6e8ba87f8ec984a6bfcbc68"
+      "sha256": "857555f54f78b1f9cb609cc3ffaf2de0f6e912b376f699c2f52a50f61b9a6f59"
     },
     "plugins/taste-impeccable/skills/design-frontend/references/taste/assets/effects/ascii-shade/meta.json": {
       "sha256": "b2af7c7d4535633af94428aa33939797ad0a6050233fdad15139fca2475633cd"
@@ -417,10 +417,10 @@
       "sha256": "d699c9c14cd97a14f4d07bc8ceb222b4ed3903633a5339b51106357036d151ce"
     },
     "plugins/taste-impeccable/skills/design-frontend/scripts/detect.mjs": {
-      "sha256": "2e8cf163294ba993126adbe2f7d93103743bb0ba9f14c1e750bd1d57838e282d"
+      "sha256": "71a99ab8f4bdbd7cdb176a647dbd303ee0c1249cc86a61fa6dd2207507aa9003"
     },
     "plugins/taste-impeccable/skills/design-frontend/scripts/detector/engine.json": {
-      "sha256": "c039cc09835c1b24201f5f3cd70446464339d1196573d85aecb34f4574128c0d"
+      "sha256": "c4bc45006cd4b44002dca08a3d6e8a11d652e06bdcea4a9757b2e354e4770e57"
     }
   }
 }
