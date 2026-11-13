@@ -47,6 +47,8 @@ try {
     verifyEngine(asset);
     const result = spawnSync(asset.file, ['detect', '--no-config', ...args.filter(arg => flags.has(arg)), ...new Set(files)], {
       stdio: ['ignore', 'inherit', 'inherit'],
+      // 固定开源引擎与纯本地扫描；即使用户曾在上游登录，也不派生同步或付费引擎。
+      env: { ...process.env, DO_NOT_TRACK: '1', IMPECCABLE_NO_TELEMETRY: '1', IMPECCABLE_PRO: 'off', CI: '1' },
     });
     if (result.error) fail(result.error.message);
     if (result.signal) fail(`engine terminated by ${result.signal}`);

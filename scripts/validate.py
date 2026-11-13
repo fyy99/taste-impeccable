@@ -484,8 +484,8 @@ def validate_lock_and_artifacts(
 ) -> None:
     validation.require(lock.get("schema_version") == 1, "锁文件 schema_version 必须为 1")
     validation.require(
-        lock.get("transform_version") == 9,
-        "锁文件 transform_version 必须为 9；转换器变更需显式升级",
+        lock.get("transform_version") == 10,
+        "锁文件 transform_version 必须为 10；转换器变更需显式升级",
     )
     validation.require(
         lock.get("role_contract_version") == 1,
@@ -1154,6 +1154,7 @@ def validate_evals(validation: Validation) -> None:
     node = shutil_which("node")
     if node:
         validation.run("独立审校 CLI 兼容与失败路径", [node, "--test", str(ROOT / "tests" / "review-launcher.test.mjs")])
+        validation.run("检测进程云同步与付费分派隔离", [node, "--test", str(ROOT / "tests" / "detector-environment.test.mjs")])
 
     if node:
         validation.run("Taste 配色、文案检查与门禁隔离", [node, "--test", str(ROOT / "tests" / "taste-toolkit.test.mjs")])

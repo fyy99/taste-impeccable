@@ -214,6 +214,19 @@ Taste 固定 `f6b76575f949707b4e3c37cd86cb44b0b98643e8`。旧版 `draw/lint/insp
 隔离目录对照证实上游 `start.mjs deal` 会生成完成门禁标记；本插件的转换去掉
 该副作用，配色字体生成仍通过。Impeccable、引擎与审校模型继承逻辑无变化。
 
+## 2026-11-13 Impeccable 4.9.0 兼容复核
+
+固定 `skill-v4.9.0` / `c4cd1924c389f68d37c687d9c2bbf13f12547c41`，引擎
+`0.1.23`。纳入按实际渲染判定的 RTL 检查及基于真实 PRODUCT 用户事实的人物画像，
+保留原生双角色审校、统一严重度和只读限制。上游新增的 audit 报告保存步骤仍被
+诊断截取边界排除，不调用 audit-storage、critique-storage 或账户设置入口。
+
+源码核对发现新版 detect 路由会在已登录场景安排 setup worker 和 health 同步，
+并可能转交 Pro 引擎。本项目静态适配器对检测子进程强制设置 `DO_NOT_TRACK=1`、
+`IMPECCABLE_NO_TELEMETRY=1`、`IMPECCABLE_PRO=off` 和 `CI=1`：后者只是该
+子进程关闭后台账户分支的运行标志，不启用任何 Git CI。真实派生进程测试验证
+即使父环境启用这些能力也被覆盖，且仍只执行固定引擎的 detect --no-config。
+
 ## 当前上游兼容性复核
 
 2026-10-03：Taste 固定 `ce26fc25c0e5e8cab638f883de62d9a86ee5e45b`；
