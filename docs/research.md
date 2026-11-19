@@ -227,6 +227,16 @@ Taste 固定 `f6b76575f949707b4e3c37cd86cb44b0b98643e8`。旧版 `draw/lint/insp
 子进程关闭后台账户分支的运行标志，不启用任何 Git CI。真实派生进程测试验证
 即使父环境启用这些能力也被覆盖，且仍只执行固定引擎的 detect --no-config。
 
+## 2026-11-19 Impeccable 4.10.0 兼容复核
+
+固定 `skill-v4.10.0` / `b49177d32788f2dc585c42831d845dacf1ebed2c`，引擎
+`0.1.27`。上游将 cognitive load、heuristics 和 personas 移到独立 critique-rubric；
+旧转换器真实失败于缺少 Cognitive Load Assessment 标记。现在按新来源提取，
+将评分区间与严重度从 critique 合并到 heuristics，两个原文 hash 均在锁文件记录。
+改写引用链接到本插件已有三个参考文件，不引入上游只读委派自动降级、URL 扫描、
+报告持久化、design-compact 或设计方向工作流。双 reviewer 隔离和任务影响严重度
+契约保持不变，检测子进程继续关闭账户同步、遥测与 Pro 自动分派。
+
 ## 当前上游兼容性复核
 
 2026-10-03：Taste 固定 `ce26fc25c0e5e8cab638f883de62d9a86ee5e45b`；

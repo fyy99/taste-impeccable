@@ -289,6 +289,14 @@ def validate_orchestration_contract(validation: Validation) -> None:
         "原生源码不得以空网页扫描假绿，且必须保留双角色独立证据审校",
     )
 
+    validation.require(
+        "critique-rubric.md" not in review_reference
+        and all(name in review_reference for name in ("cognitive-load.md", "heuristics.md", "personas.md"))
+        and "delegated read-only run" not in review_reference
+        and "read [critique-rubric" not in review_reference,
+        "评分参考拆分后必须指向已打包引用，不能恢复上游委派降级分支",
+    )
+
     impeccable_root = SKILL_ROOT / "references" / "impeccable"
     forbidden_reference_markers = [
         "$impeccable",
@@ -484,8 +492,8 @@ def validate_lock_and_artifacts(
 ) -> None:
     validation.require(lock.get("schema_version") == 1, "锁文件 schema_version 必须为 1")
     validation.require(
-        lock.get("transform_version") == 10,
-        "锁文件 transform_version 必须为 10；转换器变更需显式升级",
+        lock.get("transform_version") == 11,
+        "锁文件 transform_version 必须为 11；转换器变更需显式升级",
     )
     validation.require(
         lock.get("role_contract_version") == 1,

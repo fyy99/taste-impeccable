@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
-  "transform_version": 10,
+  "transform_version": 11,
   "role_contract_version": 1,
-  "reviewed_at": "2026-11-16",
+  "reviewed_at": "2026-11-19",
   "generated_by": "scripts/sync_upstreams.py",
   "policy": {
     "orchestration_is_manual": true,
@@ -111,17 +111,17 @@
     "impeccable": {
       "repository": "https://github.com/pbakaus/impeccable.git",
       "web_repository": "https://github.com/pbakaus/impeccable",
-      "ref": "refs/tags/skill-v4.9.1",
+      "ref": "refs/tags/skill-v4.10.0",
       "release_tag_pattern": "skill-v*",
-      "commit": "acb4cfe14470b1fdf51e855431af618d936b7db8",
+      "commit": "b49177d32788f2dc585c42831d845dacf1ebed2c",
       "license": "Apache-2.0",
       "license_path": "LICENSE",
       "notice_path": "NOTICE.md",
       "included_references": {
         "impeccable/review-method.md": ".agents/skills/impeccable/reference/critique.md",
-        "impeccable/cognitive-load.md": ".agents/skills/impeccable/reference/critique.md",
-        "impeccable/heuristics.md": ".agents/skills/impeccable/reference/critique.md",
-        "impeccable/personas.md": ".agents/skills/impeccable/reference/critique.md",
+        "impeccable/cognitive-load.md": ".agents/skills/impeccable/reference/critique-rubric.md",
+        "impeccable/heuristics.md": ".agents/skills/impeccable/reference/critique-rubric.md",
+        "impeccable/personas.md": ".agents/skills/impeccable/reference/critique-rubric.md",
         "impeccable/technical-audit.md": ".agents/skills/impeccable/reference/audit.md"
       },
       "filtered_out": {
@@ -172,27 +172,27 @@
       },
       "engine_version_source": ".agents/skills/impeccable/scripts/VERSION",
       "engine": {
-        "version": "0.1.24",
+        "version": "0.1.27",
         "assets": {
           "darwin-arm64": {
-            "url": "https://github.com/pbakaus/impeccable/releases/download/engine-v0.1.24/impeccable-darwin-arm64",
-            "sha256": "f5cc3923ac93fe9ec0a01449eb3b8f03859dae08a81959e4415333c042bc2f80"
+            "url": "https://github.com/pbakaus/impeccable/releases/download/engine-v0.1.27/impeccable-darwin-arm64",
+            "sha256": "e33578341212fe6ebeed273850b3af0a7f54bbdc5e9fdf03e760aae23482975b"
           },
           "darwin-x64": {
-            "url": "https://github.com/pbakaus/impeccable/releases/download/engine-v0.1.24/impeccable-darwin-x64",
-            "sha256": "970ce4d9fd38542b4f013acdcd8b4c5da36891a4c9e74c39915348fdaf601a1d"
+            "url": "https://github.com/pbakaus/impeccable/releases/download/engine-v0.1.27/impeccable-darwin-x64",
+            "sha256": "3ecf11185ad7ea05cfc693ef969eb75ee7aef63f45472bf884e9b9f896a8d052"
           },
           "linux-arm64": {
-            "url": "https://github.com/pbakaus/impeccable/releases/download/engine-v0.1.24/impeccable-linux-arm64",
-            "sha256": "34ef563966cb95c1b36c450ee626c727266763579fc5e95a9aef280b74875080"
+            "url": "https://github.com/pbakaus/impeccable/releases/download/engine-v0.1.27/impeccable-linux-arm64",
+            "sha256": "6ceb6188c80adb4b4fcc0721e677e2124d795b8e243599ad0d7bea33369b2c9c"
           },
           "linux-x64": {
-            "url": "https://github.com/pbakaus/impeccable/releases/download/engine-v0.1.24/impeccable-linux-x64",
-            "sha256": "d317bd1be061fdc902c4dede7fdf1efd1f7744882fb511a1f962fcdc4eed5382"
+            "url": "https://github.com/pbakaus/impeccable/releases/download/engine-v0.1.27/impeccable-linux-x64",
+            "sha256": "41d66e945bcdfc560005b61ad0b6b2312b124890039262f2e63322ef2709ccfd"
           },
           "windows-x64": {
-            "url": "https://github.com/pbakaus/impeccable/releases/download/engine-v0.1.24/impeccable-windows-x64.exe",
-            "sha256": "c4e71217677f53beaabec1cd4823a9bb2587355615f1170cf5508e69be4587bc"
+            "url": "https://github.com/pbakaus/impeccable/releases/download/engine-v0.1.27/impeccable-windows-x64.exe",
+            "sha256": "ba9627d4552bca5666020624d8e994aea8b8b44c46b995e18b5babad0f431fc8"
           }
         }
       },
@@ -200,12 +200,13 @@
     }
   },
   "source_hashes": {
-    "impeccable:.agents/skills/impeccable/reference/audit.md": "c1cc198c61bf4cc32416210f490e9245ecf58d57c17d4a0659f79da0f6ffac2b",
-    "impeccable:.agents/skills/impeccable/reference/critique.md": "0b1fef797791eb6ef968a5d5b628c0c5b630ddd7926c83d5b942bf9494aee509",
-    "impeccable:.agents/skills/impeccable/scripts/VERSION": "4a4f652678a28b9c8a2d3d89b6b865c84e328fdcb3e27c297c711c7e723073ed",
+    "impeccable:.agents/skills/impeccable/reference/audit.md": "cada7b42d1f5baa6d6306c68b476107fec119519f657a78687ab33ceab40afd9",
+    "impeccable:.agents/skills/impeccable/reference/critique-rubric.md": "ba070404e3f61c62b40c25a5d096b803825408de12a0fbb559b1587c89692866",
+    "impeccable:.agents/skills/impeccable/reference/critique.md": "163c25507e9cea6dbef893be9e35db0ee9de0cbc092bb82d589a54313a12b4af",
+    "impeccable:.agents/skills/impeccable/scripts/VERSION": "246a6387221ae9ed8e7b362df6959a816c0a2a1e8f98481beec0cecfe3976486",
     "impeccable:LICENSE": "02bb8c3b4e70190e3986c0404ad2fd8d639b4f534252d82379cc1b502b6d1812",
-    "impeccable:NOTICE.md": "c60a093c2845fd9fb82f9c6f742ece31f379f8190b535309d32d66c45ccffdcb",
-    "impeccable:skill/scripts/engine-checksums.txt": "8b6e503413f838e9475d6b7253fac409468d23d8e74f23a2692276449a5d8b33",
+    "impeccable:NOTICE.md": "01bf53e5d24d64e19e9e1c33b24c37cef0d314323df7bf678c6ba22d4528a115",
+    "impeccable:skill/scripts/engine-checksums.txt": "1c5f99b7551d026f9aeccc4e34bf082ce0da663a6e0c790912b6bb3d8f3c9d19",
     "taste:LICENSE": "4575a543ab88dad12ccea7d97e563d0bce5b448b06072e65d3264497dad326df",
     "taste:skills/taste-skill/SKILL.md": "0c7a5852a5217be79cab422c6d58329b776f0c25bd6da8a7a01707ce75be6206",
     "taste:skills/taste-skill/assets/effects/ascii-shade/meta.json": "b2af7c7d4535633af94428aa33939797ad0a6050233fdad15139fca2475633cd",
@@ -258,19 +259,19 @@
   },
   "artifacts": {
     "plugins/taste-impeccable/skills/design-frontend/references/impeccable/cognitive-load.md": {
-      "sha256": "05d271f47bf491161cbb25a982333ceb6490e8a2eec8634300a2344fb7d9acdd"
+      "sha256": "5a64a191f1ad1d5c3d58e62c9554a940f83019411dc14069bc88063c59007c57"
     },
     "plugins/taste-impeccable/skills/design-frontend/references/impeccable/heuristics.md": {
-      "sha256": "955873c76ef3ce6c35d31fdc65dc646310a4af1ef9ffb5a8ac3d312b476b0418"
+      "sha256": "07bdfa648eb7cb730fd18a11e84068fda1b6e9e2efd57b07aeedebd0db4e66c3"
     },
     "plugins/taste-impeccable/skills/design-frontend/references/impeccable/personas.md": {
-      "sha256": "24269b3b7013ea4c3c7dfb03404268b152e9bb550163a1792b4717c247a3b083"
+      "sha256": "320b556a715e281e39022c6bd3143754b5697fbe2583e2a3b7d2448c6556475e"
     },
     "plugins/taste-impeccable/skills/design-frontend/references/impeccable/review-method.md": {
-      "sha256": "4eff8274945d25e4d124868d2b85e51664e492cd6367d7fd271dc3da5412b280"
+      "sha256": "502782a67c9c8503ed43ce378351ec02f30783555715363b017f94eccfb3cac7"
     },
     "plugins/taste-impeccable/skills/design-frontend/references/impeccable/technical-audit.md": {
-      "sha256": "3f4023dc8f393d23c486e4bdafe0fc001f6a43718d4642873a7ba796a72569a1"
+      "sha256": "61dc12a985c3e44e6af09d41d6929dcd38d36723c38c9024cb7abdaf332b4bb2"
     },
     "plugins/taste-impeccable/skills/design-frontend/references/taste/assets/effects/ascii-shade/meta.json": {
       "sha256": "b2af7c7d4535633af94428aa33939797ad0a6050233fdad15139fca2475633cd"
@@ -417,10 +418,10 @@
       "sha256": "d699c9c14cd97a14f4d07bc8ceb222b4ed3903633a5339b51106357036d151ce"
     },
     "plugins/taste-impeccable/skills/design-frontend/scripts/detect.mjs": {
-      "sha256": "f9c12ea3f2aa804aae33f97b85d1927d376f045e1708a43a21bd91608931d63d"
+      "sha256": "537dc9143f590d75f3c2a6ab569f265c11c6db659f60c0650e831018d3f231f9"
     },
     "plugins/taste-impeccable/skills/design-frontend/scripts/detector/engine.json": {
-      "sha256": "f54c85da654f805031da6cf42efaca51a0376d2c43b6886c9f57bf0559a5d1df"
+      "sha256": "56bd0b4221392cc5f193c232ccd2ad47bfd4a82f3163120c0428b957c7e9c639"
     }
   }
 }
